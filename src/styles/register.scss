@@ -1,0 +1,19 @@
+
+.register-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100dvh;
+    background-color:rgb(249, 250, 255);
+    #register{
+        width: 80%;
+        @media screen and (min-width: 1200px) {
+            width: 50%;
+        }
+        label{
+            font-size: 1.2rem !important;
+            margin-left: 2rem !important;
+        }
+    }
+}
