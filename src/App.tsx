@@ -1,13 +1,12 @@
-import './App.css'
 import {
   RouterProvider,
 } from "react-router-dom";
 import { router } from '@/routes/Layout';
-import 'react-toastify/dist/ReactToastify.css';
 import { account } from './services/auth';
-import { useEffect } from 'react';
-import { useAppDispatch } from './redux/hooks/hooks';
+import { useEffect, useState } from 'react';
+import { useAppDispatch} from './redux/hooks/hooks';
 import { userAction } from './redux/slices/accountReducer';
+import Loading from './components/Loading/Loading';
 
 export interface interface_account {
   statusCode: number,
@@ -26,16 +25,26 @@ export interface interface_account {
 }
 export default function App() {
   const dispatch = useAppDispatch(); 
+  const [isLoading, setIsLoading] = useState(true);
+
   const fetchAccount = async () => {
-    const response = (await account()).data; 
-    dispatch(userAction(response.data.user));
+    setTimeout( async () => {
+      setIsLoading(false);
+      try {
+        const response = (await account()).data; 
+        dispatch(userAction(response.data.user));
+      } catch (error) {
+        // console.log(error)
+      }
+    }, 2000);
   }
+
   useEffect(()=> {
     fetchAccount(); 
   }, [])
   return (
     <>
-      <RouterProvider router={router} />
+      {isLoading ? <Loading/> :  <RouterProvider router={router} />}
     </>
   )
 }

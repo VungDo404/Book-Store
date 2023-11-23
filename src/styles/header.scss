@@ -1,0 +1,13 @@
+.header-container{
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    flex-wrap: wrap;
+    background-color:rgb(249, 250, 255);
+    height: 10vh;
+    .icon{
+        display: flex;
+        gap: 50px;
+        align-items: center;
+    }
+}
