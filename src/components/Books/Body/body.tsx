@@ -1,8 +1,7 @@
-import { Breadcrumb, Layout, theme } from 'antd';
+import { Breadcrumb, Layout } from 'antd';
 const { Content } = Layout;
 
 export default function Body(){
-    const {token: { colorBgContainer }} = theme.useToken();
 
     return (
         <>

@@ -1,13 +1,13 @@
 import { ShoppingCartOutlined, InfoCircleOutlined, BookTwoTone } from '@ant-design/icons';
-import { Menu, Input, Typography, Col, MenuProps, Dropdown, FloatButton, Avatar, Badge } from 'antd';
+import { Menu, Input, Typography, Col, MenuProps, Dropdown, Avatar, Badge } from 'antd';
 import { SearchProps } from 'antd/es/input';
 import { Link } from 'react-router-dom';
 import '@/styles/header.scss'
 
 const { Text } = Typography;
-
 const { Search } = Input;
-const onSearch: SearchProps['onSearch'] = (value: string, _e:React.SyntheticEvent, info: any) => {
+
+const onSearch: any = (value: string, _e:React.SyntheticEvent, info: any) => {
     
 };
 const items: MenuProps['items'] = [
@@ -22,10 +22,9 @@ const items: MenuProps['items'] = [
   ];
 export default function HeaderComponent(){
     return (
-        
         <Menu theme="light" style={{width:"100%"}} >
             <Col className='header-container'>
-                <Col xs={{  offset: 1, span: 4 }} md={{  offset: 1, span: 2 }}> 
+                <Col xs={{  offset: 1, span: 8 }}  md={{  offset: 1, span: 4 }}> 
                     <div className='book'>
                         <span>
                             <BookTwoTone style={{ fontSize: '200%'}} />
@@ -33,10 +32,10 @@ export default function HeaderComponent(){
                         </span>
                     </div>
                 </Col>
-                <Col xs={{  offset: 0, span: 14 }} md={{  offset: 0, span: 10 }}>
+                <Col xs={{  offset: 0, span: 12 }} sm={{  offset: 0, span: 13 }}  md={{  offset: 0, span: 10 }}>
                     <Search size={'large'} placeholder="input search text" onSearch={onSearch} />
                 </Col>
-                <Col xs={{  offset: 3, span: 6 }} md={{  offset: 5, span: 3 }}>
+                <Col xs={{  offset: 10, span: 13 }} sm={{  offset: 10, span: 10 }} md={{  offset: 3, span: 6 }} >
                 <div className='icon'>
                     <Badge count={5}>
                         <Avatar 
@@ -46,7 +45,6 @@ export default function HeaderComponent(){
                                 color:'rgb(37, 172, 172)',
                                 backgroundColor: "rgb(249, 250, 255)"
                             }} 
-                            size={31}
                         />
                     </Badge>
                     <Dropdown menu={{ items }} trigger={['click']}>
@@ -69,6 +67,5 @@ export default function HeaderComponent(){
                 </Col>
             </Col>
         </Menu>
-        
     );
 }

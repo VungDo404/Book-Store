@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { useAppDispatch} from './redux/hooks/hooks';
 import { userAction } from './redux/slices/accountReducer';
 import Loading from './components/Loading/Loading';
+import 'styles/app.scss'
 
 export interface interface_account {
   statusCode: number,
