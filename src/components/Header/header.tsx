@@ -3,6 +3,8 @@ import { Menu, Input, Typography, Col, MenuProps, Dropdown, Avatar, Badge } from
 import { SearchProps } from 'antd/es/input';
 import { Link } from 'react-router-dom';
 import '@/styles/header.scss'
+import { useAppSelector } from '@/redux/hooks/hooks';
+import { itemsAuthAdmin, itemsNotAuth } from '@/pages/admin/Header/AdminHeader';
 
 const { Text } = Typography;
 const { Search } = Input;
@@ -10,17 +12,20 @@ const { Search } = Input;
 const onSearch: any = (value: string, _e:React.SyntheticEvent, info: any) => {
     
 };
-const items: MenuProps['items'] = [
+const itemsAuthUser: MenuProps['items'] = [
     {
-      label: <Text><Link to="/login" className="nav-text">Login</Link></Text>,
+      label: <Text><Link to="/login" className="nav-text">Account</Link></Text>,
       key: '0',
     },
     {
-      label: <Text><Link to="/login" className="nav-text">Register</Link></Text>,
+      label: <Text><Link to="/logout" className="nav-text">Logout</Link></Text>,
       key: '1',
     },
   ];
 export default function HeaderComponent(){
+    const isAuthenticated = useAppSelector(state => state.account.isAuthenticated); 
+    const role = useAppSelector(state => state.account.user.role); 
+    const items = isAuthenticated ? (role === 'ADMIN' ? itemsAuthAdmin : itemsAuthUser) : itemsNotAuth;
     return (
         <Menu theme="light" style={{width:"100%"}} >
             <Col className='header-container'>
@@ -59,7 +64,6 @@ export default function HeaderComponent(){
                                 />
                                 
                             </span>
-                            <span style={{verticalAlign:'super'}} > Account</span>
                         </div>
                         </a>
                     </Dropdown>

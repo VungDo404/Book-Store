@@ -1,0 +1,18 @@
+.admin-header-container{
+    background-color: rgb(245 245 245);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .header-element{
+        height: 100%;
+        .toggle{
+            padding: 0;
+        }
+        .account-text{
+            @media screen and (max-width: 576px)  {
+                display: none;
+            }
+        }
+    }
+    
+}

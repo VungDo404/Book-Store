@@ -1,6 +1,9 @@
 import { useState } from 'react';
-import { Layout, Menu } from "antd";
+import { Col, Layout, Menu } from "antd";
 import {
+  AccountBookOutlined,
+  DashboardOutlined,
+    DollarOutlined,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
     UploadOutlined,
@@ -8,6 +11,7 @@ import {
     VideoCameraOutlined,
   } from '@ant-design/icons';
 const { Sider } = Layout;
+import 'styles/SideBar.scss'
 
 interface interface_SideBar_props{
     collapsed: boolean
@@ -18,31 +22,39 @@ export default function SideBar(props: interface_SideBar_props){
 
     return (
         <> 
-        <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="demo-logo-vertical" />
-        <Menu
-          theme="light"
-          mode="inline"
-          defaultSelectedKeys={['1']}
-          items={[
-            {
-              key: '1',
-              icon: <UserOutlined />,
-              label: 'nav 1',
-            },
-            {
-              key: '2',
-              icon: <VideoCameraOutlined />,
-              label: 'nav 2',
-            },
-            {
-              key: '3',
-              icon: <UploadOutlined />,
-              label: 'nav 3',
-            },
-          ]}
-        />
-      </Sider>
+        <Sider trigger={null} collapsible collapsed={collapsed} width={'15%'} className='admin-sider'>
+          <div className='sider-title'>
+            <h2>ADMIN PAGE</h2>
+          </div>
+          <Menu
+            theme="light"
+            mode="vertical"
+            defaultSelectedKeys={['1']}
+            className='admin-menu'
+            items={[
+              {
+                key: '1',
+                icon: <DashboardOutlined />,
+                label: 'Dash Board',
+              },
+              {
+                key: '2',
+                icon: <UserOutlined />,
+                label: 'Manage User',
+              },
+              {
+                key: '3',
+                icon: <AccountBookOutlined />,
+                label: 'Mange Book',
+              },
+              {
+                key: '4',
+                icon: <DollarOutlined />,
+                label: 'Mange Order',
+              },
+            ]}
+          />
+        </Sider>
         </>
     );
 }

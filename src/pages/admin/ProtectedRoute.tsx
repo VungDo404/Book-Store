@@ -1,4 +1,4 @@
-import NotPermitted from "@/components/Results/NorPermitted";
+import NotPermitted from "@/components/Results/NotPermitted";
 import { useAppSelector } from "@/redux/hooks/hooks";
 
 interface interface_ProtectedRoute_props{

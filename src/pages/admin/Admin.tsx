@@ -3,7 +3,7 @@ import SideBar from "./SideBar/SideBar";
 import AdminHeader from "./Header/AdminHeader";
 import { Layout } from "antd";
 import { useState } from 'react';
-
+import 'styles/damin.scss'
 
 const { Content } = Layout;
 export default function Admin(){
@@ -12,7 +12,7 @@ export default function Admin(){
 
     return (
         <> 
-        <Layout>
+        <Layout className="admin">
             <SideBar collapsed={collapsed} />
             <Layout>
                 <AdminHeader collapsed={collapsed} setCollapsed={setCollapsed}/>

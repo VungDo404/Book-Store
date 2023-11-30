@@ -37,7 +37,7 @@ export default function App() {
       } catch (error) {
         // console.log(error)
       }
-    }, 2000);
+    }, 1000);
   }
 
   useEffect(()=> {
