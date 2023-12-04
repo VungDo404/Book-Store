@@ -1,31 +1,57 @@
 import { ShoppingCartOutlined, InfoCircleOutlined, BookTwoTone } from '@ant-design/icons';
 import { Menu, Input, Typography, Col, MenuProps, Dropdown, Avatar, Badge } from 'antd';
 import { SearchProps } from 'antd/es/input';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '@/styles/header.scss'
-import { useAppSelector } from '@/redux/hooks/hooks';
-import { itemsAuthAdmin, itemsNotAuth } from '@/pages/admin/Header/AdminHeader';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks/hooks';
+import { itemsNotAuth } from '@/pages/admin/Header/AdminHeader';
+import { handleLogout } from '@/redux/slices/accountReducer';
 
 const { Text } = Typography;
 const { Search } = Input;
 
+
 const onSearch: any = (value: string, _e:React.SyntheticEvent, info: any) => {
     
 };
-const itemsAuthUser: MenuProps['items'] = [
-    {
-      label: <Text><Link to="/login" className="nav-text">Account</Link></Text>,
-      key: '0',
-    },
-    {
-      label: <Text><Link to="/logout" className="nav-text">Logout</Link></Text>,
-      key: '1',
-    },
-  ];
+
 export default function HeaderComponent(){
     const isAuthenticated = useAppSelector(state => state.account.isAuthenticated); 
     const role = useAppSelector(state => state.account.user.role); 
+    const dispatch = useAppDispatch(); 
+    const navigate = useNavigate(); 
+    const itemsAuthUser: MenuProps['items'] = [
+        {
+          label: <Text><Link to="/login" className="nav-text">Account</Link></Text>,
+          key: '0',
+        },
+        {
+          label: <Text>Logout</Text>,
+          key: '1',
+          onClick: () => {
+            dispatch(handleLogout());
+            navigate('/');
+          }
+        },
+      ];
+      const itemsAuthAdmin: MenuProps['items'] = [
+        {
+            label: <Text><Link to="/admin" className="nav-text">Admin</Link></Text>,
+            key: '0',
+            
+            
+        },
+        {
+            label: <Text>Logout</Text>,
+            key: '1',
+            onClick: () => {
+                dispatch(handleLogout());
+                navigate('/');
+            }
+        },
+    ];
     const items = isAuthenticated ? (role === 'ADMIN' ? itemsAuthAdmin : itemsAuthUser) : itemsNotAuth;
+    
     return (
         <Menu theme="light" style={{width:"100%"}} >
             <Col className='header-container'>

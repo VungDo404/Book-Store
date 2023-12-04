@@ -32,8 +32,10 @@ export default function App() {
     setTimeout( async () => {
       setIsLoading(false);
       try {
-        const response = (await account()).data; 
-        dispatch(userAction(response.data.user));
+        if(!/\/(login|register)$/.test(window.location.href) ){
+          const response = (await account()).data; 
+          dispatch(userAction(response.data.user));
+        }
       } catch (error) {
         // console.log(error)
       }

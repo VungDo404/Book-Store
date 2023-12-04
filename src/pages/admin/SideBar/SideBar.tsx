@@ -1,17 +1,13 @@
-import { useState } from 'react';
-import { Col, Layout, Menu } from "antd";
+import { Layout, Menu } from "antd";
 import {
   AccountBookOutlined,
   DashboardOutlined,
     DollarOutlined,
-    MenuFoldOutlined,
-    MenuUnfoldOutlined,
-    UploadOutlined,
     UserOutlined,
-    VideoCameraOutlined,
   } from '@ant-design/icons';
 const { Sider } = Layout;
 import 'styles/SideBar.scss'
+import { Link } from "react-router-dom";
 
 interface interface_SideBar_props{
     collapsed: boolean
@@ -34,22 +30,22 @@ export default function SideBar(props: interface_SideBar_props){
             items={[
               {
                 key: '1',
-                icon: <DashboardOutlined />,
+                icon:<Link to='/admin'><DashboardOutlined /></Link> ,
                 label: 'Dash Board',
               },
               {
                 key: '2',
-                icon: <UserOutlined />,
+                icon:  <Link to='/admin/user'><UserOutlined /></Link>,
                 label: 'Manage User',
               },
               {
                 key: '3',
-                icon: <AccountBookOutlined />,
+                icon: <Link to='/admin/book'><AccountBookOutlined /></Link>,
                 label: 'Mange Book',
               },
               {
                 key: '4',
-                icon: <DollarOutlined />,
+                icon: <Link to='/admin/order'><DollarOutlined /></Link>,
                 label: 'Mange Order',
               },
             ]}

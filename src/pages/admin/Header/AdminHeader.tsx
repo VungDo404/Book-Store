@@ -5,12 +5,12 @@ import {
     MenuUnfoldOutlined,
   } from '@ant-design/icons';
 import 'styles/AdminHeader.scss'
-import { Link } from "react-router-dom";
-import { useAppSelector } from "@/redux/hooks/hooks";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
+import { handleLogout } from "@/redux/slices/accountReducer";
 
 const { Header } = Layout;
 const { Text } = Typography;
-
 interface interface_AdminHeader_props{
     collapsed: boolean, 
     setCollapsed: React.Dispatch<React.SetStateAction<boolean>>
@@ -26,21 +26,29 @@ export const itemsNotAuth: MenuProps['items'] = [
         key: '1',
     },
 ];
-export const itemsAuthAdmin: MenuProps['items'] = [
-    {
-        label: <Text><Link to="/admin" className="nav-text">Admin</Link></Text>,
-        key: '0',
-        
-        
-    },
-    {
-        label: <Text><Link to="/logout" className="nav-text">Logout</Link></Text>,
-        key: '1',
-    },
-];
+
 export default function AdminHeader(props: interface_AdminHeader_props){
     const { collapsed, setCollapsed } = props;
+    const navigate = useNavigate(); 
+    const dispatch = useAppDispatch();
     const isAuthenticated = useAppSelector(state => state.account.isAuthenticated); 
+    const itemsAuthAdmin: MenuProps['items'] = [
+        {
+            label: <Text><Link to="/admin" className="nav-text">Admin</Link></Text>,
+            key: '0',
+            
+            
+        },
+        {
+            label: <Text>Logout</Text>,
+            key: '1',
+            onClick: () => {
+                
+                dispatch(handleLogout());
+                navigate('/');
+            }
+        },
+    ];
     return (
         <Header className='admin-header-container'>
             <div className="header-element">

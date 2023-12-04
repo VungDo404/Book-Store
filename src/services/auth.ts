@@ -23,9 +23,13 @@ const account = async () => {
 const logout = async () => {
     return await ax.post<interface_logout>('auth/logout');
 }
+const refreshToken = async () => {
+    return await ax.get<interface_login_response>('auth/refresh'); 
+}
 export {
     login,
     register,
     account,
-    logout
+    logout,
+    refreshToken
 }

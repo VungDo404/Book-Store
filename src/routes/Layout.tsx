@@ -13,7 +13,7 @@ import DashBoard from "@/pages/admin/dashboard/DashBoard";
 import Books from "@/pages/admin/books/Books";
 import Admin from "@/pages/admin/Admin";
 import MangeUser from "@/pages/admin/users/ManageUser";
-import Logout from "@/pages/logout/logout";
+import Order from "@/pages/admin/order/order";
 
 export const router = createBrowserRouter([
     {
@@ -44,6 +44,10 @@ export const router = createBrowserRouter([
                 path: "user",
                 element: <MangeUser/>,
             },
+            {
+                path: "order",
+                element: <Order/>,
+            },
         ]
     },
     {
@@ -54,10 +58,6 @@ export const router = createBrowserRouter([
     {
         path: "/register",
         element: <Register />,
-    },
-    {
-        path: "/logout",
-        element: <Logout/>,
     },
     {
         path: "*",

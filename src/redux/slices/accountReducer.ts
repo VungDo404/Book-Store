@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { logout } from '@/services/auth'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from 'Redux/store/store'
 
@@ -39,6 +40,13 @@ interface interface_user{
     id: string
 
 }
+export const handleLogout = createAsyncThunk(
+  'handleLogout',
+  async () => {
+    const response = await logout();
+    return response.data
+  }
+)
 export const accountSlice = createSlice({
   name: 'account',
   // `createSlice` will infer the state type from the `initialState` argument
@@ -48,11 +56,23 @@ export const accountSlice = createSlice({
       state.isAuthenticated = true;
       state.user = action.payload;
     },
-
+    logoutAction: (state) => {
+      localStorage.removeItem("access_token");
+      state.isAuthenticated = initialState.isAuthenticated; 
+      state.user = {...initialState.user}
+    }
+  },
+  extraReducers: (builder) => {
+    // Add reducers for additional action types here, and handle loading state as needed
+    builder.addCase(handleLogout.fulfilled, (state) => {
+      localStorage.removeItem("access_token");
+      state.isAuthenticated = initialState.isAuthenticated; 
+      state.user = {...initialState.user}
+    })
   },
 })
 
-export const { userAction } = accountSlice.actions
+export const { userAction, logoutAction } = accountSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 export const account = (state: RootState) => state.account

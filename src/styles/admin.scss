@@ -1,3 +1,7 @@
 .admin{
-    overflow: hidden
+    overflow: hidden;
+    max-height: 100vh; 
+    .right-part{
+        overflow: auto;
+    }
 }
