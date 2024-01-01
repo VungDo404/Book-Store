@@ -2,7 +2,7 @@ import { login } from '@/services/auth';
 import { Button, message, Form, Input, notification, Typography, Col } from 'antd';
 import 'styles/login.scss'
 import { Link, useNavigate } from "react-router-dom";
-import { useAppSelector,useAppDispatch } from '@/redux/hooks/hooks';
+import { useAppDispatch } from '@/redux/hooks/hooks';
 import { userAction } from '@/redux/slices/accountReducer';
 
 export interface interface_login_request {

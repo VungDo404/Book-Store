@@ -3,18 +3,46 @@ import {
   AccountBookOutlined,
   DashboardOutlined,
     DollarOutlined,
+    FileOutlined,
+    TeamOutlined,
     UserOutlined,
   } from '@ant-design/icons';
-const { Sider } = Layout;
 import 'styles/SideBar.scss'
-import { Link } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
+import type { MenuProps } from 'antd';
 
 interface interface_SideBar_props{
     collapsed: boolean
 }
+type MenuItem = Required<MenuProps>['items'][number];
 
 export default function SideBar(props: interface_SideBar_props){
+    const { Sider } = Layout;
     const { collapsed } = props; 
+    // const location = useLocation();
+    function getItem(
+      label: React.ReactNode,
+      key: React.Key,
+      icon?: React.ReactNode,
+      children?: MenuItem[],
+    ): MenuItem {
+      return {
+        key,
+        icon,
+        children,
+        label,
+      } as MenuItem;
+    }
+    const userChildren: MenuItem[] = [
+      getItem('CRUD', 'user', <Link to='/admin/user'><UserOutlined /></Link>),
+      getItem('Files', '2.2', <Link to='/admin'><FileOutlined /></Link>),
+    ]; 
+    const items: MenuItem[] = [
+      getItem('Dash Board', 'admin', <Link to='/admin'><DashboardOutlined /></Link>),
+      getItem('Manage User','2', <TeamOutlined />, userChildren),
+      getItem('Mange Book','book', <Link to='/admin/book'><AccountBookOutlined /></Link>),
+      getItem('Mange Order', 'order', <Link to='/admin/order'><DollarOutlined /></Link>),
+    ]; 
 
     return (
         <> 
@@ -24,31 +52,10 @@ export default function SideBar(props: interface_SideBar_props){
           </div>
           <Menu
             theme="light"
-            mode="vertical"
-            defaultSelectedKeys={['1']}
+            mode="inline"
+            defaultSelectedKeys={[`${location.href.split('/').pop()}`]}
             className='admin-menu'
-            items={[
-              {
-                key: '1',
-                icon:<Link to='/admin'><DashboardOutlined /></Link> ,
-                label: 'Dash Board',
-              },
-              {
-                key: '2',
-                icon:  <Link to='/admin/user'><UserOutlined /></Link>,
-                label: 'Manage User',
-              },
-              {
-                key: '3',
-                icon: <Link to='/admin/book'><AccountBookOutlined /></Link>,
-                label: 'Mange Book',
-              },
-              {
-                key: '4',
-                icon: <Link to='/admin/order'><DollarOutlined /></Link>,
-                label: 'Mange Order',
-              },
-            ]}
+            items={items}
           />
         </Sider>
         </>
