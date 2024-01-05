@@ -8,7 +8,7 @@ import {
     UserOutlined,
   } from '@ant-design/icons';
 import 'styles/SideBar.scss'
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import type { MenuProps } from 'antd';
 
 interface interface_SideBar_props{
@@ -19,7 +19,6 @@ type MenuItem = Required<MenuProps>['items'][number];
 export default function SideBar(props: interface_SideBar_props){
     const { Sider } = Layout;
     const { collapsed } = props; 
-    // const location = useLocation();
     function getItem(
       label: React.ReactNode,
       key: React.Key,

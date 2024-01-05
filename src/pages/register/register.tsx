@@ -4,9 +4,9 @@ import { register } from "@/services/auth";
 import { Link, useNavigate } from "react-router-dom";
 
 export interface interface_register_request {
-  fullName?: string;
-  password?: string;
-  email?: string;
+  fullName: string;
+  password: string;
+  email: string;
   phone?: string;
 };
 
@@ -70,7 +70,6 @@ export default function Register(){
                 label="Full name"
                 name="fullName"
                 rules={[{ required: true, message: 'Please input your name!' }]}
-                // wrapperCol={{sm :{  offset: 1, span: 21 }}}
                 required tooltip="This is a required field"
                 >
                 <Input />

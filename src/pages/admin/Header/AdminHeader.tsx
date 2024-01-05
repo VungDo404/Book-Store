@@ -1,8 +1,8 @@
-import { Button, Dropdown, Layout, MenuProps, Typography } from "antd";
+import { Avatar, Button, Dropdown, Layout, MenuProps, Typography } from "antd";
 import {
-    InfoCircleOutlined,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
+    UserOutlined,
   } from '@ant-design/icons';
 import 'styles/AdminHeader.scss'
 import { Link, useNavigate } from "react-router-dom";
@@ -32,6 +32,8 @@ export default function AdminHeader(props: interface_AdminHeader_props){
     const navigate = useNavigate(); 
     const dispatch = useAppDispatch();
     const isAuthenticated = useAppSelector(state => state.account.isAuthenticated); 
+    const avatarName = useAppSelector(state => state.account.user.avatar) ?? '';
+    const  avatarPath = `${import.meta.env.VITE_API_URL}/images/avatar/${avatarName}`; 
     const itemsAuthAdmin: MenuProps['items'] = [
         {
             label: <Text><Link to="/admin" className="nav-text">Admin</Link></Text>,
@@ -66,12 +68,7 @@ export default function AdminHeader(props: interface_AdminHeader_props){
                 <Dropdown menu={{ items: isAuthenticated ? itemsAuthAdmin : itemsNotAuth  }} trigger={['click']}>
                     <a onClick={(e) => e.preventDefault()}>
                         <span>
-                            <InfoCircleOutlined 
-                                style={{ 
-                                    fontSize: '2rem', 
-                                    color:'rgb(37, 172, 172)',
-                                }}
-                            />
+                        <Avatar icon={<UserOutlined />} src={avatarPath} />
                         </span>
                     </a>
                 </Dropdown>

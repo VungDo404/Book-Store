@@ -1,165 +1,158 @@
 import { getUsersWithPaginate } from "@/services/user";
-import { Button, Col, Form, Input, Row, Space, Table, theme } from "antd";
-import type {
-    ColumnsType,
-    TableProps,
-    TablePaginationConfig,
-} from "antd/es/table";
-import type { FilterValue, SorterResult } from "antd/es/table/interface";
+import { Row } from "antd";
+import type { TablePaginationConfig } from "antd/es/table";
 import { useEffect, useState } from "react";
+import "styles/ManageUser.scss";
+import SearchUser from "./Search/SearchUserTable";
+import UserTable from "./Table/UserTable";
+import type { FilterValue } from "antd/es/table/interface";
+import UserDetail from "./Table/UserDetail";
 
-
-interface userType {
-    _id: string,
-    fullName: string,
-    email: string,
-    phone: string,
-    role: string,
-    avatar: string,
-    isActive: boolean,
-    createdAt: string,
-    updatedAt: string,
-    __v: number,
+export interface userType {
+	_id: string;
+	fullName: string;
+	email: string;
+	phone: string;
+	role: string;
+	avatar: string;
+	isActive: boolean;
+	createdAt: string;
+	updatedAt: string;
+	__v: number;
 }
 export interface interface_get_users_with_paginate {
-    statusCode: number,
-    message: string,
-    author: string,
-    data: {
-        meta: {
-            current: number,
-            pageSize: number,
-            pages: number,
-            total: number,
-        };
-        result: userType[];
-    }
+	statusCode: number;
+	message: string;
+	author: string;
+	data: {
+		meta: {
+			current: number;
+			pageSize: number;
+			pages: number;
+			total: number;
+		};
+		result: userType[];
+	};
+}
+export interface TableParams {
+	pagination?: TablePaginationConfig;
+	sortField?: string;
+	sortOrder?: string;
+	filters?: Record<string, FilterValue>;
+}
+export interface Search {
+	fullName?: string;
+	email?: string;
+	phone?: string;
 }
 
+export interface postUserType {
+	statusCode: number;
+	message: string;
+	data: {
+		email: string;
+		phone: string;
+		fullName: string;
+		role: string;
+		avatar: string;
+		isActive: boolean;
+		createdAt: string;
+		updatedAt: string;
+		_id: string;
+		__v: number;
+	};
+	author: string;
+}
 export default function MangeUser() {
-    const { token } = theme.useToken();
-    const [loading, setLoading] = useState(false);
-    const [tableParams, setTableParams] = useState<TableParams>({
-        pagination: {
-            current: 1,
-            pageSize: 10,
-        },
-    });
-    const [data, setData] = useState<userType[]>([]);
-    const [form] = Form.useForm();
-
-    interface TableParams {
-        pagination?: TablePaginationConfig;
-        sortField?: string;
-        sortOrder?: string;
-        filters?: Record<string, FilterValue>;
+	const [loading, setLoading] = useState(false);
+	const initSearch: Search = {
+		fullName: "",
+		email: "",
+		phone: "",
+	};
+	const initRecord: userType = {
+		_id: "",
+		fullName: "",
+		email: "",
+		phone: "",
+		role: "",
+		avatar: "",
+		isActive: false,
+		createdAt: "",
+		updatedAt: "",
+		__v: 0,
+	};
+	const [current, setCurrent] = useState<number>(1);
+	const [pageSize, setPageSize] = useState<number>(10);
+	const [search, setSearch] = useState<Search>(initSearch);
+	const [open, setOpen] = useState<boolean>(false);
+	const [sort, setSort] = useState<string>("");
+	const [currentRecord, setCurrentRecord] = useState<userType>(initRecord);
+	const [tableParams, setTableParams] = useState<TableParams>({
+		pagination: {
+			current: 1,
+			pageSize: 10,
+		},
+	});
+	const [data, setData] = useState<userType[]>([]);
+	const showDrawer = () => {
+		setOpen(true);
+	};
+	const onClose = () => {
+		setOpen(false);
+	};
+    const refresh = () => {
+        setCurrent(1); 
+        setPageSize(10); 
+        setSearch(initSearch);
+        setSort('');
+        setCurrentRecord(initRecord); 
     }
-    const columns: ColumnsType<userType> = [
-        {
-            title: "Name",
-            dataIndex: "fullName",
-            filterSearch: false,
-            sorter: true,
-            width: "30%",
-        },
-        {
-            title: "Email",
-            dataIndex: "email",
-            sorter: true,
-        },
-        {
-            title: "Phone number",
-            dataIndex: "phone",
-            sorter: true,
-            width: "40%",
-        },
-    ];
-    const formStyle: React.CSSProperties = {
-        borderRadius: token.borderRadiusLG,
-        padding: 24,
-    };
-    const onChange = (
-        pagination: TablePaginationConfig,
-        filters: Record<string, FilterValue>,
-        sorter: SorterResult<userType>
-    ) => {
-        console.log("params", pagination, filters, sorter);
-        fetchUsers(pagination.current, pagination.pageSize);
-
-    };
-    const onFinish = (values: any) => {
-        console.log("Received values of form: ", values);
-    };
-    const fetchUsers = async (current: number = 1, pageSize: number = 3) => {
-        const res = (await getUsersWithPaginate(current, pageSize)).data;
-        if (res.statusCode === 200) {
-            setTableParams({
-                pagination: {
-                    ...res.data.meta
-                },
-            });
-            setData([...res.data.result]);
-        }
-    };
-    useEffect(() => {
-        fetchUsers();
-    }, []);
-    return (
-        <>
-            <Row justify="space-around">
-                <Col md={{ offset: 0, span: 24 }}>
-                    <Form
-                        form={form}
-                        name="advanced_search"
-                        style={formStyle}
-                        onFinish={onFinish}
-                    >
-                        <Row gutter={24}>
-                            <Col span={8} key={1}>
-                                <Form.Item name={`name`} label={`Name`}>
-                                    <Input placeholder="Name" />
-                                </Form.Item>
-                            </Col>
-                            <Col span={8} key={2}>
-                                <Form.Item name={`email`} label={`Email`}>
-                                    <Input placeholder="Email" />
-                                </Form.Item>
-                            </Col>
-                            <Col span={8} key={3}>
-                                <Form.Item
-                                    name={`phone`}
-                                    label={`Phone number`}
-                                >
-                                    <Input placeholder="Phone number" />
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                        <div style={{ textAlign: "right" }}>
-                            <Space size="small">
-                                <Button type="primary" htmlType="submit">
-                                    Search
-                                </Button>
-                                <Button
-                                    onClick={() => {
-                                        form.resetFields();
-                                    }}
-                                >
-                                    Clear
-                                </Button>
-                            </Space>
-                        </div>
-                    </Form>
-                </Col>
-                <Col md={{ offset: 0, span: 23 }}>
-                    <Table
-                        columns={columns}
-                        dataSource={data}
-                        onChange={onChange}
-                        loading={loading}
-                        pagination={tableParams.pagination}
-                    />
-                </Col>
-            </Row>
-        </>
-    );
+	const fetchUsers = async () => {
+		setLoading(true);
+		const res = (
+			await getUsersWithPaginate(current, pageSize, search, sort)
+		).data;
+		if (res.statusCode === 200) {
+			setCurrent(res.data.meta.current);
+			setPageSize(res.data.meta.pageSize);
+			setTableParams({
+				pagination: {
+					...res.data.meta,
+					showSizeChanger: true,
+					showTotal: (total, range) => {
+						return `${range[0]}-${range[1]} of ${total} items`;
+					},
+				},
+			});
+			setData([...res.data.result]);
+		}
+		setLoading(false);
+	};
+	useEffect(() => {
+		fetchUsers();
+	}, [current, pageSize, search, sort]);
+	return (
+		<>
+			<Row justify="space-around">
+				<SearchUser setSearch={setSearch} fetchUsers={fetchUsers} />
+				<UserTable
+					showDrawer={showDrawer}
+					setCurrentRecord={setCurrentRecord}
+					data={data}
+					loading={loading}
+					tableParams={tableParams}
+					setCurrent={setCurrent}
+					setSort={setSort}
+					setPageSize={setPageSize}
+                    refresh={refresh}
+				/>
+			</Row>
+			<UserDetail
+				currentRecord={currentRecord}
+				onClose={onClose}
+				open={open}
+			/>
+		</>
+	);
 }
