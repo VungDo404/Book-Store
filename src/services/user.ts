@@ -1,4 +1,4 @@
-import { Search, interface_get_users_with_paginate, postUserType } from '@/pages/admin/users/ManageUser';
+import { Search, interface_get_users_with_paginate, postUserType } from '@/pages/admin/users/interface';
 import { interface_register_request } from '@/pages/register/register';
 import { ax } from '@/utils/axios'; 
 
@@ -12,6 +12,8 @@ const deleteUser = (id:string) => {
 const postUser = (user: interface_register_request) => {
     return ax.post<postUserType>('/user', user);
 }
+const putUser = (user: )
+
 export {
     getUsersWithPaginate, 
     deleteUser, 

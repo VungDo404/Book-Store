@@ -1,16 +1,36 @@
-import { Form, Input, Modal } from "antd";
+import { Form, Input, Modal, message } from "antd";
 import { interface_register_request } from "@/pages/register/register";
+import { postUser } from "@/services/user";
 
 interface propsType {
 	isModalOpen: boolean;
-	handleSubmit: (values: any) => Promise<void>;
-	handleCancel: () => void;
+	refresh: () => void;
+	setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function AddUser(props: propsType) {
-	const { isModalOpen, handleSubmit, handleCancel } = props;
+	const { isModalOpen, refresh, setIsModalOpen } = props;
 	const [form] = Form.useForm();
-
+	const [messageApi, contextHolder] = message.useMessage();
+	const handleSubmit = async (values: interface_register_request) => {
+		try {
+			const res = (await postUser(values)).data;
+			messageApi.open({
+				type: "success",
+				content: "Create user successfully!",
+			});
+			refresh();
+		} catch (error: unknown) {
+			messageApi.open({
+				type: "error",
+				content: <div>{(error as any).message[0]}</div>,
+			});
+		}
+		setIsModalOpen(false);
+	};
+	const handleCancel = () => {
+		setIsModalOpen(false);
+	};
 	return (
 		<Modal
 			title="Add a new user"
@@ -19,8 +39,9 @@ export default function AddUser(props: propsType) {
 			onCancel={handleCancel}
 			centered={true}
 			okText={"Add"}
-            afterClose={() => form.resetFields()}
+			afterClose={() => form.resetFields()}
 		>
+			{contextHolder}
 			<Form
 				form={form}
 				name="basic"
@@ -47,14 +68,13 @@ export default function AddUser(props: propsType) {
 					name="email"
 					rules={[
 						{
-							
-                            type:'email',
+							type: "email",
 							message: "Please input a valid email!",
 						},
-                        {
-                            required: true,
-                            message: "Please input your email!",
-                        }
+						{
+							required: true,
+							message: "Please input your email!",
+						},
 					]}
 				>
 					<Input />

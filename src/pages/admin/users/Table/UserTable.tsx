@@ -1,8 +1,6 @@
-import { Button, Col, Space, Table, message } from "antd";
-import { TableParams, userType } from "../ManageUser";
+import { Button, Col, Space, Table } from "antd";
 import type { ColumnsType, TablePaginationConfig } from "antd/es/table";
 import {
-	DeleteOutlined,
 	ExportOutlined,
 	ImportOutlined,
 	ReloadOutlined,
@@ -10,9 +8,9 @@ import {
 } from "@ant-design/icons";
 import type { FilterValue, SorterResult } from "antd/es/table/interface";
 import { useState } from "react";
-import AddUser from "./AddUser";
-import { interface_register_request } from "@/pages/register/register";
-import { postUser } from "@/services/user";
+import AddUser from "./Header/AddUser";
+import { TableParams, userType } from "../interface";
+import Action from "./Body/Action";
 
 interface propsType {
 	showDrawer: () => void;
@@ -28,7 +26,6 @@ interface propsType {
 
 export default function UserTable(props: propsType) {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-	const [messageApi, contextHolder] = message.useMessage();
 
 	const {
 		showDrawer,
@@ -41,6 +38,7 @@ export default function UserTable(props: propsType) {
 		setPageSize,
 		refresh,
 	} = props;
+
 	const columns: ColumnsType<userType> = [
 		{
 			title: "id",
@@ -76,36 +74,12 @@ export default function UserTable(props: propsType) {
 		{
 			title: "Action",
 			key: "action",
-			render: () => (
-				<Space size="middle">
-					<DeleteOutlined style={{ cursor: "pointer" }} />
-				</Space>
-			),
+			render: (text, record) => <Action record={record} />,
+			width: "10%",
 		},
 	];
 	const showModal = () => {
 		setIsModalOpen(true);
-	};
-
-	const handleSubmit = async (values: interface_register_request) => {
-		try {
-			const res = (await postUser(values)).data;
-			messageApi.open({
-				type: "success",
-				content: "Create user successfully!",
-			});
-			refresh(); 
-		} catch (error: unknown) {
-			messageApi.open({
-				type: "error",
-				content: <div>{(error as any).message[0]}</div> ,
-			});
-		}
-		setIsModalOpen(false);
-	};
-
-	const handleCancel = () => {
-		setIsModalOpen(false);
 	};
 	const onChange = (
 		pagination: TablePaginationConfig,
@@ -124,7 +98,6 @@ export default function UserTable(props: propsType) {
 	};
 	return (
 		<Col md={{ offset: 0, span: 23 }}>
-			{contextHolder}
 			<Table
 				columns={columns}
 				dataSource={data}
@@ -169,8 +142,8 @@ export default function UserTable(props: propsType) {
 			/>
 			<AddUser
 				isModalOpen={isModalOpen}
-				handleCancel={handleCancel}
-				handleSubmit={handleSubmit}
+				refresh={refresh}
+				setIsModalOpen={setIsModalOpen}
 			/>
 		</Col>
 	);

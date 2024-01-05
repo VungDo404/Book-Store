@@ -1,5 +1,6 @@
 import { Button, Col, Form, Input, Row, Space, theme } from "antd";
-import { Search } from "../ManageUser";
+import { Search } from "../interface";
+
 interface propsType {
 	setSearch: React.Dispatch<React.SetStateAction<Search>>;
 	fetchUsers: () => Promise<void>;
