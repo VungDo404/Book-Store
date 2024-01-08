@@ -1,21 +1,30 @@
-import { Form, Input, Modal, Popconfirm, Space, message } from "antd";
+import { Form, Input, Modal, Popconfirm, Space, Tooltip, message } from "antd";
 import { userType } from "../../interface";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { deleteUser } from "@/services/user";
+import { useAppDispatch } from "@/redux/hooks/hooks";
+import { unwrapResult } from "@reduxjs/toolkit";
+import {
+	handleDeleteUser,
+	handleUpdateUser,
+} from "@/redux/slices/Admin/user.reducer";
 
 interface propsType {
 	record: userType;
 }
 interface formUpdate {
-    email?: string, 
+	email?: string;
 	phone: string;
 	fullName: string;
 }
-
+export interface updateUser extends Omit<formUpdate, "email"> {
+	_id: string;
+}
 export default function Action(props: propsType) {
 	const { record } = props;
 	const [messageApi, contextHolder] = message.useMessage();
+	const dispatch = useAppDispatch();
 	const [form] = Form.useForm();
 	const [updateModal, setUpdateModal] = useState<boolean>(false);
 	const cancel = (e?: React.MouseEvent<HTMLElement>) => {
@@ -25,32 +34,44 @@ export default function Action(props: propsType) {
 		e: React.MouseEvent<HTMLElement> | undefined,
 		_id: string
 	) => {
-		const res = await deleteUser(_id); 
-        
-		messageApi.success("Click on Yes");
+		try {
+			await dispatch(handleDeleteUser(_id)).then(unwrapResult);
+			messageApi.success("Delete user successfully");
+		} catch (error) {
+			console.log(error);
+			messageApi.error(error?.message);
+		}
 	};
 	const handleCancel = () => {
 		setUpdateModal(false);
 	};
-	const handleSubmit = (values: formUpdate) => {
-        delete values.email; 
-		
-        setUpdateModal(false);
+	const handleSubmit = async (values: formUpdate) => {
+		delete values.email;
+		try {
+			await dispatch(
+				handleUpdateUser({ _id: record._id, ...values })
+			).then(unwrapResult);
+			messageApi.success("Update user successfully");
+		} catch (error) {
+			console.log(error);
+			messageApi.error(error?.message[0]);
+		}
+		setUpdateModal(false);
 	};
-    const fields = [
-        {
-            name: ["fullName"],
-            value: record.fullName,
-        },
-        {
-            name: ["email"],
-            value: record.email,
-        },
-        {
-            name: ["phone"],
-            value: record.phone,
-        },
-    ] 
+	const fields = [
+		{
+			name: ["fullName"],
+			value: record.fullName,
+		},
+		{
+			name: ["email"],
+			value: record.email,
+		},
+		{
+			name: ["phone"],
+			value: record.phone,
+		},
+	];
 	return (
 		<Space size="middle">
 			{contextHolder}
@@ -63,13 +84,17 @@ export default function Action(props: propsType) {
 				cancelText="No"
 				placement="leftBottom"
 			>
-				<DeleteOutlined style={{ cursor: "pointer" }} />
+				<Tooltip title="Delete">
+					<DeleteOutlined style={{ cursor: "pointer" }} />
+				</Tooltip>
 			</Popconfirm>
+			<Tooltip title="Update">
+				<EditOutlined
+					style={{ cursor: "pointer" }}
+					onClick={() => setUpdateModal(true)}
+				/>
+			</Tooltip>
 
-			<EditOutlined
-				style={{ cursor: "pointer" }}
-				onClick={() => setUpdateModal(true)}
-			/>
 			<Modal
 				title="Update the user"
 				open={updateModal}

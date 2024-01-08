@@ -1,20 +1,22 @@
 import { Button, Col, Form, Input, Row, Space, theme } from "antd";
 import { Search } from "../interface";
+import { useAppDispatch } from "@/redux/hooks/hooks";
+import { fetchUser } from "@/redux/slices/Admin/user.reducer";
 
 interface propsType {
-	setSearch: React.Dispatch<React.SetStateAction<Search>>;
 	fetchUsers: () => Promise<void>;
 }
 export default function SearchUser(props: propsType) {
-	const { setSearch, fetchUsers } = props;
+	const { fetchUsers } = props;
 	const { token } = theme.useToken();
+	const dispatch = useAppDispatch();
 	const [form] = Form.useForm();
 	const formStyle: React.CSSProperties = {
 		borderRadius: token.borderRadiusLG,
 		padding: 24,
 	};
 	const onFinish = (values: Search) => {
-		setSearch(values);
+		dispatch(fetchUser({ search: values }));
 	};
 	return (
 		<Col md={{ offset: 0, span: 24 }}>

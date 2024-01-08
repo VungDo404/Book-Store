@@ -1,4 +1,4 @@
-import { Button, Col, Space, Table } from "antd";
+import { Button, Col, Space, Table, Tooltip } from "antd";
 import type { ColumnsType, TablePaginationConfig } from "antd/es/table";
 import {
 	ExportOutlined,
@@ -9,41 +9,41 @@ import {
 import type { FilterValue, SorterResult } from "antd/es/table/interface";
 import { useState } from "react";
 import AddUser from "./Header/AddUser";
-import { TableParams, userType } from "../interface";
+import { userType } from "../interface";
 import Action from "./Body/Action";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
+import { fetchUser, refresh } from "@/redux/slices/Admin/user.reducer";
+import Import from "./Header/Import";
+import * as xlsx from "xlsx";
 
 interface propsType {
 	showDrawer: () => void;
 	setCurrentRecord: React.Dispatch<React.SetStateAction<userType>>;
-	data: userType[];
 	loading: boolean;
-	tableParams: TableParams;
-	setSort: React.Dispatch<React.SetStateAction<string>>;
-	setCurrent: React.Dispatch<React.SetStateAction<number>>;
-	setPageSize: React.Dispatch<React.SetStateAction<number>>;
-	refresh: () => void;
 }
 
 export default function UserTable(props: propsType) {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
-	const {
-		showDrawer,
-		setCurrentRecord,
-		data,
-		loading,
-		tableParams,
-		setSort,
-		setCurrent,
-		setPageSize,
-		refresh,
-	} = props;
-
+	const [isModalImport, setIsModalImport] = useState<boolean>(false);
+	const dispatch = useAppDispatch();
+	const data = useAppSelector((state) => state.userData.data);
+	const tableParams = useAppSelector((state) => state.userData.tableParams);
+	const { showDrawer, setCurrentRecord, loading } = props;
+	const paginationConfig = {
+		...tableParams.pagination,
+		showSizeChanger: true,
+		showTotal: (total: number, range: [number, number]) =>
+			`${range[0]}-${range[1]} of ${total} items`,
+	};
 	const columns: ColumnsType<userType> = [
 		{
 			title: "id",
 			dataIndex: "_id",
-			render: (text) => <a>{text}</a>,
+			render: (text) => (
+				<Tooltip title="View detail">
+					<a>{text}</a>
+				</Tooltip>
+			),
 			onCell: (record: userType) => {
 				return {
 					onClick: () => {
@@ -81,20 +81,28 @@ export default function UserTable(props: propsType) {
 	const showModal = () => {
 		setIsModalOpen(true);
 	};
+	const showModalImport = () => {
+		setIsModalImport(true);
+	};
+	const exportCSV = () => {
+		const wb = xlsx.utils.book_new();
+		const ws = xlsx.utils.json_to_sheet(data);
+		xlsx.utils.book_append_sheet(wb, ws, "Data_User");
+		xlsx.writeFile(wb, "Data_User.csv");
+	};
 	const onChange = (
 		pagination: TablePaginationConfig,
 		filters: Record<string, FilterValue | null>,
 		sorter: SorterResult<userType>
 	) => {
-		if (sorter) {
-			const sortValue: string =
-				sorter.order === "ascend"
-					? `${sorter.field}`
-					: `-${sorter.field}`;
-			setSort(sortValue);
-		}
-		setCurrent(pagination.current as number);
-		setPageSize(pagination.pageSize as number);
+		dispatch(
+			fetchUser({
+				current: pagination.current,
+				pageSize: pagination.pageSize,
+				sortField: sorter.field as string,
+				sortOrder: sorter.order as string,
+			})
+		);
 	};
 	return (
 		<Col md={{ offset: 0, span: 23 }}>
@@ -104,7 +112,7 @@ export default function UserTable(props: propsType) {
 				// @ts-ignore
 				onChange={onChange}
 				loading={loading}
-				pagination={tableParams.pagination}
+				pagination={paginationConfig}
 				bordered
 				title={() => (
 					<div style={{ display: "flex" }}>
@@ -114,6 +122,7 @@ export default function UserTable(props: propsType) {
 								type="primary"
 								icon={<ImportOutlined />}
 								size={"middle"}
+								onClick={() => showModalImport()}
 							>
 								Import
 							</Button>
@@ -121,6 +130,7 @@ export default function UserTable(props: propsType) {
 								type="primary"
 								icon={<ExportOutlined />}
 								size={"middle"}
+								onClick={exportCSV}
 							>
 								Export
 							</Button>
@@ -134,7 +144,7 @@ export default function UserTable(props: propsType) {
 							</Button>
 							<ReloadOutlined
 								style={{ cursor: "pointer" }}
-								onClick={() => refresh()}
+								onClick={() => dispatch(refresh())}
 							/>
 						</Space>
 					</div>
@@ -142,8 +152,11 @@ export default function UserTable(props: propsType) {
 			/>
 			<AddUser
 				isModalOpen={isModalOpen}
-				refresh={refresh}
 				setIsModalOpen={setIsModalOpen}
+			/>
+			<Import
+				isModalImport={isModalImport}
+				setIsModalImport={setIsModalImport}
 			/>
 		</Col>
 	);

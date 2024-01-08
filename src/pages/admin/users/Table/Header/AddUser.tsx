@@ -1,25 +1,28 @@
 import { Form, Input, Modal, message } from "antd";
 import { interface_register_request } from "@/pages/register/register";
 import { postUser } from "@/services/user";
+import { useAppDispatch } from "@/redux/hooks/hooks";
+import { addNewUser } from "@/redux/slices/Admin/user.reducer";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 interface propsType {
 	isModalOpen: boolean;
-	refresh: () => void;
 	setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function AddUser(props: propsType) {
-	const { isModalOpen, refresh, setIsModalOpen } = props;
+	const { isModalOpen, setIsModalOpen } = props;
+	
 	const [form] = Form.useForm();
+	const dispatch = useAppDispatch();
 	const [messageApi, contextHolder] = message.useMessage();
 	const handleSubmit = async (values: interface_register_request) => {
 		try {
-			const res = (await postUser(values)).data;
+			await dispatch(addNewUser(values)).then(unwrapResult);
 			messageApi.open({
 				type: "success",
 				content: "Create user successfully!",
 			});
-			refresh();
 		} catch (error: unknown) {
 			messageApi.open({
 				type: "error",

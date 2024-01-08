@@ -29,10 +29,11 @@ export interface interface_get_users_with_paginate {
 	};
 }
 export interface TableParams {
-	pagination?: TablePaginationConfig;
+	pagination: TablePaginationConfig;
 	sortField?: string;
 	sortOrder?: string;
 	filters?: Record<string, FilterValue>;
+	search?: Search
 }
 export interface Search {
 	fullName?: string;
@@ -56,4 +57,36 @@ export interface postUserType {
 		__v: number;
 	};
 	author: string;
+}
+
+export interface putUserType{
+	statusCode: number,
+    message: string,
+    data: {
+        acknowledged: boolean,
+        modifiedCount: number,
+        upsertedId: null,
+        upsertedCount: number,
+        matchedCount: number
+    },
+    author: string
+}
+export interface deleteUserType{ 
+	statusCode: number,
+    message: string,
+    data: {
+        acknowledged: boolean,
+        deletedCount: number
+    },
+    author: string
+}
+export interface postUsersType{
+	statusCode: number,
+    message: string,
+    data: {
+        countSuccess: number,
+        countError: number,
+        message: null
+    },
+    author: string
 }

@@ -79,13 +79,19 @@ export default function UserDetail(props: propsType) {
 				<Col span={12}>
 					<DescriptionItem
 						title="Created Date"
-						content={moment(currentRecord?.createdAt, 'YYYY-MM-DDTHH:mm:ss.SSSZ').format('YYYY-MM-DD HH:mm:ss')}
+						content={moment(
+							currentRecord?.createdAt,
+							"YYYY-MM-DDTHH:mm:ss.SSSZ"
+						).format("YYYY-MM-DD HH:mm:ss")}
 					/>
 				</Col>
 				<Col span={12}>
 					<DescriptionItem
 						title="Updated Date"
-						content={moment(currentRecord?.updatedAt, 'YYYY-MM-DDTHH:mm:ss.SSSZ').format('YYYY-MM-DD HH:mm:ss')}
+						content={moment(
+							currentRecord?.updatedAt,
+							"YYYY-MM-DDTHH:mm:ss.SSSZ"
+						).format("YYYY-MM-DD HH:mm:ss")}
 					/>
 				</Col>
 			</Row>
