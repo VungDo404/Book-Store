@@ -2,7 +2,6 @@ import { updateUser } from "@/pages/admin/users/Table/Body/Action";
 import {
 	Search,
 	TableParams,
-	interface_get_users_with_paginate,
 	userType,
 } from "@/pages/admin/users/interface";
 import { interface_register_request } from "@/pages/register/register";

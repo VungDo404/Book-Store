@@ -3,7 +3,7 @@ import { Col, Modal, Row, Table, UploadProps, message } from "antd";
 import Dragger from "antd/es/upload/Dragger";
 import type { ColumnsType } from "antd/es/table";
 import * as xlsx from "xlsx";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { interface_register_request } from "@/pages/register/register";
 import { addNewUsers } from "@/redux/slices/Admin/user.reducer";
 import { unwrapResult } from "@reduxjs/toolkit";

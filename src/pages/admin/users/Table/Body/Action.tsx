@@ -2,7 +2,6 @@ import { Form, Input, Modal, Popconfirm, Space, Tooltip, message } from "antd";
 import { userType } from "../../interface";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useState } from "react";
-import { deleteUser } from "@/services/user";
 import { useAppDispatch } from "@/redux/hooks/hooks";
 import { unwrapResult } from "@reduxjs/toolkit";
 import {
@@ -94,7 +93,6 @@ export default function Action(props: propsType) {
 					onClick={() => setUpdateModal(true)}
 				/>
 			</Tooltip>
-
 			<Modal
 				title="Update the user"
 				open={updateModal}
@@ -124,11 +122,9 @@ export default function Action(props: propsType) {
 					>
 						<Input />
 					</Form.Item>
-
 					<Form.Item label="Email" name="email">
 						<Input disabled />
 					</Form.Item>
-
 					<Form.Item
 						label="Phone"
 						name="phone"
