@@ -90,3 +90,8 @@ export interface postUsersType{
     },
     author: string
 }
+export interface formUpdate {
+	email?: string;
+	phone: string;
+	fullName: string;
+}

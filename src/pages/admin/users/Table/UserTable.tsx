@@ -1,5 +1,5 @@
-import { Button, Col, Space, Table, Tooltip } from "antd";
-import type { ColumnsType, TablePaginationConfig } from "antd/es/table";
+import { Button, Col, Form, Input, Space, Table, Tooltip, message } from "antd";
+import type { TablePaginationConfig } from "antd/es/table";
 import {
 	ExportOutlined,
 	ImportOutlined,
@@ -9,25 +9,66 @@ import {
 import type { FilterValue, SorterResult } from "antd/es/table/interface";
 import { useState } from "react";
 import AddUser from "./Header/AddUser";
-import { userType } from "../interface";
+import { formUpdate, userType } from "../interface";
 import Action from "./Body/Action";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
-import { fetchUser, refresh } from "@/redux/slices/Admin/user.reducer";
+import { fetchUser, handleUpdateUser, refresh } from "@/redux/slices/Admin/user.reducer";
 import Import from "./Header/Import";
 import * as xlsx from "xlsx";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 interface propsType {
 	showDrawer: () => void;
 	setCurrentRecord: React.Dispatch<React.SetStateAction<userType>>;
 	loading: boolean;
 }
-
+interface EditableCellProps {
+	editing: boolean;
+	dataIndex: string;
+	title: any;
+	record: userType;
+	index: number;
+	children: React.ReactNode;
+}
+const EditableCell: React.FC<EditableCellProps> = ({
+	editing,
+	dataIndex,
+	title,
+	record,
+	index,
+	children,
+	...restProps
+}) => {
+	return (
+		<td {...restProps}>
+			{editing ? (
+				<Form.Item
+					name={dataIndex}
+					style={{ margin: 0 }}
+					rules={[
+						{
+							required: true,
+							message: `Please Input ${title}!`,
+						},
+					]}
+				>
+					<Input />
+				</Form.Item>
+			) : (
+				children
+			)}
+		</td>
+	);
+};
 export default function UserTable(props: propsType) {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [isModalImport, setIsModalImport] = useState<boolean>(false);
+	const [editingKey, setEditingKey] = useState<string>("");
+	const [messageApi, contextHolder] = message.useMessage();
 	const dispatch = useAppDispatch();
 	const data = useAppSelector((state) => state.userData.data);
 	const tableParams = useAppSelector((state) => state.userData.tableParams);
+	const [form] = Form.useForm();
 	const { showDrawer, setCurrentRecord, loading } = props;
 	const paginationConfig = {
 		...tableParams.pagination,
@@ -35,11 +76,16 @@ export default function UserTable(props: propsType) {
 		showTotal: (total: number, range: [number, number]) =>
 			`${range[0]}-${range[1]} of ${total} items`,
 	};
-	const columns: ColumnsType<userType> = [
+	const isEditing = (record: userType) => record._id === editingKey;
+	const edit = (record: userType) => {
+		form.setFieldsValue({ name: "", age: "", address: "", ...record });
+		setEditingKey(record._id);
+	};
+	const columns = [
 		{
 			title: "id",
 			dataIndex: "_id",
-			render: (text) => (
+			render: (text: any) => (
 				<Tooltip title="View detail">
 					<a>{text}</a>
 				</Tooltip>
@@ -59,6 +105,7 @@ export default function UserTable(props: propsType) {
 			filterSearch: false,
 			sorter: true,
 			width: "20%",
+			editable: true,
 		},
 		{
 			title: "Email",
@@ -70,11 +117,21 @@ export default function UserTable(props: propsType) {
 			dataIndex: "phone",
 			sorter: true,
 			width: "20%",
+			editable: true,
 		},
 		{
 			title: "Action",
 			key: "action",
-			render: (text, record) => <Action record={record} />,
+			render: (text: any, record: userType) => (
+				<Action
+					record={record}
+					isEditing={isEditing}
+					edit={edit}
+					editingKey={editingKey}
+					cancelEdit={cancelEdit}
+					save={save}
+				/>
+			),
 			width: "10%",
 		},
 	];
@@ -83,6 +140,24 @@ export default function UserTable(props: propsType) {
 	};
 	const showModalImport = () => {
 		setIsModalImport(true);
+	};
+	const save = async (_id: string) => {
+		try {
+			const row = (await form.validateFields()) as formUpdate;
+			await dispatch(
+				handleUpdateUser({ _id, ...row})
+			).then(unwrapResult);
+			messageApi.success("Update user successfully");
+			setEditingKey("");
+		} catch (error: any) {
+			console.log(error);
+			if(error?.message && Array.isArray(error.message)){
+				messageApi.error(error?.message[0]);
+			}else messageApi.error(error?.message);
+		}
+	};
+	const cancelEdit = () => {
+		setEditingKey("");
 	};
 	const exportCSV = () => {
 		const wb = xlsx.utils.book_new();
@@ -104,60 +179,81 @@ export default function UserTable(props: propsType) {
 			})
 		);
 	};
+	const mergedColumns = columns.map((col) => {
+		if (!col.editable) {
+			return col;
+		}
+		return {
+			...col,
+			onCell: (record: userType) => ({
+				dataIndex: col.dataIndex,
+				title: col.title,
+				editing: isEditing(record),
+			}),
+		};
+	});
 	return (
 		<Col md={{ offset: 0, span: 23 }}>
-			<Table
-				columns={columns}
-				dataSource={data}
-				// @ts-ignore
-				onChange={onChange}
-				loading={loading}
-				pagination={paginationConfig}
-				bordered
-				title={() => (
-					<div style={{ display: "flex" }}>
-						<span>Header</span>
-						<Space style={{ marginLeft: "auto" }}>
-							<Button
-								type="primary"
-								icon={<ImportOutlined />}
-								size={"middle"}
-								onClick={() => showModalImport()}
-							>
-								Import
-							</Button>
-							<Button
-								type="primary"
-								icon={<ExportOutlined />}
-								size={"middle"}
-								onClick={exportCSV}
-							>
-								Export
-							</Button>
-							<Button
-								type="primary"
-								icon={<UserAddOutlined />}
-								size={"middle"}
-								onClick={() => showModal()}
-							>
-								Add new
-							</Button>
-							<ReloadOutlined
-								style={{ cursor: "pointer" }}
-								onClick={() => dispatch(refresh())}
-							/>
-						</Space>
-					</div>
-				)}
-			/>
-			<AddUser
-				isModalOpen={isModalOpen}
-				setIsModalOpen={setIsModalOpen}
-			/>
-			<Import
-				isModalImport={isModalImport}
-				setIsModalImport={setIsModalImport}
-			/>
+			{contextHolder}
+			<Form form={form} component={false}>
+				<Table
+					columns={mergedColumns}
+					dataSource={data}
+					// @ts-ignore
+					onChange={onChange}
+					loading={loading}
+					pagination={paginationConfig}
+					bordered
+					components={{
+						body: {
+							cell: EditableCell,
+						},
+					}}
+					title={() => (
+						<div style={{ display: "flex" }}>
+							<span>Header</span>
+							<Space style={{ marginLeft: "auto" }}>
+								<Button
+									type="primary"
+									icon={<ImportOutlined />}
+									size={"middle"}
+									onClick={() => showModalImport()}
+								>
+									Import
+								</Button>
+								<Button
+									type="primary"
+									icon={<ExportOutlined />}
+									size={"middle"}
+									onClick={exportCSV}
+								>
+									Export
+								</Button>
+								<Button
+									type="primary"
+									icon={<UserAddOutlined />}
+									size={"middle"}
+									onClick={() => showModal()}
+								>
+									Add new
+								</Button>
+								<ReloadOutlined
+									style={{ cursor: "pointer" }}
+									onClick={() => dispatch(refresh())}
+								/>
+							</Space>
+						</div>
+					)}
+				/>
+				<AddUser
+					isModalOpen={isModalOpen}
+					setIsModalOpen={setIsModalOpen}
+				/>
+				<Import
+					isModalImport={isModalImport}
+					setIsModalImport={setIsModalImport}
+				/>
+			</Form>
 		</Col>
 	);
 }
