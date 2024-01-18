@@ -9,7 +9,7 @@ import { useAppDispatch } from "@/redux/hooks/hooks";
 import { fetchUser } from "@/redux/slices/Admin/user.reducer";
 
 export default function MangeUser() {
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState<boolean>(false);
 	const dispatch = useAppDispatch();
 	const initRecord: userType = {
 		_id: "",

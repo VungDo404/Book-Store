@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import  accountReducer  from '@/redux/slices/accountReducer';
-import userReducer from "@/redux/slices/Admin/user.reducer"
+import userReducer from "@/redux/slices/Admin/user.reducer"; 
+import bookReducer from '../slices/Admin/book.reducer';
 export const store = configureStore({
   reducer: {
     account: accountReducer, 
-    userData: userReducer
+    userData: userReducer, 
+    bookData: bookReducer
   },
 })
 
