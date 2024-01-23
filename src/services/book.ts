@@ -1,5 +1,4 @@
 import {
-	SearchBookType,
 	deleteBookResponse,
 	getCategoryResponse,
 	interface_get_books_with_paginate,
@@ -14,12 +13,10 @@ import { ax } from "@/utils/axios";
 const getBooksWithPaginate = (
 	current: number,
 	pageSize: number,
-	sort: string,
-	search?: SearchBookType
+	query: string,
 ) => {
-	const { author = "", mainText = "", category = "" } = search ?? {};
 	return ax.get<interface_get_books_with_paginate>(
-		`/book?current=${current}&pageSize=${pageSize}&author=/${author}/i&mainText=/${mainText}/i&category=/${category}/i&sort=${sort}`
+		`/book?current=${current}&pageSize=${pageSize}${query}`
 	);
 };
 const deleteBook = (id: string) => {

@@ -142,7 +142,7 @@ export default function Action(props: propsType) {
 				/>
 			</Tooltip>
 			<Modal
-				title="Update the user"
+				title="Update the book"
 				open={updateModal}
 				onOk={form.submit}
 				onCancel={handleCancel}

@@ -1,6 +1,7 @@
 import {
 	ShoppingCartOutlined,
 	BookTwoTone,
+	UserOutlined,
 } from "@ant-design/icons";
 import {
 	Menu,
@@ -12,7 +13,6 @@ import {
 	Avatar,
 	Badge,
 } from "antd";
-import { SearchProps } from "antd/es/input";
 import { Link, useNavigate } from "react-router-dom";
 import "@/styles/header.scss";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
@@ -127,7 +127,10 @@ export default function HeaderComponent() {
 							<a onClick={(e) => e.preventDefault()}>
 								<div className="account">
 									<span>
-										<Avatar src={avatarPath} />
+										<Avatar
+											src={avatarPath}
+											icon={<UserOutlined />}
+										/>
 									</span>
 								</div>
 							</a>

@@ -1,5 +1,6 @@
 import {
 	Category,
+	PriceRange,
 	bookType,
 	postBookRequest,
 	putBookRequest,
@@ -36,8 +37,8 @@ const initialState: stateType = {
 	data: [],
 	tableParams: {
 		pagination: {
-			current: 1,
-			pageSize: 10,
+			current: +import.meta.env.VITE_INIT_PAGE,
+			pageSize: +import.meta.env.VITE_INIT_PAGE_SIZE,
 		},
 		sortField: "",
 		sortOrder: "",
@@ -45,7 +46,22 @@ const initialState: stateType = {
 	},
 	category: [],
 };
-
+function constructQueryString(key: string, value: string | PriceRange) {
+	switch (key) {
+		case "category":
+			return `&${key}=${value}`;
+		case "price":
+			const greater =
+				(value as PriceRange).min &&
+				`&price>=${(value as PriceRange).min}`;
+			const less =
+				(value as PriceRange).max &&
+				`&price<=${(value as PriceRange).max}`;
+			return [greater, less].filter(Boolean).join("");
+		default:
+			return `&${key}=/${value}/i`;
+	}
+}
 export const fetchBook = createAsyncThunk(
 	"fetchBook",
 	async (fetch: fetchBook, { getState, dispatch }) => {
@@ -54,22 +70,24 @@ export const fetchBook = createAsyncThunk(
 		const { current = 1, pageSize = 10 } = bookData.tableParams.pagination;
 		const { sortField, sortOrder, search } = bookData.tableParams;
 		const sort =
-			sortField !== ""
-				? sortOrder === "ascend"
-					? `${sortField}`
-					: `-${sortField}`
-				: "";
-		const response = await getBooksWithPaginate(
-			current,
-			pageSize,
-			sort,
-			search
-		);
+			sortField &&
+			(sortOrder === "ascend" ? `${sortField}` : `-${sortField}`);
+		const sortQuery = sort ? `&sort=${sort}` : "";
+		const searchQuery = Object.entries(search ?? {})
+			.filter(([key, value]) => value)
+			.map(([key, value]) => constructQueryString(key, value as string))
+			.join("");
+		const q = [sortQuery, searchQuery].filter(Boolean).join("");
+		const response = await getBooksWithPaginate(current, pageSize, q);
 		return response.data;
 	}
 );
 export const refresh = createAsyncThunk("refresh", async () => {
-	const response = await getBooksWithPaginate(1, 10, "", {});
+	const response = await getBooksWithPaginate(
+		+import.meta.env.VITE_INIT_PAGE,
+		+import.meta.env.VITE_INIT_PAGE_SIZE,
+		""
+	);
 	return response.data;
 });
 export const addNewBook = createAsyncThunk(
@@ -87,7 +105,10 @@ export const addNewBook = createAsyncThunk(
 
 export const handleUpdateBook = createAsyncThunk(
 	"updateBook",
-	async (values: putBookRequest & { id: string }, { dispatch, rejectWithValue }) => {
+	async (
+		values: putBookRequest & { id: string },
+		{ dispatch, rejectWithValue }
+	) => {
 		try {
 			const { id, ...updateBook } = values;
 			const response = await putBook(id, updateBook);
@@ -149,7 +170,7 @@ export const manageBookSlice = createSlice({
 						state.tableParams.pagination.pageSize,
 				},
 				sortOrder:
-					payload.sortField || payload.sortOrder
+					(payload.sortField || payload.sortOrder ) 
 						? payload.sortOrder ?? ""
 						: state.tableParams.sortOrder,
 				sortField:
@@ -158,7 +179,7 @@ export const manageBookSlice = createSlice({
 							? payload.sortField
 							: ""
 						: state.tableParams.sortField,
-				search: payload.search ?? state.tableParams.search,
+				search: {...state.tableParams.search, ...(payload.search ?? {})},
 			};
 		},
 	},

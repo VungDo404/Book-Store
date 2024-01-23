@@ -1,20 +1,21 @@
-import { Breadcrumb, Layout } from 'antd';
-const { Content } = Layout;
+import { Layout } from "antd";
+import LeftContent from "./LeftContent";
+import RightContent from "./RightContent";
+import { useEffect, useState } from "react";
+import { handleGetCategory, refresh } from "@/redux/slices/Admin/book.reducer";
+import { useAppDispatch } from "@/redux/hooks/hooks";
 
-export default function Body(){
-
-    return (
-        <>
-        <Content style={{ padding: '0 50px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }}>
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>List</Breadcrumb.Item>
-            <Breadcrumb.Item>App</Breadcrumb.Item>
-          </Breadcrumb>
-          <div className="site-layout-content" >
-          Content
-        </div>
-        </Content>
-        </>
-    );
+export default function Body() {
+	const [spinning, setSpinning] = useState<boolean>(false);
+	const dispatch = useAppDispatch();
+	useEffect(() => {
+		dispatch(handleGetCategory());
+		dispatch(refresh());
+	}, []);
+	return (
+		<Layout>
+			<LeftContent setSpinning={setSpinning} />
+			<RightContent spinning={spinning} setSpinning={setSpinning} />
+		</Layout>
+	);
 }

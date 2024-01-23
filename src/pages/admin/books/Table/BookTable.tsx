@@ -19,44 +19,6 @@ interface propsType {
 	setCurrentRecord: React.Dispatch<React.SetStateAction<bookType>>;
 	loading: boolean;
 }
-interface EditableCellProps {
-	editing: boolean;
-	dataIndex: string;
-	title: any;
-	record: bookType;
-	index: number;
-	children: React.ReactNode;
-}
-const EditableCell: React.FC<EditableCellProps> = ({
-	editing,
-	dataIndex,
-	title,
-	record,
-	index,
-	children,
-	...restProps
-}) => {
-	return (
-		<td {...restProps}>
-			{editing ? (
-				<Form.Item
-					name={dataIndex}
-					style={{ margin: 0 }}
-					rules={[
-						{
-							required: true,
-							message: `Please Input ${title}!`,
-						},
-					]}
-				>
-					<Input />
-				</Form.Item>
-			) : (
-				children
-			)}
-		</td>
-	);
-};
 export default function BookTable(props: propsType) {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const dispatch = useAppDispatch();
@@ -134,6 +96,7 @@ export default function BookTable(props: propsType) {
 		filters: Record<string, FilterValue | null>,
 		sorter: SorterResult<bookType>
 	) => {
+		// console.log(sorter)
 		dispatch(
 			fetchBook({
 				current: pagination.current,
@@ -155,11 +118,6 @@ export default function BookTable(props: propsType) {
 					loading={loading}
 					pagination={paginationConfig}
 					bordered
-					components={{
-						body: {
-							cell: EditableCell,
-						},
-					}}
 					title={() => (
 						<div style={{ display: "flex" }}>
 							<span>Header</span>

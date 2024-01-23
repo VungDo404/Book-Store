@@ -36,10 +36,16 @@ export interface TableParams {
 	filters?: Record<string, FilterValue>;
 	search?: SearchBookType;
 }
+export interface PriceRange {
+	min: number | undefined;
+	max: number | undefined;
+}
 export interface SearchBookType {
+	[key: string]: string | undefined | PriceRange;
 	mainText?: string;
 	category?: string;
 	author?: string;
+	price?: PriceRange;
 }
 export interface postBookResponse {
 	statusCode: number;

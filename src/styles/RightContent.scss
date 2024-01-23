@@ -1,0 +1,14 @@
+.spin {
+	width: 100%;
+	.cards-container {
+		display: flex;
+		flex-wrap: wrap;
+
+		> * {
+			@media screen and (min-width: 992px) {
+				flex: 1 1 20%;
+				max-width: 20%;
+			}
+		}
+	}
+}

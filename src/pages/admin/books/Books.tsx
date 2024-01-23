@@ -5,7 +5,7 @@ import BookDetail from "./Table/Body/BookDetail";
 import { useEffect, useState } from "react";
 import { bookType } from "./interface";
 import { useAppDispatch } from "@/redux/hooks/hooks";
-import { fetchBook, handleGetCategory } from "@/redux/slices/Admin/book.reducer";
+import { fetchBook } from "@/redux/slices/Admin/book.reducer";
 
 export default function Books() {
 	const [loading, setLoading] = useState<boolean>(false);
@@ -35,12 +35,11 @@ export default function Books() {
 	};
 	const fetchBooks = async () => {
 		setLoading(true);
-		await dispatch(fetchBook({}));
+		await dispatch(fetchBook({ current: 1, pageSize: 10 }));
 		setLoading(false);
 	};
 	useEffect(() => {
 		fetchBooks();
-		dispatch(handleGetCategory())
 	}, []);
 	return (
 		<>
