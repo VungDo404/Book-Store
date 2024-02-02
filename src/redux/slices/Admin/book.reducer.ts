@@ -11,6 +11,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "Redux/store/store";
 import {
 	deleteBook,
+	getBookByID,
 	getBooksWithPaginate,
 	getCategory,
 	postBook,
@@ -138,6 +139,18 @@ export const handleGetCategory = createAsyncThunk(
 			const response = await getCategory();
 			return response.data;
 		} catch (err) {
+			return rejectWithValue(err);
+		}
+	}
+);
+export const handleGetBookByID = createAsyncThunk(
+	"getBookByID",
+	async (id: string, { rejectWithValue }) => {
+		try {
+			const response = await getBookByID(id);
+			return response.data;
+		} catch (err) {
+			console.log(err)
 			return rejectWithValue(err);
 		}
 	}

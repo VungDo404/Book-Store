@@ -1,0 +1,33 @@
+.grid {
+	.ant-image-img {
+		&:hover {
+			box-shadow: 0 0 4px #eee;
+			cursor: pointer;
+			opacity: 0.8;
+		}
+	}
+}
+.price{
+	background-color: #f4fbfd;
+	font-size: 2rem;
+	padding: 5px 10px;
+	font-weight: 500;
+	color: #197893;
+	@media screen and (max-width: 992px){
+		background-color: white;
+		font-size: 1.2rem;
+	}
+}
+.title{
+	font-size: 1.5rem;
+	font-weight: 400;
+	display: inline;
+	@media screen and (max-width: 992px){
+		font-size: 0.8rem;
+	}
+}
+.none{
+	@media screen and (max-width: 992px){
+		display: none;
+	}
+}

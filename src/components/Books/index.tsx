@@ -7,10 +7,9 @@ export default function Index() {
 	return (
 		<Layout style={{ minHeight: "100vh" }}>
 			<HeaderComponent />
-			<Layout style={{ padding: "0 50px" }}>
+			<Layout style={{ padding: "0 50px", width: "80%", margin: "auto"  }}>
 				<Breadcrumb style={{ margin: "16px 0" }}>
-					<Breadcrumb.Item>Home</Breadcrumb.Item>
-					<Breadcrumb.Item>List</Breadcrumb.Item>
+					<Breadcrumb.Item href="/">Home</Breadcrumb.Item>
 					<Breadcrumb.Item>App</Breadcrumb.Item>
 				</Breadcrumb>
 				<Outlet />

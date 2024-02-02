@@ -1,5 +1,6 @@
 import {
 	deleteBookResponse,
+	getBookIDResponse,
 	getCategoryResponse,
 	interface_get_books_with_paginate,
 	postBookRequest,
@@ -13,7 +14,7 @@ import { ax } from "@/utils/axios";
 const getBooksWithPaginate = (
 	current: number,
 	pageSize: number,
-	query: string,
+	query: string
 ) => {
 	return ax.get<interface_get_books_with_paginate>(
 		`/book?current=${current}&pageSize=${pageSize}${query}`
@@ -41,6 +42,9 @@ const uploadImageBook = (file: File) => {
 		},
 	});
 };
+const getBookByID = (id: string) => {
+	return ax.get<getBookIDResponse>(`/book/${id}`);
+};
 export {
 	getBooksWithPaginate,
 	deleteBook,
@@ -48,4 +52,5 @@ export {
 	putBook,
 	getCategory,
 	uploadImageBook,
+	getBookByID,
 };

@@ -8,6 +8,7 @@ import { useAppDispatch} from './redux/hooks/hooks';
 import { userAction } from './redux/slices/accountReducer';
 import Loading from './components/Loading/Loading';
 import 'styles/app.scss'
+import "react-image-gallery/styles/scss/image-gallery.scss";
 
 export interface interface_account {
   statusCode: number,

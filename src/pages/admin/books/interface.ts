@@ -50,22 +50,10 @@ export interface SearchBookType {
 export interface postBookResponse {
 	statusCode: number;
 	message: string;
-	data: {
-		thumbnail: string;
-		slider: string[];
-		mainText: string;
-		author: string;
-		price: number;
-		sold: number;
-		quantity: number;
-		category: string;
-		createdAt: string;
-		updatedAt: string;
-		_id: string;
-		__v: number;
-	};
+	data: bookType;
 	author: string;
 }
+export interface getBookIDResponse extends postBookResponse {}
 export interface postBookRequest {
 	thumbnail: string;
 	slider: string[];
