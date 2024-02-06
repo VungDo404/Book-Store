@@ -13,5 +13,19 @@
         @media screen and (max-width: 768px)  {
             margin-top: calc(0.2 *10vh);
         }
+        
+    }
+    .book{
+        cursor: pointer;
+    }
+}
+.line{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    &:hover{
+        background-color: #f8f8f8;
     }
 }

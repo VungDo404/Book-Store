@@ -1,9 +1,9 @@
 import { Popconfirm, Space, Tooltip, Typography, message } from "antd";
-import { formUpdate, userType } from "../../interface";
+import { formUpdate, userType } from "../../../../../interface/user";
 import { DeleteOutlined, EditOutlined, SaveOutlined } from "@ant-design/icons";
 import { useAppDispatch } from "@/redux/hooks/hooks";
 import { unwrapResult } from "@reduxjs/toolkit";
-import { handleDeleteUser } from "@/redux/slices/Admin/user.reducer";
+import { handleDeleteUser } from "@/redux/slices/user.reducer";
 
 interface propsType {
 	record: userType;

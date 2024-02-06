@@ -5,7 +5,7 @@ import type { ColumnsType } from "antd/es/table";
 import * as xlsx from "xlsx";
 import { useState } from "react";
 import { interface_register_request } from "@/pages/register/register";
-import { addNewUsers } from "@/redux/slices/Admin/user.reducer";
+import { addNewUsers } from "@/redux/slices/user.reducer";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useAppDispatch } from "@/redux/hooks/hooks";
 

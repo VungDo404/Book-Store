@@ -1,7 +1,7 @@
 import { Button, Col, Form, Input, Row, Space, theme } from "antd";
-import { Search } from "../interface";
+import { Search } from "../../../../interface/user";
 import { useAppDispatch } from "@/redux/hooks/hooks";
-import { fetchUser } from "@/redux/slices/Admin/user.reducer";
+import { fetchUser } from "@/redux/slices/user.reducer";
 
 interface propsType {
 	fetchUsers: () => Promise<void>;

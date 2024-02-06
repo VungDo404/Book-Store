@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
-import { fetchBook } from "@/redux/slices/Admin/book.reducer";
+import { fetchBook } from "@/redux/slices/book.reducer";
 import { DownOutlined } from "@ant-design/icons";
 import {
 	Card,

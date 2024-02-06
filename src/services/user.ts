@@ -6,7 +6,7 @@ import {
 	postUserType,
 	postUsersType,
 	putUserType,
-} from "@/pages/admin/users/interface";
+} from "@/interface/user";
 import { interface_register_request } from "@/pages/register/register";
 import { ax } from "@/utils/axios";
 

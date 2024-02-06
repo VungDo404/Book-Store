@@ -1,13 +1,13 @@
 import { Content } from "antd/es/layout/layout";
 import { useLocation } from "react-router-dom";
 import "styles/Detail.scss";
-import { Row } from "antd";
+import { Breadcrumb, Row } from "antd";
 import LeftDetail from "./LeftDetail";
 import RightDetail from "./RightDetail";
 import { useEffect, useState } from "react";
-import { bookType } from "@/pages/admin/books/interface";
+import { bookType } from "@/interface/book";
 import { useAppDispatch } from "@/redux/hooks/hooks";
-import { handleGetBookByID } from "@/redux/slices/Admin/book.reducer";
+import { handleGetBookByID } from "@/redux/slices/book.reducer";
 import NotFound from "@/components/Results/NotFound";
 export default function Detail() {
 	const { search } = useLocation();
@@ -32,6 +32,11 @@ export default function Detail() {
 		}, 1000);
 	}, []);
 	return (
+		<>
+		<Breadcrumb style={{ margin: "16px 0" }}>
+					<Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+					<Breadcrumb.Item>App</Breadcrumb.Item>
+				</Breadcrumb>
 		<Content
 			style={{
 				backgroundColor: "white",
@@ -47,5 +52,6 @@ export default function Detail() {
 				</Row>
 			)}
 		</Content>
+		</>
 	);
 }

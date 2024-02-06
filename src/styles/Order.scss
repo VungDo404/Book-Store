@@ -1,0 +1,20 @@
+.left-order{
+    background-color: white;
+    width: 100%;
+    padding: 10px;
+    height: 10vh;
+    .main-text{
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2; /* start showing ellipsis when 3rd line is reached */
+    }
+}
+.header-left-order{
+    background-color: white;
+    width: 100%;
+    padding: 10px;
+    & > *:not(:first-child) {
+        color: #787878;
+    }
+}

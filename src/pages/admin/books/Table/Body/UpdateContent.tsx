@@ -1,5 +1,5 @@
 import { Col, Form, Input, InputNumber, Row, Select } from "antd";
-import { postBookRequest } from "../../interface";
+import { postBookRequest } from "../../../../../interface/book";
 import { useAppSelector } from "@/redux/hooks/hooks";
 
 export default function UpdateContent() {

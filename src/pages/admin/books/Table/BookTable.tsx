@@ -7,12 +7,12 @@ import {
 } from "@ant-design/icons";
 import type { FilterValue, SorterResult } from "antd/es/table/interface";
 import { useState } from "react";
-import { bookType} from "../interface";
+import { bookType} from "../../../../interface/book";
 import Action from "./Body/Action";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import * as xlsx from "xlsx";
 import AddBook from "./Header/AddBook";
-import { fetchBook, refresh } from "@/redux/slices/Admin/book.reducer";
+import { fetchBook, refresh } from "@/redux/slices/book.reducer";
 
 interface propsType {
 	showDrawer: () => void;

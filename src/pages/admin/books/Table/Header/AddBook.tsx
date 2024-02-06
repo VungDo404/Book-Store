@@ -11,8 +11,8 @@ import {
 } from "antd";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import { unwrapResult } from "@reduxjs/toolkit";
-import { addNewBook } from "@/redux/slices/Admin/book.reducer";
-import { postBookRequest } from "../../interface";
+import { addNewBook } from "@/redux/slices/book.reducer";
+import { postBookRequest } from "../../../../../interface/book";
 import UpSertImage from "./UpsertImage";
 import { useState } from "react";
 

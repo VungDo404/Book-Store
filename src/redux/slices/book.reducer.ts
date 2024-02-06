@@ -4,8 +4,8 @@ import {
 	bookType,
 	postBookRequest,
 	putBookRequest,
-} from "@/pages/admin/books/interface";
-import { SearchBookType, TableParams } from "@/pages/admin/books/interface";
+} from "@/interface/book";
+import { SearchBookType, TableParams } from "@/interface/book";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "Redux/store/store";

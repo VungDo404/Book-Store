@@ -2,11 +2,11 @@ import { Form, Modal, Popconfirm, Space, Tooltip, UploadFile, message } from "an
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useAppDispatch } from "@/redux/hooks/hooks";
 import { unwrapResult } from "@reduxjs/toolkit";
-import { bookType } from "../../interface";
+import { bookType } from "../../../../../interface/book";
 import {
 	handleDeleteBook,
 	handleUpdateBook,
-} from "@/redux/slices/Admin/book.reducer";
+} from "@/redux/slices/book.reducer";
 import { useEffect, useState } from "react";
 import UpdateContent from "./UpdateContent";
 import UpSertImage from "../Header/UpsertImage";

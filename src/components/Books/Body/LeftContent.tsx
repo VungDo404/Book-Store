@@ -1,6 +1,6 @@
-import { PriceRange } from "@/pages/admin/books/interface";
+import { PriceRange } from "@/interface/book";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
-import { fetchBook, refresh } from "@/redux/slices/Admin/book.reducer";
+import { fetchBook, refresh } from "@/redux/slices/book.reducer";
 import {
 	ClearOutlined,
 	FilterOutlined,

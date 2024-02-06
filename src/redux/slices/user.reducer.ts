@@ -3,7 +3,7 @@ import {
 	Search,
 	TableParams,
 	userType,
-} from "@/pages/admin/users/interface";
+} from "@/interface/user";
 import { interface_register_request } from "@/pages/register/register";
 import { deleteUser, getUsersWithPaginate, postUser, postUsers, putUser } from "@/services/user";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";

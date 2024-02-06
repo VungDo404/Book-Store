@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import accountReducer from "@/redux/slices/accountReducer";
-import userReducer from "@/redux/slices/Admin/user.reducer";
-import bookReducer from "../slices/Admin/book.reducer";
+import userReducer from "@/redux/slices/user.reducer";
+import bookReducer from "../slices/book.reducer";
 import orderReducer from "../slices/orderReducer";
 import storage from "redux-persist/lib/storage";
 import {

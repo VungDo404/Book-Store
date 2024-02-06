@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { Col, Modal, Row, Upload, UploadFile, UploadProps } from "antd";
 import { useAppDispatch } from "@/redux/hooks/hooks";
-import { handlePostUpload } from "@/redux/slices/Admin/book.reducer";
+import { handlePostUpload } from "@/redux/slices/book.reducer";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { UploadRequestOption } from "rc-upload/lib/interface";
 import { RcFile } from "antd/es/upload";

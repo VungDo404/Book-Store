@@ -9,10 +9,10 @@ import {
 import type { FilterValue, SorterResult } from "antd/es/table/interface";
 import { useState } from "react";
 import AddUser from "./Header/AddUser";
-import { formUpdate, userType } from "../interface";
+import { formUpdate, userType } from "../../../../interface/user";
 import Action from "./Body/Action";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
-import { fetchUser, handleUpdateUser, refresh } from "@/redux/slices/Admin/user.reducer";
+import { fetchUser, handleUpdateUser, refresh } from "@/redux/slices/user.reducer";
 import Import from "./Header/Import";
 import * as xlsx from "xlsx";
 import { unwrapResult } from "@reduxjs/toolkit";

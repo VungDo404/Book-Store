@@ -3,9 +3,9 @@ import SearchBook from "./Search/SearchBookTable";
 import BookTable from "./Table/BookTable";
 import BookDetail from "./Table/Body/BookDetail";
 import { useEffect, useState } from "react";
-import { bookType } from "./interface";
+import { bookType } from "../../../interface/book";
 import { useAppDispatch } from "@/redux/hooks/hooks";
-import { fetchBook } from "@/redux/slices/Admin/book.reducer";
+import { fetchBook } from "@/redux/slices/book.reducer";
 
 export default function Books() {
 	const [loading, setLoading] = useState<boolean>(false);

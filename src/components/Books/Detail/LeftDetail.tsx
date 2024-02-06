@@ -1,6 +1,7 @@
-import { bookType } from "@/pages/admin/books/interface";
+import { bookType } from "@/interface/book";
 import { Col, Image, Modal, Row, Skeleton, Space } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import ReactImageGallery from "react-image-gallery";
 import ImageGallery, { ReactImageGalleryItem } from "react-image-gallery";
 
 interface propsType {
@@ -13,6 +14,7 @@ export default function LeftDetail(props: propsType) {
 	const [currentImage, setCurrentImage] = useState<number>(0);
 	const [images, setImages] = useState<ReactImageGalleryItem[]>([]);
 	const [showSlider, setShowSlider] = useState<boolean>(true);
+	const gallery = useRef<ReactImageGallery>(null);
 	const showModal = () => {
 		setIsModalOpen(true);
 	};
@@ -29,6 +31,7 @@ export default function LeftDetail(props: propsType) {
 		index: number
 	) => {
 		setCurrentImage(index);
+		gallery.current?.slideToIndex(index);
 	};
 	useEffect(() => {
 		const imgs: string[] = [data.thumbnail, ...(data.slider ?? [])];
@@ -67,7 +70,6 @@ export default function LeftDetail(props: propsType) {
 						lazyLoad={true}
 						showFullscreenButton={false}
 						showPlayButton={false}
-						disableSwipe={true}
 						onClick={showModal}
 						showNav={false}
 						showBullets={true}
@@ -78,7 +80,7 @@ export default function LeftDetail(props: propsType) {
 				)}
 			</Col>
 			<Modal
-				title={<br />}
+				title={<span>{data.mainText}</span>}
 				open={isModalOpen}
 				mask={true}
 				width={"60vw"}
@@ -89,18 +91,11 @@ export default function LeftDetail(props: propsType) {
 					<Col span={16}>
 						<ImageGallery
 							items={images}
-							lazyLoad={true}
+							ref={gallery}
 							showFullscreenButton={false}
+							startIndex={currentImage}
 							showPlayButton={false}
-							disableSwipe={true}
 							showThumbnails={false}
-							renderItem={(item) => (
-								<Image
-									src={images[currentImage].original}
-									preview={false}
-									style={{ minHeight: "70vh" }}
-								/>
-							)}
 						/>
 					</Col>
 					<Col span={8}>

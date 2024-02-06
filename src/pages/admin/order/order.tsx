@@ -1,5 +1,5 @@
 
-export default function Order(){
+export default function AdminOrder(){
 
 
     return (

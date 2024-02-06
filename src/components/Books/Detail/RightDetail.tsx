@@ -1,46 +1,85 @@
-import { bookType } from "@/pages/admin/books/interface";
-import Order from "@/pages/admin/order/order";
+import InputQuantity from "@/components/InputQuantity";
+import { bookType } from "@/interface/book";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
+import { addOrderAction } from "@/redux/slices/orderReducer";
 import {
 	Button,
 	Col,
 	Divider,
-	InputNumber,
 	Rate,
 	Row,
 	Skeleton,
 	Space,
 	Tag,
+	message,
 } from "antd";
+import { useState } from "react";
 interface propsType {
 	loading: boolean;
 	data: bookType;
 }
 export default function RightDetail(props: propsType) {
 	const { loading, data } = props;
-	const onChange = (value: number | null) => {
-		console.log("changed", value);
+	const [quantity, setQuantity] = useState<number>(1);
+	const [messageApi, contextHolder] = message.useMessage();
+	const order = useAppSelector((state) => state.order.carts);
+	const currentItem = order.filter((ord) => ord.detail._id === data._id);
+	const availableQuantity =
+		currentItem.length > 0 ? currentItem[0].quantity : 0;
+	const maxQuantity = data.quantity - availableQuantity;
+	const dispatch = useAppDispatch();
+	const handleAddCart = () => {
+		if (maxQuantity !== 0) {
+			dispatch(addOrderAction({ quantity, detail: data }));
+			messageApi.success("Item has been added to your shopping cart");
+		} else
+			messageApi.error(
+				"You have reached the maximum number of this item"
+			);
+	};
+	const onChange = (value: number) => {
+		if (value && value !== maxQuantity && value > 0) {
+			if (value <= maxQuantity) setQuantity(value);
+			else setQuantity(maxQuantity);
+		}
+	};
+
+	const handleIncrease = () => {
+		if (quantity < maxQuantity) {
+			setQuantity(quantity + 1);
+		}
+	};
+
+	const handleDecrease = () => {
+		if (quantity > 1) {
+			setQuantity(quantity - 1);
+		}
 	};
 	return (
 		<Col lg={14} xs={24} style={{ padding: "0 20px" }}>
+			{contextHolder}
 			<Space direction="vertical" size="middle" style={{ width: "100%" }}>
 				<Skeleton
 					active={true}
 					loading={loading}
 					paragraph={{ rows: 3 }}
 				>
-					<Row style={{ display: "flex" }}>
-						<Col>
+					<Row style={{ display: "flex", gap: "10px" }}>
+						<Col span={24}>
 							<Tag
 								color="#2db7f5"
 								style={{ fontSize: "0.8rem", padding: "0 4px" }}
 							>
 								preferred
 							</Tag>
-							<h1 className="title" >
-								{data.mainText}
-							</h1>
+							<h1 className="title">{data.mainText}</h1>
 						</Col>
-						<Col sm={{ order: 2 }} xs={{ order: 2 }} md={{ order: 2 }} lg={{ order: 1 }} >
+						<Col
+							sm={{ order: 2 }}
+							xs={{ order: 2 }}
+							md={{ order: 2 }}
+							lg={{ order: 1 }}
+						>
 							<Row>
 								<Col>
 									<span
@@ -110,16 +149,26 @@ export default function RightDetail(props: propsType) {
 							}}
 							className="none"
 							md={{ order: 2 }}
-							lg={{ order: 1 }}  
+							lg={{ order: 1 }}
 						>
 							<span>
 								<span style={{ fontSize: "1.1rem" }}></span>
 								<span style={{ fontSize: "1rem" }}>Report</span>
 							</span>
 						</Col>
-						<Col sm={{ order: 1 }} xs={{ order: 1 }} md={{ order: 1 }} span={24} className="price">
+						<Col
+							sm={{ order: 1 }}
+							xs={{ order: 1 }}
+							md={{ order: 1 }}
+							span={24}
+							className="price"
+						>
 							<sup>đ</sup>
-							<span>{new Intl.NumberFormat('en-DE').format(data.price)}</span>
+							<span>
+								{new Intl.NumberFormat("en-DE").format(
+									data.price
+								)}
+							</span>
 						</Col>
 					</Row>
 				</Skeleton>
@@ -129,7 +178,9 @@ export default function RightDetail(props: propsType) {
 					paragraph={{ rows: 3 }}
 				>
 					<Row style={{ padding: "0 10px" }}>
-						<Col span={5} className="none">Shipping</Col>
+						<Col span={5} className="none">
+							Shipping
+						</Col>
 						<Col span={8}>
 							<Space direction="vertical">
 								<Row className="none">Shipping to</Row>
@@ -146,18 +197,28 @@ export default function RightDetail(props: propsType) {
 							</Space>
 						</Col>
 					</Row>
-					<Row style={{ padding: "5px 10px" }} className="none">
+					<Row
+						style={{ padding: "5px 10px", margin: "10px 0" }}
+						className="none"
+						align={"middle"}
+					>
 						<Col span={5}>Quantity</Col>
-						<Col>
-							<Space>
-								<InputNumber
-									min={1}
-									max={data.quantity - data.sold}
-									onChange={onChange}
-									controls={true}
-								/>
-								<span>{data.quantity - data.sold} pieces available</span>
-							</Space>
+						<Col span={13}>
+							<Row align={"middle"} gutter={8}>
+								<Col span={10}>
+									<InputQuantity
+										quantity={quantity}
+										onChange={onChange}
+										handleDecrease={handleDecrease}
+										handleIncrease={handleIncrease}
+									/>
+								</Col>
+								<Col span={11}>
+									<span>
+										{data.quantity} pieces available
+									</span>
+								</Col>
+							</Row>
 						</Col>
 					</Row>
 				</Skeleton>
@@ -175,13 +236,18 @@ export default function RightDetail(props: propsType) {
 									type="primary"
 									ghost
 									size="large"
+									onClick={handleAddCart}
 									block={true}
 								>
 									Add To Cart
 								</Button>
 							</Col>
 							<Col lg={8} sm={12} xs={24}>
-								<Button type="primary" size="large" block={true}>
+								<Button
+									type="primary"
+									size="large"
+									block={true}
+								>
 									Buy now
 								</Button>
 							</Col>

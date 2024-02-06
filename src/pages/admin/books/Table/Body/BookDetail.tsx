@@ -1,6 +1,6 @@
 import { Col, Divider, Drawer, Modal, Row, UploadFile } from "antd";
 import moment from "moment";
-import { bookType } from "../../interface";
+import { bookType } from "../../../../../interface/book";
 import { useEffect, useState } from "react";
 import Upload, { RcFile } from "antd/es/upload";
 

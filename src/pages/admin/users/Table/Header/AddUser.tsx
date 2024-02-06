@@ -1,7 +1,7 @@
 import { Form, Input, Modal, message } from "antd";
 import { interface_register_request } from "@/pages/register/register";
 import { useAppDispatch } from "@/redux/hooks/hooks";
-import { addNewUser } from "@/redux/slices/Admin/user.reducer";
+import { addNewUser } from "@/redux/slices/user.reducer";
 import { unwrapResult } from "@reduxjs/toolkit";
 
 interface propsType {

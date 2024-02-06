@@ -4,14 +4,14 @@ import Register from "pages/register/register";
 import Index from "@/components/Books";
 import Body from "@/components/Books/Body/body";
 import Detail from "@/components/Books/Detail/detail";
-import Payment from "@/components/Books/Detail/Payment/payment";
+import Payment from "@/components/Books/Payment/payment";
 import NotFound from "@/components/Results/NotFound";
 import ProtectedRoute from "@/pages/admin/ProtectedRoute";
 import DashBoard from "@/pages/admin/dashboard/DashBoard";
 import Books from "@/pages/admin/books/Books";
 import Admin from "@/pages/admin/Admin";
 import MangeUser from "@/pages/admin/users/ManageUser";
-import Order from "@/pages/admin/order/order";
+import Order from "@/components/Books/Order/Order";
 
 export const router = createBrowserRouter([
 	{
@@ -19,9 +19,14 @@ export const router = createBrowserRouter([
 		element: <Index />,
 		children: [
 			{ index: true, element: <Body /> },
+			
 			{
 				path: "/book/:slug",
 				element: <Detail />,
+			},
+			{
+				path: "/book/order",
+				element: <Order />,
 			},
 			{
 				path: "/book/payment",

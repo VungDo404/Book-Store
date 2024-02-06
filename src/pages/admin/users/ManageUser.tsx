@@ -4,9 +4,9 @@ import "styles/ManageUser.scss";
 import SearchUser from "./Search/SearchUserTable";
 import UserTable from "./Table/UserTable";
 import UserDetail from "./Table/Body/UserDetail";
-import { userType } from "./interface";
+import { userType } from "../../../interface/user";
 import { useAppDispatch } from "@/redux/hooks/hooks";
-import { fetchUser } from "@/redux/slices/Admin/user.reducer";
+import { fetchUser } from "@/redux/slices/user.reducer";
 
 export default function MangeUser() {
 	const [loading, setLoading] = useState<boolean>(false);

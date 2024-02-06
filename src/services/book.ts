@@ -8,7 +8,7 @@ import {
 	postUploadResponse,
 	putBookRequest,
 	putBookResponse,
-} from "@/pages/admin/books/interface";
+} from "@/interface/book";
 import { ax } from "@/utils/axios";
 
 const getBooksWithPaginate = (

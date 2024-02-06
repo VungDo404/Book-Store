@@ -1,6 +1,6 @@
 import { Avatar, Col, Divider, Drawer, Row } from "antd";
 import moment from "moment";
-import { userType } from "../../interface";
+import { userType } from "../../../../../interface/user";
 
 interface DescriptionItemProps {
 	title: string;

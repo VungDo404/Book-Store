@@ -1,7 +1,7 @@
 import { Button, Col, Form, Input, Row, Space, theme } from "antd";
 import { useAppDispatch } from "@/redux/hooks/hooks";
-import { fetchBook } from "@/redux/slices/Admin/book.reducer";
-import { SearchBookType } from "../interface";
+import { fetchBook } from "@/redux/slices/book.reducer";
+import { SearchBookType } from "../../../../interface/book";
 
 interface propsType {
 	fetchBooks: () => Promise<void>;
