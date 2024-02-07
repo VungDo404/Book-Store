@@ -13,7 +13,7 @@ export default function Body() {
 		dispatch(refresh());
 	}, []);
 	return (
-		<Layout>
+		<Layout style={{ padding: "20px 0" }}>
 			<LeftContent setSpinning={setSpinning} />
 			<RightContent spinning={spinning} setSpinning={setSpinning} />
 		</Layout>

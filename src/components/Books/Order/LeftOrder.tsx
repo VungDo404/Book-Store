@@ -1,4 +1,4 @@
-import InputQuantity from "@/components/InputQuantity";
+import InputQuantity from "@/components/others/InputQuantity";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import { deleteOrderAction, setQuantity } from "@/redux/slices/orderReducer";
 import { DeleteOutlined, UserOutlined } from "@ant-design/icons";
