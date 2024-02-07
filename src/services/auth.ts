@@ -1,4 +1,4 @@
-import { interface_account } from "@/App";
+import { interface_account } from "@/interface/account";
 import { interface_login_request, interface_login_response } from "@/pages/login/login";
 import { interface_register_request, interface_register_response } from "@/pages/register/register";
 import { ax } from '@/utils/axios'; 

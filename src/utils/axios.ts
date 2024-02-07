@@ -35,8 +35,5 @@ ax.interceptors.response.use(function (response) {
         return ax.request(originalRequest);
       }
     }
-    if( originalRequest.url === 'auth/refresh' && +error?.response?.status === 400){
-      window.location.href = "/login";
-    }
     return Promise.reject(error?.response.data) ?? Promise.reject(error);
   });

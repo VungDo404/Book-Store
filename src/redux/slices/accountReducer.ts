@@ -36,10 +36,18 @@ interface interface_user {
 	avatar: string;
 	id: string;
 }
-export const handleLogout = createAsyncThunk("handleLogout", async () => {
-	const response = await logout();
-	return response.data;
-});
+export const handleLogout = createAsyncThunk(
+	"handleLogout",
+	async (_:  void, { rejectWithValue }) => {
+		try {
+			const response = await logout();
+			return response.data;
+		} catch (err) {
+			console.log(err)
+			return rejectWithValue(err);
+		}
+	}
+);
 export const accountSlice = createSlice({
 	name: "account",
 	// `createSlice` will infer the state type from the `initialState` argument
@@ -59,7 +67,7 @@ export const accountSlice = createSlice({
 		// Add reducers for additional action types here, and handle loading state as needed
 		builder.addCase(handleLogout.fulfilled, (state) => {
 			localStorage.removeItem("access_token");
-			state.isAuthenticated = initialState.isAuthenticated;
+			state.isAuthenticated = false;
 			state.user = { ...initialState.user };
 		});
 	},

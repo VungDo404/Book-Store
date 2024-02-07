@@ -125,6 +125,7 @@ export default function RightContent(props: propsType) {
 							pageSize={tableParams.pagination.pageSize}
 							total={tableParams.pagination.total}
 							onChange={onChangePagination}
+							responsive={true}
 						/>
 					}
 				/>
@@ -204,7 +205,7 @@ export default function RightContent(props: propsType) {
 								pageSize={tableParams.pagination.pageSize}
 								total={tableParams.pagination.total}
 								onChange={onChangePagination}
-								responsive
+								responsive={true}
 							/>
 						</Col>
 					</Row>

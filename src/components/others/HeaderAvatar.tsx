@@ -2,7 +2,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import { handleLogout } from "@/redux/slices/accountReducer";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Divider, Dropdown, MenuProps, Space, Typography } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 interface Items {
 	[key: string]: MenuProps["items"];
@@ -11,7 +11,6 @@ export default function HeaderAvatar() {
 	const role = useAppSelector((state) => state.account.user.role);
 	const { Text } = Typography;
 	const dispatch = useAppDispatch();
-	const navigate = useNavigate();
 	const USER = [
 		{
 			label: <Link to="/account">Account</Link>,
@@ -20,9 +19,8 @@ export default function HeaderAvatar() {
 		{
 			label: <Text>Logout</Text>,
 			key: "logout",
-			onClick: () => {
-				dispatch(handleLogout());
-				navigate("/");
+			onClick: async () => {
+				await dispatch(handleLogout());
 			},
 		},
 	];
