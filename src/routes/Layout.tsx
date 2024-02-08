@@ -16,18 +16,18 @@ import Profile from "@/components/Books/Account/Profile";
 import Password from "@/components/Books/Account/Password";
 import PurchaseHistory from "@/components/Books/Account/PurchaseHistory";
 import Authenticated from "@/components/others/Authenticated";
+import Auth from "@/components/others/Auth";
 
 export const router = createBrowserRouter([
 	{
 		path: "/",
 		element: (
-			<Authenticated>
+			<Auth>
 				<Index />
-			</Authenticated>
+			</Auth>
 		),
 		children: [
 			{ index: true, element: <Body /> },
-
 			{
 				path: "book/:slug",
 				element: <Detail />,
@@ -44,7 +44,10 @@ export const router = createBrowserRouter([
 						path: "profile",
 						element: <Profile />,
 					},
-					{ index: true, element: <Navigate to="/profile" /> },
+					{
+						index: true,
+						element: <Navigate to="/account/profile" />,
+					},
 					{ path: "password", element: <Password /> },
 					{ path: "purchase", element: <PurchaseHistory /> },
 				],
@@ -76,11 +79,19 @@ export const router = createBrowserRouter([
 	},
 	{
 		path: "/login",
-		element: <Login />,
+		element: (
+			<Authenticated>
+				<Login />
+			</Authenticated>
+		),
 	},
 	{
 		path: "/register",
-		element: <Register />,
+		element: (
+			<Authenticated>
+				<Register />
+			</Authenticated>
+		),
 	},
 	{
 		path: "*",

@@ -116,6 +116,5 @@ export default function Login(){
                 </Text>
             </Form>  
         </div>  
-        
     );
 }

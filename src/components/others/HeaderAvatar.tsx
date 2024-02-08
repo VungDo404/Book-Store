@@ -13,7 +13,7 @@ export default function HeaderAvatar() {
 	const dispatch = useAppDispatch();
 	const USER = [
 		{
-			label: <Link to="/account">Account</Link>,
+			label: <Link to="/account/profile">My Account</Link>,
 			key: "account",
 		},
 		{
