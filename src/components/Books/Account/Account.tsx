@@ -3,14 +3,13 @@ import { Layout, Menu, MenuProps } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { Content } from "antd/es/layout/layout";
 import { useState } from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import "styles/Account.scss";
 type MenuItem = Required<MenuProps>["items"][number];
 
 export default function Account() {
 	const navigate = useNavigate();
-	const [openKeys, setOpenKeys] = useState(["account"]);
-	const [selectedKeys, setSelectedKeys] = useState(["profile"]);
+	const location = useLocation(); 
 	function getItem(
 		label: React.ReactNode,
 		key: React.Key,
@@ -26,6 +25,12 @@ export default function Account() {
 			type,
 		} as MenuItem;
 	}
+	const getLastPathname = () => {
+		const words = location.pathname.split("/");
+		return words[words.length - 1];
+	}
+	const [selectedKeys, setSelectedKeys] = useState<string[]>([getLastPathname()]);
+	const [openKeys, setOpenKeys] = useState(['profile']);
 	const rootSubmenuKeys = ["profile"]; // the key of menu that has submenu inside it
 	const items: MenuProps["items"] = [
 		getItem(
@@ -64,16 +69,17 @@ export default function Account() {
 			setOpenKeys(keys);
 		} else {
 			setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
-			navigate(`${latestOpenKey}`);
+			if(latestOpenKey)
+				navigate(`${latestOpenKey}`);
 		}
 	};
 	return (
-		<Layout style={{ padding: "20px 0", width:'90%', marginBottom:'20px'  }}>
+		<Layout style={{ padding: "20px 0", width:'85%', marginBottom:'20px'  }}>
 			<Sider width={"12vw"} style={{ height: "fit-content" }}>
 				<Menu
 					onClick={onClick}
 					onOpenChange={onOpenChange}
-					defaultOpenKeys={["profile"]}
+					defaultOpenKeys={selectedKeys}
 					openKeys={openKeys}
 					selectedKeys={selectedKeys}
 					mode="inline"

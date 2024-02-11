@@ -1,7 +1,6 @@
 import type { TablePaginationConfig } from "antd/es/table";
 import type { FilterValue } from "antd/es/table/interface";
 
-
 export interface userType {
 	_id: string;
 	fullName: string;
@@ -33,7 +32,7 @@ export interface TableParams {
 	sortField?: string;
 	sortOrder?: string;
 	filters?: Record<string, FilterValue>;
-	search?: Search
+	search?: Search;
 }
 export interface Search {
 	fullName?: string;
@@ -59,39 +58,57 @@ export interface postUserType {
 	author: string;
 }
 
-export interface putUserType{
-	statusCode: number,
-    message: string,
-    data: {
-        acknowledged: boolean,
-        modifiedCount: number,
-        upsertedId: null,
-        upsertedCount: number,
-        matchedCount: number
-    },
-    author: string
+export interface putUserType {
+	statusCode: number;
+	message: string;
+	data: {
+		acknowledged: boolean;
+		modifiedCount: number;
+		upsertedId: null;
+		upsertedCount: number;
+		matchedCount: number;
+	};
+	author: string;
 }
-export interface deleteUserType{ 
-	statusCode: number,
-    message: string,
-    data: {
-        acknowledged: boolean,
-        deletedCount: number
-    },
-    author: string
+export interface deleteUserType {
+	statusCode: number;
+	message: string;
+	data: {
+		acknowledged: boolean;
+		deletedCount: number;
+	};
+	author: string;
 }
-export interface postUsersType{
-	statusCode: number,
-    message: string,
-    data: {
-        countSuccess: number,
-        countError: number,
-        message: null
-    },
-    author: string
+export interface postUsersType {
+	statusCode: number;
+	message: string;
+	data: {
+		countSuccess: number;
+		countError: number;
+		message: null;
+	};
+	author: string;
 }
 export interface formUpdate {
 	email?: string;
 	phone: string;
 	fullName: string;
+}
+export interface putUserRequest {
+	fullName: string;
+	phone: string;
+	avatar: string;
+	_id: string;
+}
+
+export interface newPasswordRequest {
+	email: string;
+	oldpass: string;
+	newpass: string;
+}
+export interface newPasswordResponse {
+	statusCode: number;
+	message: string;
+	data: string;
+	author: string;
 }

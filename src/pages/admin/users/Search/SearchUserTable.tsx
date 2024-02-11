@@ -16,7 +16,7 @@ export default function SearchUser(props: propsType) {
 		padding: 24,
 	};
 	const onFinish = (values: Search) => {
-		dispatch(fetchUser({ search: values }));
+		dispatch(fetchUser({ search: values, current:1 }));
 	};
 	return (
 		<Col md={{ offset: 0, span: 24 }}>

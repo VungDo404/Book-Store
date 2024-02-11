@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Space, Table, Tooltip } from "antd";
+import { Button, Col, Space, Table, Tooltip } from "antd";
 import type { TablePaginationConfig } from "antd/es/table";
 import {
 	ExportOutlined,
@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons";
 import type { FilterValue, SorterResult } from "antd/es/table/interface";
 import { useState } from "react";
-import { bookType} from "../../../../interface/book";
+import { bookType } from "../../../../interface/book";
 import Action from "./Body/Action";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import * as xlsx from "xlsx";
@@ -24,7 +24,7 @@ export default function BookTable(props: propsType) {
 	const dispatch = useAppDispatch();
 	const data = useAppSelector((state) => state.bookData.data);
 	const tableParams = useAppSelector((state) => state.bookData.tableParams);
-	const [form] = Form.useForm();
+	
 	const { showDrawer, setCurrentRecord, loading } = props;
 	const paginationConfig = {
 		...tableParams.pagination,
@@ -72,18 +72,13 @@ export default function BookTable(props: propsType) {
 		{
 			title: "Action",
 			key: "action",
-			render: (text: any, record: bookType) => (
-				<Action
-					record={record}
-				/>
-			),
+			render: (text: any, record: bookType) => <Action record={record} />,
 			width: "10%",
 		},
 	];
 	const showModal = () => {
 		setIsModalOpen(true);
 	};
-	
 
 	const exportCSV = () => {
 		const wb = xlsx.utils.book_new();
@@ -109,48 +104,46 @@ export default function BookTable(props: propsType) {
 
 	return (
 		<Col md={{ offset: 0, span: 23 }}>
-			<Form form={form} component={false}>
-				<Table
-					columns={columns}
-					dataSource={data}
-					// @ts-ignore
-					onChange={onChange}
-					loading={loading}
-					pagination={paginationConfig}
-					bordered
-					title={() => (
-						<div style={{ display: "flex" }}>
-							<span>Header</span>
-							<Space style={{ marginLeft: "auto" }}>
-								<Button
-									type="primary"
-									icon={<ExportOutlined />}
-									size={"middle"}
-									onClick={exportCSV}
-								>
-									Export
-								</Button>
-								<Button
-									type="primary"
-									icon={<UserAddOutlined />}
-									size={"middle"}
-									onClick={() => showModal()}
-								>
-									Add new
-								</Button>
-								<ReloadOutlined
-									style={{ cursor: "pointer" }}
-									onClick={() => dispatch(refresh())}
-								/>
-							</Space>
-						</div>
-					)}
-				/>
-				<AddBook
-					isModalOpen={isModalOpen}
-					setIsModalOpen={setIsModalOpen}
-				/>
-			</Form>
+			<Table
+				columns={columns}
+				dataSource={data}
+				// @ts-ignore
+				onChange={onChange}
+				loading={loading}
+				pagination={paginationConfig}
+				bordered
+				title={() => (
+					<div style={{ display: "flex" }}>
+						<span>Header</span>
+						<Space style={{ marginLeft: "auto" }}>
+							<Button
+								type="primary"
+								icon={<ExportOutlined />}
+								size={"middle"}
+								onClick={exportCSV}
+							>
+								Export
+							</Button>
+							<Button
+								type="primary"
+								icon={<UserAddOutlined />}
+								size={"middle"}
+								onClick={() => showModal()}
+							>
+								Add new
+							</Button>
+							<ReloadOutlined
+								style={{ cursor: "pointer" }}
+								onClick={() => dispatch(refresh())}
+							/>
+						</Space>
+					</div>
+				)}
+			/>
+			<AddBook
+				isModalOpen={isModalOpen}
+				setIsModalOpen={setIsModalOpen}
+			/>
 		</Col>
 	);
 }

@@ -1,11 +1,13 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import { fetchBook } from "@/redux/slices/book.reducer";
-import { DownOutlined } from "@ant-design/icons";
+import { DownOutlined, FilterOutlined } from "@ant-design/icons";
 import {
 	Card,
 	Col,
 	Divider,
+	Drawer,
 	Dropdown,
+	FloatButton,
 	MenuProps,
 	Pagination,
 	Rate,
@@ -17,8 +19,10 @@ import {
 } from "antd";
 import Meta from "antd/es/card/Meta";
 import { Content } from "antd/es/layout/layout";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "styles/RightContent.scss";
+import LeftContent from "./LeftContent";
 interface propsType {
 	spinning: boolean;
 	setSpinning: React.Dispatch<React.SetStateAction<boolean>>;
@@ -26,6 +30,7 @@ interface propsType {
 export default function RightContent(props: propsType) {
 	const { spinning, setSpinning } = props;
 	const data = useAppSelector((state) => state.bookData.data);
+	const [open, setOpen] = useState<boolean>(false);
 	const tableParams = useAppSelector((state) => state.bookData.tableParams);
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
@@ -49,6 +54,14 @@ export default function RightContent(props: propsType) {
 		setTimeout(() => {
 			setSpinning(false);
 		}, 200);
+	};
+
+	const showDrawer = () => {
+		setOpen(true);
+	};
+
+	const onClose = () => {
+		setOpen(false);
 	};
 	const onClick: MenuProps["onClick"] = ({ key }) => {
 		onChange(key);
@@ -208,9 +221,26 @@ export default function RightContent(props: propsType) {
 								responsive={true}
 							/>
 						</Col>
+						<Col lg={0}>
+							<FloatButton
+								icon={<FilterOutlined />}
+								tooltip="Filter"
+								onClick={showDrawer}
+							/>
+						</Col>
 					</Row>
 				</Space>
 			</Content>
+			<Drawer
+				title="Filter"
+				onClose={onClose}
+				open={open}
+				width={window.innerWidth > 768 ? "40vw" : "80%"}
+
+				// getContainer={false}
+			>
+				<LeftContent setSpinning={setSpinning} />
+			</Drawer>
 		</Spin>
 	);
 }

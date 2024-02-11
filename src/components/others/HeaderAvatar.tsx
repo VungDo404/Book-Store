@@ -11,6 +11,7 @@ export default function HeaderAvatar() {
 	const role = useAppSelector((state) => state.account.user.role);
 	const { Text } = Typography;
 	const dispatch = useAppDispatch();
+	const user = useAppSelector((state) => state.account.user);
 	const USER = [
 		{
 			label: <Link to="/account/profile">My Account</Link>,
@@ -59,7 +60,13 @@ export default function HeaderAvatar() {
 				>
 					<a onClick={(e) => e.preventDefault()}>
 						<span>
-							<Avatar icon={<UserOutlined />} src={avatarPath} />
+							<Space>
+								<Avatar
+									icon={<UserOutlined />}
+									src={avatarPath}
+								/>
+								<span>{user.fullName}</span>
+							</Space>
 						</span>
 					</a>
 				</Dropdown>

@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
-import { addNewOrder, deleteAllOrder } from "@/redux/slices/orderReducer";
+import { addNewOrder, deleteAllOrder } from "@/redux/slices/order.reducer";
 import { Button, Col, Divider, Form, Input, Radio, Row, Space } from "antd";
 import Sider from "antd/es/layout/Sider";
 

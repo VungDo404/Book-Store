@@ -2,10 +2,12 @@ import { updateUser } from "@/pages/admin/users/Table/Body/Action";
 import {
 	Search,
 	TableParams,
+	newPasswordRequest,
+	putUserRequest,
 	userType,
 } from "@/interface/user";
 import { interface_register_request } from "@/pages/register/register";
-import { deleteUser, getUsersWithPaginate, postUser, postUsers, putUser } from "@/services/user";
+import { deleteUser, getUsersWithPaginate, newPassword, postUser, postUsers, putUser, putUserByUser, uploadImage } from "@/services/user";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "Redux/store/store";
@@ -105,6 +107,39 @@ export const handleDeleteUser = createAsyncThunk(
 		try {
 			const response = await deleteUser(id);
 			await dispatch(refresh());
+			return response.data;
+		} catch (err) {
+			return rejectWithValue(err);
+		}
+	}
+);
+export const handleUpdateAvatar = createAsyncThunk(
+	"updateAvatar", 
+	async (file: File, { rejectWithValue }) => {
+		try {
+			const response = await uploadImage(file);
+			return response.data;
+		} catch (err) {
+			return rejectWithValue(err);
+		}
+	}
+);
+export const handleChangePassword = createAsyncThunk(
+	"changePassword", 
+	async (data: newPasswordRequest, { rejectWithValue }) => {
+		try {
+			const response = await newPassword(data);
+			return response.data;
+		} catch (err) {
+			return rejectWithValue(err);
+		}
+	}
+);
+export const handleUpdateUserByUser = createAsyncThunk(
+	"updateUserByUser", 
+	async (user: putUserRequest, { rejectWithValue }) => {
+		try {
+			const response = await putUserByUser(user);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err);

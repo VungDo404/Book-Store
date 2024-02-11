@@ -17,6 +17,7 @@ import Password from "@/components/Books/Account/Password";
 import PurchaseHistory from "@/components/Books/Account/PurchaseHistory";
 import Authenticated from "@/components/others/Authenticated";
 import Auth from "@/components/others/Auth";
+import AdminOrder from "@/pages/admin/order/order";
 
 export const router = createBrowserRouter([
 	{
@@ -73,7 +74,7 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: "order",
-				element: <Order />,
+				element: <AdminOrder />,
 			},
 		],
 	},

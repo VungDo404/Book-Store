@@ -19,9 +19,10 @@ import {
 	Tooltip,
 } from "antd";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
-import Sider from "antd/es/layout/Sider";
 import Title from "antd/es/typography/Title";
 import { useState } from "react";
+import "styles/LeftContent.scss";
+
 interface propsType {
 	setSpinning: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -67,24 +68,34 @@ export default function LeftContent(props: propsType) {
 		form.resetFields();
 	};
 	return (
-		<Sider
-			style={{ backgroundColor: "white", height: "fit-content" }}
-			breakpoint="lg"
-			collapsedWidth={0}
-			trigger={null}
-		>
-			<Row>
-				<Col>
+		<Row>
+			<Col
+				className="search-title"
+				span={24}
+			>
+				<Col style={{ display: "flex", alignItems: "end" }}>
 					<Title level={5}>
-						<FilterOutlined /> SEARCH FILTER
+						<FilterOutlined
+							style={{ color: "blue", fontSize: "1rem" }}
+						/>{" "}
+						SEARCH FILTER
 					</Title>
 				</Col>
-				<Col style={{ cursor: "pointer" }} offset={6}>
+				<Col
+					style={{
+						cursor: "pointer",
+					}}
+				>
 					<Tooltip title="Clear filters">
-						<ClearOutlined onClick={clear} />
+						<Title level={5}>
+							<ClearOutlined
+								onClick={clear}
+								style={{ fontSize: "1rem" }}
+							/>{" "}
+						</Title>
 					</Tooltip>
 				</Col>
-			</Row>
+			</Col>
 			<Col offset={1}>
 				<Checkbox.Group onChange={onChange} value={checkedList}>
 					<Space direction="vertical">
@@ -193,6 +204,6 @@ export default function LeftContent(props: propsType) {
 				</Space>
 			</Col>
 			<Divider />
-		</Sider>
+		</Row>
 	);
 }

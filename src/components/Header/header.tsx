@@ -1,32 +1,25 @@
-import {
-	ShoppingCartOutlined,
-	BookTwoTone,
-} from "@ant-design/icons";
-import {
-	Menu,
-	Input,
-	Col,
-	Avatar,
-	Badge,
-	Popover,
-} from "antd";
+import { ShoppingCartOutlined, BookTwoTone } from "@ant-design/icons";
+import { Menu, Input, Col, Avatar, Badge, Popover } from "antd";
 import { useNavigate } from "react-router-dom";
 import "@/styles/header.scss";
-import { useAppSelector } from "@/redux/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import PreviewCart from "./PreviewCart";
 import HeaderAvatar from "../others/HeaderAvatar";
+import { fetchBook } from "@/redux/slices/book.reducer";
 
 const { Search } = Input;
 
-const onSearch: any = (
-	value: string,
-	_e: React.SyntheticEvent,
-	info: any
-) => {};
-
 export default function HeaderComponent() {
 	const order = useAppSelector((state) => state.order.carts);
+	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
+	const onSearch: any = (
+		value: string,
+		_e: React.SyntheticEvent,
+		info: any
+	) => {
+		dispatch(fetchBook({ search: { mainText: value }, current: 1 }));
+	};
 	return (
 		<Menu theme="light" style={{ width: "100%" }}>
 			<Col className="header-container">

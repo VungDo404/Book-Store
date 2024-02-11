@@ -1,7 +1,7 @@
 import InputQuantity from "@/components/others/InputQuantity";
 import { bookType } from "@/interface/book";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
-import { addOrderAction } from "@/redux/slices/orderReducer";
+import { addOrderAction } from "@/redux/slices/order.reducer";
 import {
 	Button,
 	Col,

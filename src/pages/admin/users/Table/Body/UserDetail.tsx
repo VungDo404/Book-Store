@@ -49,7 +49,7 @@ export default function UserDetail(props: propsType) {
 				</Col>
 				<Col span={12}>
 					<DescriptionItem
-						title="Account"
+						title="Email"
 						content={currentRecord?.email}
 					/>
 				</Col>

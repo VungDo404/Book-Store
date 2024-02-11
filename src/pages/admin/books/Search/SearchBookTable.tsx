@@ -16,7 +16,7 @@ export default function SearchBook(props: propsType) {
 		padding: 24,
 	};
 	const onFinish = (values: SearchBookType) => {
-		dispatch(fetchBook({ search: values }));
+		dispatch(fetchBook({ search: values, current: 1 }));
 	};
 	return (
 		<Col md={{ offset: 0, span: 24 }}>

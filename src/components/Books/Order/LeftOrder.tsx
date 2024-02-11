@@ -1,6 +1,6 @@
 import InputQuantity from "@/components/others/InputQuantity";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
-import { deleteOrderAction, setQuantity } from "@/redux/slices/orderReducer";
+import { deleteOrderAction, setQuantity } from "@/redux/slices/order.reducer";
 import { DeleteOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Col, Empty, Row, Tooltip } from "antd";
 import { Content } from "antd/es/layout/layout";

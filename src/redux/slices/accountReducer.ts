@@ -1,21 +1,9 @@
+import { accountState, interface_user } from "@/interface/account";
 import { logout, account } from "@/services/auth";
+import { dashBoard } from "@/services/other";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-// Define a type for the slice state
-interface accountState {
-	isAuthenticated: boolean;
-	user: {
-		email: string;
-		phone: string;
-		fullName: string;
-		role: string;
-		avatar: string;
-		id: string;
-	};
-}
-
-// Define the initial state using that type
 const initialState: accountState = {
 	isAuthenticated: false,
 	user: {
@@ -27,14 +15,7 @@ const initialState: accountState = {
 		id: "",
 	},
 };
-interface interface_user {
-	email: string;
-	phone: string;
-	fullName: string;
-	role: string;
-	avatar: string;
-	id: string;
-}
+
 export const handleLogout = createAsyncThunk(
 	"handleLogout",
 	async (_:  void, { rejectWithValue }) => {
@@ -59,6 +40,18 @@ export const handleAccount = createAsyncThunk(
 		}
 	}
 );
+export const handleGetDashBoard = createAsyncThunk(
+	"handleGetDashBoard",
+	async (_:  void, { rejectWithValue }) => {
+		try {
+			const response = await dashBoard();
+			return response.data;
+		} catch (err) {
+			console.log(err)
+			return rejectWithValue(err);
+		}
+	}
+);
 export const accountSlice = createSlice({
 	name: "account",
 	// `createSlice` will infer the state type from the `initialState` argument
@@ -66,7 +59,7 @@ export const accountSlice = createSlice({
 	reducers: {
 		userAction: (state, action: PayloadAction<interface_user>) => {
 			state.isAuthenticated = true;
-			state.user = action.payload;
+			state.user = {...state.user,...action.payload};
 		},
 		logoutAction: (state) => {
 			localStorage.removeItem("access_token");
