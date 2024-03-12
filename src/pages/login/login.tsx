@@ -4,35 +4,12 @@ import 'styles/login.scss'
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from '@/redux/hooks/hooks';
 import { userAction } from '@/redux/slices/accountReducer';
-
-export interface interface_login_request {
-    username?: string;
-    password?: string;
-};
-export interface interface_login_response {
-    statusCode: number,
-    message: string,
-    data: {
-        access_token: string,
-        user: {
-            email: string,
-            phone: string,
-            fullName: string,
-            role: string,
-            avatar: string,
-            id: string
-        }
-    },
-    author: string
-}
-
-const { Title, Text } = Typography;
-
+import { interface_login_request, interface_login_response } from '@/interface/account';
 
 export default function Login(){
     const navigate = useNavigate(); 
     const dispatch = useAppDispatch(); 
-    
+    const { Title, Text } = Typography;
 
         const onFinish = async (values: interface_login_request) => {
         try {

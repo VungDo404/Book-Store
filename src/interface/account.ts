@@ -13,6 +13,26 @@ export interface interface_account {
 	};
 	author: string;
 }
+export interface interface_login_response {
+    statusCode: number,
+    message: string,
+    data: {
+        access_token: string,
+        user: {
+            email: string,
+            phone: string,
+            fullName: string,
+            role: string,
+            avatar: string,
+            id: string
+        }
+    },
+    author: string
+}
+export interface interface_login_request {
+    username?: string;
+    password?: string;
+};
 export interface dashBoardResponse {
 	statusCode: number;
 	message: string;
