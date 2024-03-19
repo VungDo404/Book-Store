@@ -1,63 +1,37 @@
-export interface interface_account {
-	statusCode: number;
-	message: string;
-	data: {
-		user: {
-			email: string;
-			phone: string;
-			fullName: string;
-			role: string;
-			avatar: string;
-			id: string;
-		};
-	};
-	author: string;
+import { ApiResponse } from "./shared";
+
+interface User {
+	email: string;
+	phone: string;
+	fullName: string;
+	role: string;
+	avatar: string;
+	_id: string;
 }
-export interface interface_login_response {
-    statusCode: number,
-    message: string,
-    data: {
-        access_token: string,
-        user: {
-            email: string,
-            phone: string,
-            fullName: string,
-            role: string,
-            avatar: string,
-            id: string
-        }
-    },
-    author: string
+export interface interface_account extends ApiResponse {
+	data: {
+		user: User;
+	};
+}
+export interface interface_login_response extends ApiResponse {
+	data: {
+		access_token: string;
+		user: User;
+	};
 }
 export interface interface_login_request {
-    username?: string;
-    password?: string;
-};
-export interface dashBoardResponse {
-	statusCode: number;
-	message: string;
+	email?: string;
+	password?: string;
+}
+export interface dashBoardResponse extends ApiResponse {
 	data: {
 		countOrder: number;
 		countUser: number;
+		countBook: number;
 	};
-	author: string;
 }
 export interface accountState {
 	isAuthenticated: boolean;
-	user: {
-		email: string;
-		phone: string;
-		fullName: string;
-		role: string;
-		avatar: string;
-		id: string;
-	};
+	user: User;
 }
-export interface interface_user {
-	email?: string;
-	phone?: string;
-	fullName?: string;
-	role?: string;
-	avatar?: string;
-	id?: string;
-}
+export interface interface_user extends Partial<User> {}

@@ -12,44 +12,29 @@ const initialState: accountState = {
 		fullName: "",
 		role: "",
 		avatar: "",
-		id: "",
+		_id: "",
 	},
 };
 
 export const handleLogout = createAsyncThunk(
 	"handleLogout",
-	async (_:  void, { rejectWithValue }) => {
-		try {
-			const response = await logout();
-			return response.data;
-		} catch (err) {
-			console.log(err)
-			return rejectWithValue(err);
-		}
+	async (_: void) => {
+		const response = await logout();
+		return response.data;
 	}
 );
 export const handleAccount = createAsyncThunk(
 	"handleAccount",
-	async (_:  void, { rejectWithValue }) => {
-		try {
-			const response = await account();
-			return response.data;
-		} catch (err) {
-			console.log(err)
-			return rejectWithValue(err);
-		}
+	async (_: void) => {
+		const response = await account();
+		return response.data;
 	}
 );
 export const handleGetDashBoard = createAsyncThunk(
 	"handleGetDashBoard",
-	async (_:  void, { rejectWithValue }) => {
-		try {
-			const response = await dashBoard();
-			return response.data;
-		} catch (err) {
-			console.log(err)
-			return rejectWithValue(err);
-		}
+	async (_: void) => {
+		const response = await dashBoard();
+		return response.data;
 	}
 );
 export const accountSlice = createSlice({
@@ -59,12 +44,7 @@ export const accountSlice = createSlice({
 	reducers: {
 		userAction: (state, action: PayloadAction<interface_user>) => {
 			state.isAuthenticated = true;
-			state.user = {...state.user,...action.payload};
-		},
-		logoutAction: (state) => {
-			localStorage.removeItem("access_token");
-			state.isAuthenticated = initialState.isAuthenticated;
-			state.user = { ...initialState.user };
+			state.user = { ...state.user, ...action.payload };
 		},
 	},
 	extraReducers: (builder) => {
@@ -72,7 +52,7 @@ export const accountSlice = createSlice({
 		builder.addCase(handleLogout.fulfilled, (state) => {
 			localStorage.removeItem("access_token");
 			state.isAuthenticated = false;
-			state.user = { ...initialState.user };
+			state.user = initialState.user;
 		});
 		builder.addCase(handleAccount.fulfilled, (state, { payload }) => {
 			state.isAuthenticated = true;
@@ -81,8 +61,6 @@ export const accountSlice = createSlice({
 	},
 });
 
-export const { userAction, logoutAction } = accountSlice.actions;
-
-// Other code such as selectors can use the imported `RootState` type
+export const { userAction } = accountSlice.actions;
 
 export default accountSlice.reducer;

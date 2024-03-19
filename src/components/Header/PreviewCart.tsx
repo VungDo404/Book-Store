@@ -4,13 +4,13 @@ import { Avatar, Button, Col, Divider, Empty, Row } from "antd";
 import { useNavigate } from "react-router-dom";
 
 export default function PreviewCart(){
-    const order = useAppSelector((state) => state.order.carts);
-	const previewCart = order.slice(0, 5);
+    const cart = useAppSelector((state) => state.cart.data);
+	const previewCart = cart.slice(0, 5);
 	const navigate = useNavigate();
     return (
         <Row style={{ width: "400px" }} gutter={[0, 8]}>
 			{previewCart.length > 0 ? (
-				previewCart.map((ord, index) => (
+				previewCart.map((value, index) => (
 					<Row className="line" key={`order-${index}`}>
 						<Col>
 							<Avatar
@@ -18,7 +18,7 @@ export default function PreviewCart(){
 								icon={<UserOutlined />}
 								src={`${
 									import.meta.env.VITE_API_URL
-								}/images/book/${ord.detail.thumbnail}`}
+								}/images/book/${value.book.thumbnail}`}
 							/>
 						</Col>
 						<Col
@@ -29,13 +29,13 @@ export default function PreviewCart(){
 								overflow: "hidden",
 							}}
 						>
-							{ord.detail.mainText}
+							{value.book.mainText}
 						</Col>
 						<Col style={{ marginLeft: "auto", color: "#197893" }}>
 							<sup>đ</sup>
 							<span>
 								{new Intl.NumberFormat("en-DE").format(
-									ord.detail.price
+									value.book.price
 								)}
 							</span>
 						</Col>
@@ -46,8 +46,8 @@ export default function PreviewCart(){
 			)}
 			<Divider />
 			<Col span={24} style={{ display: "flex" }}>
-				{order.length > 5 && (
-					<span>{order.length - 5} More Products In Cart</span>
+				{cart.length > 5 && (
+					<span>{cart.length - 5} More Products In Cart</span>
 				)}
 				<Button
 					style={{ marginLeft: "auto" }}

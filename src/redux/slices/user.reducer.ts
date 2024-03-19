@@ -7,10 +7,18 @@ import {
 	userType,
 } from "@/interface/user";
 import { interface_register_request } from "@/pages/register/register";
-import { deleteUser, getUsersWithPaginate, newPassword, postUser, postUsers, putUser, putUserByUser, uploadImage } from "@/services/user";
+import {
+	deleteUser,
+	getUsersWithPaginate,
+	newPassword,
+	postUser,
+	postUsers,
+	putUser,
+	putUserByUser,
+	uploadImage,
+} from "@/services/user";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "Redux/store/store";
 
 // Define a type for the slice state
 
@@ -67,83 +75,55 @@ export const refresh = createAsyncThunk("refresh", async () => {
 });
 export const addNewUser = createAsyncThunk(
 	"postUser",
-	async (values: interface_register_request, { dispatch, rejectWithValue }) => {
-		try {
-			const response = await postUser(values);
-			await dispatch(refresh());
-			return response.data;
-		} catch (err) {
-			return rejectWithValue(err);
-		}
+	async (values: interface_register_request, { dispatch }) => {
+		const response = await postUser(values);
+		await dispatch(refresh());
+		return response.data;
 	}
 );
 export const addNewUsers = createAsyncThunk(
 	"postUsers",
-	async (values: interface_register_request[], { dispatch, rejectWithValue }) => {
-		try {
-			const response = await postUsers(values);
-			await dispatch(refresh());
-			return response.data;
-		} catch (err) {
-			return rejectWithValue(err);
-		}
+	async (values: interface_register_request[], { dispatch }) => {
+		const response = await postUsers(values);
+		await dispatch(refresh());
+		return response.data;
 	}
 );
 export const handleUpdateUser = createAsyncThunk(
 	"updateUser",
-	async (values: updateUser, { dispatch, rejectWithValue }) => {
-		try {
-			const response = await putUser(values);
-			await dispatch(refresh());
-			return response.data;
-		} catch (err) {
-			return rejectWithValue(err);
-		}
+	async (values: updateUser, { dispatch }) => {
+		const response = await putUser(values);
+		await dispatch(refresh());
+		return response.data;
 	}
 );
 export const handleDeleteUser = createAsyncThunk(
-	"deleteUser", 
-	async (id: string, { dispatch, rejectWithValue }) => {
-		try {
-			const response = await deleteUser(id);
-			await dispatch(refresh());
-			return response.data;
-		} catch (err) {
-			return rejectWithValue(err);
-		}
+	"deleteUser",
+	async (id: string, { dispatch }) => {
+		const response = await deleteUser(id);
+		await dispatch(refresh());
+		return response.data;
 	}
 );
 export const handleUpdateAvatar = createAsyncThunk(
-	"updateAvatar", 
-	async (file: File, { rejectWithValue }) => {
-		try {
-			const response = await uploadImage(file);
-			return response.data;
-		} catch (err) {
-			return rejectWithValue(err);
-		}
+	"updateAvatar",
+	async (file: File) => {
+		const response = await uploadImage(file);
+		return response.data;
 	}
 );
 export const handleChangePassword = createAsyncThunk(
-	"changePassword", 
-	async (data: newPasswordRequest, { rejectWithValue }) => {
-		try {
-			const response = await newPassword(data);
-			return response.data;
-		} catch (err) {
-			return rejectWithValue(err);
-		}
+	"changePassword",
+	async (data: newPasswordRequest) => {
+		const response = await newPassword(data);
+		return response.data;
 	}
 );
 export const handleUpdateUserByUser = createAsyncThunk(
-	"updateUserByUser", 
-	async (user: putUserRequest, { rejectWithValue }) => {
-		try {
-			const response = await putUserByUser(user);
-			return response.data;
-		} catch (err) {
-			return rejectWithValue(err);
-		}
+	"updateUserByUser",
+	async (user: putUserRequest) => {
+		const response = await putUserByUser(user);
+		return response.data;
 	}
 );
 export const manageUserSlice = createSlice({
@@ -192,8 +172,5 @@ export const manageUserSlice = createSlice({
 });
 
 export const { tableParams } = manageUserSlice.actions;
-
-// Other code such as selectors can use the imported `RootState` type
-export const account = (state: RootState) => state.account;
 
 export default manageUserSlice.reducer;

@@ -12,7 +12,6 @@ interface interface_logout{
 const login = async (data: interface_login_request) => {
     return await ax.post<interface_login_response>('/auth/login', data);
 }
-
 const register = async (data: interface_register_request) => {
     return await ax.post<interface_register_response >('/user/register', data);
 }

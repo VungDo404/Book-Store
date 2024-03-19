@@ -8,7 +8,6 @@ import {
 import { SearchBookType, TableParams } from "@/interface/book";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "Redux/store/store";
 import {
 	deleteBook,
 	getBookByID,
@@ -93,77 +92,49 @@ export const refresh = createAsyncThunk("refresh", async () => {
 });
 export const addNewBook = createAsyncThunk(
 	"postBook",
-	async (values: postBookRequest, { dispatch, rejectWithValue }) => {
-		try {
-			const response = await postBook(values);
-			await dispatch(refresh());
-			return response.data;
-		} catch (err) {
-			return rejectWithValue(err);
-		}
+	async (values: postBookRequest, { dispatch }) => {
+		const response = await postBook(values);
+		await dispatch(refresh());
+		return response.data;
 	}
 );
 
 export const handleUpdateBook = createAsyncThunk(
 	"updateBook",
-	async (
-		values: putBookRequest & { id: string },
-		{ dispatch, rejectWithValue }
-	) => {
-		try {
-			const { id, ...updateBook } = values;
-			const response = await putBook(id, updateBook);
-			await dispatch(fetchBook({}));
-			return response.data;
-		} catch (err) {
-			return rejectWithValue(err);
-		}
+	async (values: putBookRequest & { id: string }, { dispatch }) => {
+		const { id, ...updateBook } = values;
+		const response = await putBook(id, updateBook);
+		await dispatch(fetchBook({}));
+		return response.data;
 	}
 );
 export const handleDeleteBook = createAsyncThunk(
 	"deleteBook",
-	async (id: string, { dispatch, rejectWithValue }) => {
-		try {
-			const response = await deleteBook(id);
-			await dispatch(fetchBook({}));
-			return response.data;
-		} catch (err) {
-			return rejectWithValue(err);
-		}
+	async (id: string, { dispatch }) => {
+		const response = await deleteBook(id);
+		await dispatch(fetchBook({}));
+		return response.data;
 	}
 );
 export const handleGetCategory = createAsyncThunk(
 	"getCategory",
-	async (_: void, { rejectWithValue }) => {
-		try {
-			const response = await getCategory();
-			return response.data;
-		} catch (err) {
-			return rejectWithValue(err);
-		}
+	async (_: void) => {
+		const response = await getCategory();
+		return response.data;
 	}
 );
 export const handleGetBookByID = createAsyncThunk(
 	"getBookByID",
-	async (id: string, { rejectWithValue }) => {
-		try {
-			const response = await getBookByID(id);
-			return response.data;
-		} catch (err) {
-			console.log(err)
-			return rejectWithValue(err);
-		}
+	async (id: string) => {
+		const response = await getBookByID(id);
+		return response.data;
 	}
 );
 export const handlePostUpload = createAsyncThunk(
 	"postUpload",
-	async (file: File, { rejectWithValue }) => {
-		try {
-			const response = await uploadImageBook(file);
-			return response.data;
-		} catch (err) {
-			return rejectWithValue(err);
-		}
+	async (file: File) => {
+		const response = await uploadImageBook(file);
+		return response.data;
 	}
 );
 export const manageBookSlice = createSlice({
@@ -183,7 +154,7 @@ export const manageBookSlice = createSlice({
 						state.tableParams.pagination.pageSize,
 				},
 				sortOrder:
-					(payload.sortField || payload.sortOrder ) 
+					payload.sortField || payload.sortOrder
 						? payload.sortOrder ?? ""
 						: state.tableParams.sortOrder,
 				sortField:
@@ -192,7 +163,10 @@ export const manageBookSlice = createSlice({
 							? payload.sortField
 							: ""
 						: state.tableParams.sortField,
-				search: {...state.tableParams.search, ...(payload.search ?? {})},
+				search: {
+					...state.tableParams.search,
+					...(payload.search ?? {}),
+				},
 			};
 		},
 	},
@@ -218,8 +192,5 @@ export const manageBookSlice = createSlice({
 });
 
 export const { tableParams } = manageBookSlice.actions;
-
-// Other code such as selectors can use the imported `RootState` type
-export const account = (state: RootState) => state.account;
 
 export default manageBookSlice.reducer;

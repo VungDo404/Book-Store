@@ -8,6 +8,7 @@ export interface interface_register_request {
   password: string;
   email: string;
   phone?: string;
+  role?: string
 };
 
 export interface interface_register_response {

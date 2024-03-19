@@ -10,7 +10,7 @@ const postOrder = (cart: postOrderRequest) => {
 	return ax.post<postOrderResponse>("/order", cart);
 };
 const getOrder = () => {
-	return ax.get<getOrderResponse>("/history");
+	return ax.get<getOrderResponse>("/order/history");
 };
 const getOrderAdmin = (current: number, pageSize: number, query: string) => {
 	return ax.get<dataOrderAdminResponse>(

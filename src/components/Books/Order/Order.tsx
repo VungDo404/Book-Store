@@ -10,6 +10,7 @@ import LeftOrder from "./LeftOrder";
 
 export default function Order() {
 	const [success, setSuccess] = useState<boolean>(false);
+	const [orderId, setOrderId] = useState<string>(''); 
 	return (
 		<Layout style={{ padding: "20px 0" }}>
 			{success ? (
@@ -17,7 +18,7 @@ export default function Order() {
 					<Result
 						status="success"
 						title="Successfully Purchased!"
-						subTitle="Order number: 2017182818828182881"
+						subTitle={`Order number: ${orderId}`} 
 						extra={[
 							<Button href="/" key="buy">Buy Again</Button>,
 						]}
@@ -26,7 +27,7 @@ export default function Order() {
 			) : (
 				<>
 					<LeftOrder/>
-					<RightOrder setSuccess={setSuccess}/>
+					<RightOrder setSuccess={setSuccess} setOrderId={setOrderId} />
 				</>
 			)}
 		</Layout>

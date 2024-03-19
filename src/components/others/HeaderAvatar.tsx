@@ -1,5 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import { handleLogout } from "@/redux/slices/accountReducer";
+import { clearCart } from "@/redux/slices/cart.reducer";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Divider, Dropdown, MenuProps, Space, Typography } from "antd";
 import { Link } from "react-router-dom";
@@ -8,7 +9,6 @@ interface Items {
 	[key: string]: MenuProps["items"];
 }
 export default function HeaderAvatar() {
-	const role = useAppSelector((state) => state.account.user.role);
 	const { Text } = Typography;
 	const dispatch = useAppDispatch();
 	const user = useAppSelector((state) => state.account.user);
@@ -22,6 +22,7 @@ export default function HeaderAvatar() {
 			key: "logout",
 			onClick: async () => {
 				await dispatch(handleLogout());
+				dispatch(clearCart()); 
 			},
 		},
 	];
@@ -35,15 +36,12 @@ export default function HeaderAvatar() {
 		],
 		USER,
 	};
-	const avatarName =
-		useAppSelector((state) => state.account.user.avatar) ?? "";
 	const avatarPath = `${
 		import.meta.env.VITE_API_URL
-	}/images/avatar/${avatarName}`;
-
+	}/images/avatar/${user.avatar ?? ""}`;
 	return (
 		<>
-			{role === "" ? (
+			{user.role === "" ? (
 				<Space>
 					<Link to="/register">Register</Link>
 					<Divider type="vertical" />
@@ -52,7 +50,7 @@ export default function HeaderAvatar() {
 			) : (
 				<Dropdown
 					menu={{
-						items: items[role],
+						items: items[user.role],
 					}}
 					trigger={["click"]}
 					placement="topRight"

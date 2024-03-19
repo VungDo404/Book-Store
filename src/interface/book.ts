@@ -1,5 +1,10 @@
-import type { TablePaginationConfig } from "antd/es/table";
-import type { FilterValue } from "antd/es/table/interface";
+import {
+	ApiResponse,
+	DeleteResponse,
+	PaginationMeta,
+	SharedTableParams,
+	UpdateResponse,
+} from "./shared";
 
 export interface bookType {
 	_id: string;
@@ -15,104 +20,51 @@ export interface bookType {
 	updatedAt: string;
 	__v: number;
 }
-export interface interface_get_books_with_paginate {
-	statusCode: number;
-	message: string;
-	author: string;
+
+export interface interface_get_books_with_paginate extends ApiResponse {
 	data: {
-		meta: {
-			current: number;
-			pageSize: number;
-			pages: number;
-			total: number;
-		};
+		meta: PaginationMeta;
 		result: bookType[];
 	};
 }
-export interface TableParams {
-	pagination: TablePaginationConfig;
-	sortField?: string;
-	sortOrder?: string;
-	filters?: Record<string, FilterValue>;
+
+export interface TableParams extends SharedTableParams {
 	search?: SearchBookType;
 }
+
 export interface PriceRange {
-	min: number | undefined;
-	max: number | undefined;
+	min?: number;
+	max?: number;
 }
-export interface SearchBookType {
+
+export interface SearchBookType
+	extends Partial<Pick<bookType, "mainText" | "category" | "author">> {
 	[key: string]: string | undefined | PriceRange;
-	mainText?: string;
-	category?: string;
-	author?: string;
 	price?: PriceRange;
 }
-export interface postBookResponse {
-	statusCode: number;
-	message: string;
+
+export interface postBookResponse extends ApiResponse {
 	data: bookType;
-	author: string;
 }
+
 export interface getBookIDResponse extends postBookResponse {}
-export interface postBookRequest {
-	thumbnail: string;
-	slider: string[];
-	mainText: string;
-	author: string;
-	price: number;
-	sold: number;
-	quantity: number;
-	category: string;
-}
-export interface putBookResponse {
-	statusCode: number;
-	message: string;
-	data: {
-		acknowledged: boolean;
-		modifiedCount: number;
-		upsertedId: null;
-		upsertedCount: number;
-		matchedCount: number;
-	};
-	author: string;
-}
-export interface putBookRequest {
-	thumbnail: string;
-	slider: string[];
-	mainText: string;
-	author: string;
-	price: number;
-	sold: number;
-	quantity: number;
-	category: string;
-}
-export interface deleteBookResponse {
-	statusCode: number;
-	message: string;
-	data: {
-		acknowledged: boolean;
-		deletedCount: number;
-	};
-	author: string;
-}
-export interface formUpdate {
-	email?: string;
-	phone: string;
-	fullName: string;
-}
-export interface getCategoryResponse {
-	statusCode: number;
-	message: string;
+
+export interface postBookRequest
+	extends Omit<bookType, "_id" | "__v" | "updatedAt" | "createdAt"> {}
+
+export interface putBookResponse extends UpdateResponse {}
+
+export interface putBookRequest extends postBookRequest {}
+
+export interface deleteBookResponse extends DeleteResponse {}
+
+export interface getCategoryResponse extends ApiResponse {
 	data: string[];
-	author: string;
 }
-export interface postUploadResponse {
-	statusCode: number;
-	message: string;
+export interface postUploadResponse extends ApiResponse {
 	data: {
 		fileUploaded: string;
 	};
-	author: string;
 }
 export interface Category {
 	value: string;

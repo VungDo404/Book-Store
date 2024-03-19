@@ -1,4 +1,4 @@
-import { dataOrder, detailOrder } from "@/interface/order";
+import { Order, detailOrder } from "@/interface/order";
 import { useAppDispatch } from "@/redux/hooks/hooks";
 import { handleGetOrder } from "@/redux/slices/order.reducer";
 import { CheckCircleOutlined } from "@ant-design/icons";
@@ -6,14 +6,14 @@ import type { TableColumnsType } from "antd";
 import { Col, Divider, Row, Table, Tag } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
-interface DataType extends dataOrder {
+interface DataType extends Order {
 	key: React.Key;
 }
 export default function PurchaseHistory() {
 	const [order, setOrder] = useState<DataType[]>([]);
 	const dispatch = useAppDispatch();
 
-	const expandedRowRender = (record: dataOrder, index: number) => {
+	const expandedRowRender = (record: Order, index: number) => {
 		const columns: TableColumnsType<detailOrder> = [
 			{
 				title: "Book ID",
@@ -38,7 +38,7 @@ export default function PurchaseHistory() {
 		);
 	};
 
-	const columns: TableColumnsType<dataOrder> = [
+	const columns: TableColumnsType<Order> = [
 		{ title: "Order ID", dataIndex: "_id", key: "orderID" },
 		{
 			title: "Order placed",

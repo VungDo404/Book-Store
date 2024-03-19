@@ -99,7 +99,7 @@ export default function UserDetail(props: propsType) {
 				<Col span={12}>
 					<DescriptionItem
 						title="Active"
-						content={`${currentRecord?.isActive}`}
+						content={`${currentRecord?.deleted}`}
 					/>
 				</Col>
 			</Row>

@@ -4,6 +4,7 @@ import HeaderComponent from "../Header/header";
 import { Outlet } from "react-router-dom";
 
 export default function Index() {
+
 	return (
 		<Layout style={{ minHeight: "100vh" }}>
 			<HeaderComponent />

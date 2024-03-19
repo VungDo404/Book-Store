@@ -10,7 +10,8 @@ import { fetchBook } from "@/redux/slices/book.reducer";
 const { Search } = Input;
 
 export default function HeaderComponent() {
-	const order = useAppSelector((state) => state.order.carts);
+	const cart = useAppSelector((state) => state.cart.data);
+	const isAuthenticated = useAppSelector(state => state.account.isAuthenticated);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const onSearch: any = (
@@ -53,7 +54,7 @@ export default function HeaderComponent() {
 							content={<PreviewCart />}
 							title="Recently Added Products"
 						>
-							<Badge count={order.length}>
+							<Badge count={isAuthenticated ? cart.length : 0}>
 								<Avatar
 									icon={<ShoppingCartOutlined />}
 									style={{

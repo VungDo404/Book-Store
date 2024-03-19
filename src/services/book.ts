@@ -30,12 +30,12 @@ const putBook = (id: string, Book: putBookRequest) => {
 	return ax.put<putBookResponse>(`/book/${id}`, Book);
 };
 const getCategory = () => {
-	return ax.get<getCategoryResponse>("/database/category");
+	return ax.get<getCategoryResponse>("/book/category");
 };
 const uploadImageBook = (file: File) => {
 	let data = new FormData();
 	data.append("fileImg", file);
-	return ax.post<postUploadResponse>("/file/upload", data, {
+	return ax.post<postUploadResponse>("/files/upload", data, {
 		headers: {
 			"upload-type": "book",
 			"Content-Type": "multipart/form-data",

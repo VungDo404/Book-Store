@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from '@/redux/hooks/hooks';
 import { userAction } from '@/redux/slices/accountReducer';
 import { interface_login_request, interface_login_response } from '@/interface/account';
+import { handleGetCartsOfUser } from '@/redux/slices/cart.reducer';
 
 export default function Login(){
     const navigate = useNavigate(); 
@@ -16,11 +17,12 @@ export default function Login(){
             const result: interface_login_response  = (await login(values)).data; 
             if(result.statusCode === 201){
                 localStorage.setItem('access_token',result.data.access_token);
+                
                 dispatch(userAction(result.data.user));
+                dispatch(handleGetCartsOfUser()); 
                 message.success({
                     content: 'Login successfully',
                 });
-                
                 navigate('/');
             }
         } catch (error: any) {
@@ -54,7 +56,7 @@ export default function Login(){
                 <Col xs={{  offset: 2, span: 20 }} md={{  offset: 1, span: 21 }}>
                     <Form.Item<interface_login_request>
                     label="Email"
-                    name="username"
+                    name="email"
                     rules={[{ required: true, message: 'Please input your username!' }]}
                     >
                     <Input />

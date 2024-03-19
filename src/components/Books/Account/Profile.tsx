@@ -35,14 +35,14 @@ export default function Profile() {
 			fullName: values.username,
 			phone: values.phone,
 			avatar: avatarName,
-			_id: user.id,
+			_id: user._id,
 		};
 		const res = await dispatch(handleUpdateUserByUser(info));
 		if(handleUpdateUserByUser.fulfilled.match(res)){
 			api.success({message: 'Success', description:'Your account has been updated!'});
 			dispatch(userAction({fullName: info.fullName, phone: info.phone, avatar: info.avatar}))
 			localStorage.removeItem('access_token');
-
+			
 		}else if(handleUpdateUserByUser.rejected.match(res)) {
 			api.error({message: 'Error', description:`${res.error.message}`})
 		}

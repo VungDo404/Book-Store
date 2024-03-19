@@ -35,12 +35,12 @@ const postUsers = (users: interface_register_request[]) => {
 	return ax.post<postUsersType>("/user/bulk-create", users);
 };
 const putUser = (user: updateUser) => {
-	return ax.put<putUserType>("/user", user);
+	return ax.put<putUserType>(`/user`, user);
 };
 const uploadImage = (file: File) => {
 	let data = new FormData();
 	data.append("fileImg", file);
-	return ax.post<postUploadResponse>("/file/upload", data, {
+	return ax.post<postUploadResponse>("/files/upload", data, {
 		headers: {
 			"upload-type": "avatar",
 			"Content-Type": "multipart/form-data",

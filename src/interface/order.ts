@@ -1,11 +1,10 @@
-import { TablePaginationConfig } from "antd";
-import { bookType } from "./book";
-import { FilterValue } from "antd/es/table/interface";
+import { ApiResponse, PaginationMeta, SharedTableParams } from "./shared";
 
 export interface postOrderRequest {
 	name: string;
 	address: string;
 	phone: string;
+	type: string;
 	totalPrice: number;
 	detail: {
 		bookName: string;
@@ -13,44 +12,19 @@ export interface postOrderRequest {
 		_id: string;
 	}[];
 }
-export interface postOrderResponse {
-	statusCode: number;
-	message: string;
-	data: string;
-	author: string;
+
+export interface postOrderResponse extends ApiResponse {
+	data: string; // id 
 }
-export interface Cart {
-	quantity: number;
-	detail: bookType;
-}
-export interface Quantity {
-	quantity: number;
-	_id: string;
-}
-export interface detailOrder {
+
+export interface detailOrder  {
 	bookName: string;
 	quantity: number;
 	_id: string;
+	deleted: boolean
 }
-export interface dataOrder {
-	_id: string;
-	name: string;
-	email: string;
-	phone: string;
-	userId: string;
-	detail: detailOrder[];
-	totalPrice: number;
-	createdAt: string;
-	updatedAt: string;
-	__v: number;
-}
-export interface getOrderResponse {
-	statusCode: number;
-	message: string;
-	data: dataOrder[];
-	author: string;
-}
-export interface dataOrderAdmin {
+
+export interface Order {
 	_id: string;
 	name: string;
 	address: string;
@@ -58,31 +32,24 @@ export interface dataOrderAdmin {
 	type: string;
 	detail: detailOrder[];
 	totalPrice: number;
+	deleted: boolean;
 	createdAt: string;
 	updatedAt: string;
 	__v: number;
 }
-export interface dataOrderAdminResponse {
-	statusCode: number;
-	message: string;
+export interface getOrderResponse extends ApiResponse {
+	data: Order[];
+}
+
+export interface dataOrderAdminResponse extends ApiResponse {
 	data: {
-		meta: {
-			current: number;
-			pageSize: number;
-			pages: number;
-			total: number;
-		};
-		result: dataOrderAdmin[];
+		meta: PaginationMeta;
+		result: Order[];
 	};
-	author: string;
 }
 export interface SearchOrderType{
 
 }
-export interface TableParams {
-	pagination: TablePaginationConfig;
-	sortField?: string;
-	sortOrder?: string;
-	filters?: Record<string, FilterValue>;
+export interface TableParams extends SharedTableParams {
 	search?: SearchOrderType;
 }

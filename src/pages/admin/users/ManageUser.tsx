@@ -18,7 +18,7 @@ export default function MangeUser() {
 		phone: "",
 		role: "",
 		avatar: "",
-		isActive: false,
+		deleted: false,
 		createdAt: "",
 		updatedAt: "",
 		__v: 0,

@@ -1,7 +1,11 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
-import { addNewOrder, deleteAllOrder } from "@/redux/slices/order.reducer";
+import {
+	handleDeleteCarts,
+} from "@/redux/slices/cart.reducer";
+import { addNewOrder } from "@/redux/slices/order.reducer";
 import { Button, Col, Divider, Form, Input, Radio, Row, Space } from "antd";
 import Sider from "antd/es/layout/Sider";
+import { useState } from "react";
 
 type FieldType = {
 	username: string;
@@ -11,37 +15,45 @@ type FieldType = {
 };
 interface Props {
 	setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
+	setOrderId: React.Dispatch<React.SetStateAction<string>>
 }
 export default function RightOrder(props: Props) {
-	const { setSuccess } = props;
+	const { setSuccess, setOrderId } = props;
 	const dispatch = useAppDispatch();
-	const order = useAppSelector((state) => state.order.carts);
+	const cart = useAppSelector((state) => state.cart.data);
+	const selectedCart = cart.filter(each => each.isSelected); 
 	const user = useAppSelector((state) => state.account.user);
-	const totalPayment = order.reduce(
-		(total, ord) => total + ord.quantity * ord.detail.price,
+	const totalPayment = selectedCart.reduce(
+		(total, value) => total + value.quantity * value.book.price,
 		0
 	);
 	const onFinish = async (values: FieldType) => {
-		if (order.length > 0) {
+		setSuccess(false);
+		const detail = [];
+		if (selectedCart.length > 0) {
+			for (const each of selectedCart) {
+				detail.push({
+					bookName: each.book.mainText,
+					quantity: each.quantity,
+					_id: each.book._id,
+				});
+			}
+			dispatch(handleDeleteCarts(selectedCart.map((each) => each._id)));
 			const res = await dispatch(
 				addNewOrder({
 					name: values.username,
-					phone: values.phone,
 					address: values.address,
+					phone: values.phone,
+					type: values.payment,
 					totalPrice: totalPayment,
-					detail: order.map((ord) => ({
-						bookName: ord.detail.mainText,
-						_id: ord.detail._id,
-						quantity: ord.quantity,
-					})),
+					detail,
 				})
 			);
-			if (addNewOrder.rejected.match(res)) {
-				console.log(res.error.message)
-			} else if (addNewOrder.fulfilled.match(res)) {
+			if(addNewOrder.fulfilled.match(res)){
+				setOrderId(res.payload.data);
 				setSuccess(true);
-				dispatch(deleteAllOrder());
 			}
+			
 		}
 	};
 	const onFinishFailed = (errorInfo: any) => {
@@ -67,7 +79,7 @@ export default function RightOrder(props: Props) {
 				initialValues={{
 					username: user.fullName,
 					phone: user.phone,
-					payment: 1,
+					payment: "COD",
 				}}
 			>
 				<Row>
@@ -120,8 +132,8 @@ export default function RightOrder(props: Props) {
 						>
 							<Radio.Group defaultValue={1}>
 								<Space direction="vertical">
-									<Radio value={1}>Cash on Delivery</Radio>
-									<Radio value={2}>PayPal</Radio>
+									<Radio value={"COD"}>Cash on Delivery</Radio>
+									<Radio value={"ONLINEBANKING"}>PayPal</Radio>
 								</Space>
 							</Radio.Group>
 						</Form.Item>

@@ -1,7 +1,7 @@
 import InputQuantity from "@/components/others/InputQuantity";
 import { bookType } from "@/interface/book";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
-import { addOrderAction } from "@/redux/slices/order.reducer";
+import { handleCreateCart } from "@/redux/slices/cart.reducer";
 import {
 	Button,
 	Col,
@@ -22,15 +22,15 @@ export default function RightDetail(props: propsType) {
 	const { loading, data } = props;
 	const [quantity, setQuantity] = useState<number>(1);
 	const [messageApi, contextHolder] = message.useMessage();
-	const order = useAppSelector((state) => state.order.carts);
-	const currentItem = order.filter((ord) => ord.detail._id === data._id);
+	const cart = useAppSelector((state) => state.cart.data);
+	const currentItem = cart.filter((value) => value._id === data._id);
 	const availableQuantity =
 		currentItem.length > 0 ? currentItem[0].quantity : 0;
 	const maxQuantity = data.quantity - availableQuantity;
 	const dispatch = useAppDispatch();
 	const handleAddCart = () => {
 		if (maxQuantity !== 0) {
-			dispatch(addOrderAction({ quantity, detail: data }));
+			dispatch(handleCreateCart({book: data._id, quantity}));
 			messageApi.success("Item has been added to your shopping cart");
 		} else
 			messageApi.error(

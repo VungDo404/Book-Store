@@ -1,11 +1,20 @@
-import { Cart, Quantity, SearchOrderType, TableParams, dataOrderAdmin, postOrderRequest } from "@/interface/order";
+import {
+	SearchOrderType,
+	TableParams,
+	Order,
+	postOrderRequest,
+} from "@/interface/order";
 import { getOrder, getOrderAdmin, postOrder } from "@/services/order";
-import { PayloadAction, createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
+import {
+	PayloadAction,
+	createAsyncThunk,
+	createSlice,
+	current,
+} from "@reduxjs/toolkit";
 
 // Define a type for the slice state
 interface orderState {
-	carts: Cart[];
-	data: dataOrderAdmin[];
+	data: Order[];
 	tableParams: TableParams;
 }
 interface fetchOrder {
@@ -18,8 +27,7 @@ interface fetchOrder {
 
 // Define the initial state using that type
 const initialState: orderState = {
-	carts: [],
-	data: [], 
+	data: [],
 	tableParams: {
 		pagination: {
 			current: +import.meta.env.VITE_INIT_PAGE,
@@ -32,13 +40,9 @@ const initialState: orderState = {
 };
 export const addNewOrder = createAsyncThunk(
 	"postOrder",
-	async (values: postOrderRequest, { rejectWithValue }) => {
-		try {
-			const response = await postOrder(values);
-			return response.data;
-		} catch (err) {
-			return rejectWithValue(err);
-		}
+	async (values: postOrderRequest) => {
+		const response = await postOrder(values);
+		return response.data;
 	}
 );
 export const handleGetOrder = createAsyncThunk(
@@ -64,7 +68,7 @@ export const handleGetOrderAdmin = createAsyncThunk(
 	"handleGetOrderAdmin",
 	async (fetch: fetchOrder, { getState, dispatch }) => {
 		dispatch(tableParams(fetch));
-		const { order } = getState() as any ;
+		const { order } = getState() as any;
 		// console.log(order)
 		const { current = 1, pageSize = 10 } = order.tableParams.pagination;
 		// console.log(current, pageSize)
@@ -78,7 +82,7 @@ export const handleGetOrderAdmin = createAsyncThunk(
 		// 	.map(([key, value]) => constructQueryString(key, value as string))
 		// 	.join("");
 		// const q = [sortQuery].filter(Boolean).join("");
-		const response = await getOrderAdmin(current, pageSize, '');
+		const response = await getOrderAdmin(current, pageSize, "");
 		return response.data;
 	}
 );
@@ -99,7 +103,7 @@ export const orderSlice = createSlice({
 						state.tableParams.pagination.pageSize,
 				},
 				sortOrder:
-					(payload.sortField || payload.sortOrder ) 
+					payload.sortField || payload.sortOrder
 						? payload.sortOrder ?? ""
 						: state.tableParams.sortOrder,
 				sortField:
@@ -108,38 +112,11 @@ export const orderSlice = createSlice({
 							? payload.sortField
 							: ""
 						: state.tableParams.sortField,
-				search: {...state.tableParams.search, ...(payload.search ?? {})},
+				search: {
+					...state.tableParams.search,
+					...(payload.search ?? {}),
+				},
 			};
-		},
-		addOrderAction: (state, action: PayloadAction<Cart>) => {
-			const index = state.carts.findIndex(
-				(cart) => cart.detail._id === action.payload.detail._id
-			);
-			if (index >= 0) {
-				state.carts[index].quantity += action.payload.quantity;
-			} else {
-				state.carts.push(action.payload);
-			}
-		},
-		setQuantity: (state, action: PayloadAction<Quantity>) => {
-			const index = state.carts.findIndex(
-				(cart) => cart.detail._id === action.payload._id
-			);
-			const newValue =
-				action.payload.quantity > state.carts[index].detail.quantity
-					? state.carts[index].detail.quantity
-					: action.payload.quantity;
-			if (index >= 0 && action.payload.quantity > 0) {
-				state.carts[index].quantity = newValue;
-			}
-		},
-		deleteOrderAction: (state, action: PayloadAction<string>) => {
-			state.carts = state.carts.filter(
-				(cart) => cart.detail._id !== action.payload
-			);
-		},
-		deleteAllOrder: (state) => {
-			state.carts = initialState.carts;
 		},
 	},
 	extraReducers: (builder) => {
@@ -148,19 +125,12 @@ export const orderSlice = createSlice({
 			state.tableParams.pagination = payload.data.meta;
 		});
 		builder.addCase(handleGetOrderAdmin.rejected, (state, { payload }) => {
-			console.log(payload)
-			console.log(current(state))
+			console.log(payload);
+			console.log(current(state));
 		});
-	}
+	},
 });
 
-export const {
-	tableParams,
-	addOrderAction,
-	deleteOrderAction,
-	setQuantity,
-	deleteAllOrder,
-} = orderSlice.actions;
-
+export const { tableParams } = orderSlice.actions;
 
 export default orderSlice.reducer;

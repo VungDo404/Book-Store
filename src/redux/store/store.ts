@@ -3,47 +3,19 @@ import accountReducer from "@/redux/slices/accountReducer";
 import userReducer from "@/redux/slices/user.reducer";
 import bookReducer from "../slices/book.reducer";
 import orderReducer from "../slices/order.reducer";
-import storage from "redux-persist/lib/storage";
-import {
-	persistReducer,
-	FLUSH,
-	REHYDRATE,
-	PAUSE,
-	PERSIST,
-	PURGE,
-	REGISTER,
-} from "redux-persist";
+import cartReducer from "../slices/cart.reducer";
 
-const persistConfig = {
-	key: "root",
-	version: 1,
-	storage,
-	blacklist: ["account", "userData", "bookData"],
-};
 const rootReducer = combineReducers({
 	account: accountReducer,
 	userData: userReducer,
 	bookData: bookReducer,
 	order: orderReducer,
+	cart: cartReducer
 });
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-	reducer: persistedReducer,
-	middleware: (getDefaultMiddleware) =>
-		getDefaultMiddleware({
-			serializableCheck: {
-				ignoredActions: [
-					FLUSH,
-					REHYDRATE,
-					PAUSE,
-					PERSIST,
-					PURGE,
-					REGISTER,
-				],
-			},
-		}),
+	reducer: rootReducer,
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

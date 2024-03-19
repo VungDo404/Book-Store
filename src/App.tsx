@@ -6,19 +6,20 @@ import "styles/app.scss";
 import "react-image-gallery/styles/scss/image-gallery.scss";
 import { useAppDispatch } from "./redux/hooks/hooks";
 import { handleAccount } from "./redux/slices/accountReducer";
+import { handleGetCartsOfUser } from "./redux/slices/cart.reducer";
 
 export default function App() {
 	const [isLoading, setIsLoading] = useState(true);
 	const dispatch = useAppDispatch();
 	const fetchAccount = async () => {
-		setTimeout( async () => {
-			const res = await dispatch(handleAccount());
-			setIsLoading(false);
-		}, 1000);
+		dispatch(handleAccount());
+		dispatch(handleGetCartsOfUser());
+		setIsLoading(false);
 	};
 
 	useEffect(() => {
 		fetchAccount();
 	}, []);
+
 	return <>{isLoading ? <Loading /> : <RouterProvider router={router} />}</>;
 }
