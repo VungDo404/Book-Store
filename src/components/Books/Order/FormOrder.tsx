@@ -1,11 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
-import {
-	handleDeleteCarts,
-} from "@/redux/slices/cart.reducer";
+import { handleDeleteCarts } from "@/redux/slices/cart.reducer";
 import { addNewOrder } from "@/redux/slices/order.reducer";
 import { Button, Col, Divider, Form, Input, Radio, Row, Space } from "antd";
-import Sider from "antd/es/layout/Sider";
-import { useState } from "react";
 
 type FieldType = {
 	username: string;
@@ -15,19 +11,19 @@ type FieldType = {
 };
 interface Props {
 	setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
-	setOrderId: React.Dispatch<React.SetStateAction<string>>
+	setOrderId: React.Dispatch<React.SetStateAction<string>>;
 }
-export default function RightOrder(props: Props) {
-	const { setSuccess, setOrderId } = props;
-	const dispatch = useAppDispatch();
-	const cart = useAppSelector((state) => state.cart.data);
-	const selectedCart = cart.filter(each => each.isSelected); 
-	const user = useAppSelector((state) => state.account.user);
+export default function FormOrder(props: Props){
+    const { setSuccess, setOrderId } = props;
+    const dispatch = useAppDispatch();
+    const cart = useAppSelector((state) => state.cart.data);
+	const selectedCart = cart.filter((each) => each.isSelected);
+    const user = useAppSelector((state) => state.account.user);
 	const totalPayment = selectedCart.reduce(
 		(total, value) => total + value.quantity * value.book.price,
 		0
 	);
-	const onFinish = async (values: FieldType) => {
+    const onFinish = async (values: FieldType) => {
 		setSuccess(false);
 		const detail = [];
 		if (selectedCart.length > 0) {
@@ -49,28 +45,18 @@ export default function RightOrder(props: Props) {
 					detail,
 				})
 			);
-			if(addNewOrder.fulfilled.match(res)){
+			if (addNewOrder.fulfilled.match(res)) {
 				setOrderId(res.payload.data);
 				setSuccess(true);
 			}
-			
 		}
 	};
 	const onFinishFailed = (errorInfo: any) => {
 		console.log("Failed:", errorInfo);
 	};
-	return (
-		<Sider
-			style={{
-				backgroundColor: "white",
-				height: "fit-content",
-				marginLeft: "10px",
-				padding: "10px",
-			}}
-			width={"25vw"}
-		>
-			<Form
-				name="basic"
+    return (
+        <Form
+				name="order-detail"
 				wrapperCol={{ span: 24 }}
 				onFinish={onFinish}
 				onFinishFailed={onFinishFailed}
@@ -82,7 +68,7 @@ export default function RightOrder(props: Props) {
 					payment: "COD",
 				}}
 			>
-				<Row>
+				<Row style={{ padding: "10px" }}>
 					<Col span={24}>
 						<Form.Item<FieldType>
 							label="Username"
@@ -132,8 +118,12 @@ export default function RightOrder(props: Props) {
 						>
 							<Radio.Group defaultValue={1}>
 								<Space direction="vertical">
-									<Radio value={"COD"}>Cash on Delivery</Radio>
-									<Radio value={"ONLINEBANKING"}>PayPal</Radio>
+									<Radio value={"COD"}>
+										Cash on Delivery
+									</Radio>
+									<Radio value={"ONLINEBANKING"}>
+										PayPal
+									</Radio>
 								</Space>
 							</Radio.Group>
 						</Form.Item>
@@ -172,6 +162,5 @@ export default function RightOrder(props: Props) {
 					</Col>
 				</Row>
 			</Form>
-		</Sider>
-	);
+    );
 }

@@ -13,7 +13,7 @@ export default function InputQuantity(props: Props) {
 
 	return (
 		<Space.Compact style={{ width: "100%" }}>
-			<Button onClick={handleDecrease} style={{ width: "20%" }}>
+			<Button onClick={handleDecrease} style={{ width: "15%" }}>
 				<span style={{ display: "flex", justifyContent: "center" }}>
 					<MinusOutlined />
 				</span>
@@ -24,9 +24,9 @@ export default function InputQuantity(props: Props) {
 				}
 				onChange={(e) => onChange(+e.target.value)}
 				value={quantity}
-				style={{ textAlign: "center" }}
+				style={{ textAlign: "center", width:'70%' }}
 			/>
-			<Button onClick={handleIncrease} style={{ width: "20%" }}>
+			<Button onClick={handleIncrease} style={{ width: "15%" }}>
 				<span style={{ display: "flex", justifyContent: "center" }}>
 					<PlusOutlined />
 				</span>

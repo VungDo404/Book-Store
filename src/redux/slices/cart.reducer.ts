@@ -73,6 +73,9 @@ export const cartSlice = createSlice({
 			const { index, checked } = action.payload;
 			state.data[index].isSelected = checked;
 		},
+		setSelectedAction: (state, action: PayloadAction<boolean>) => {
+			state.data.forEach(each => each.isSelected = action.payload); 
+		}
 	},
 	extraReducers: (builder) => {
 		// Add reducers for additional action types here, and handle loading state as needed
@@ -95,6 +98,6 @@ export const cartSlice = createSlice({
 	},
 });
 
-export const { clearCart, selectedAction } = cartSlice.actions;
+export const { clearCart, selectedAction, setSelectedAction } = cartSlice.actions;
 
 export default cartSlice.reducer;

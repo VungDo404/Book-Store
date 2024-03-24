@@ -1,0 +1,9 @@
+.index{
+    padding: 0 50px;
+    width: 80%;
+    margin: auto;
+    @media screen and (max-width: 992px) {
+        width: 100%;
+        padding: 0 10px;
+    }
+}

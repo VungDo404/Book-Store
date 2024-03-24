@@ -1,20 +1,95 @@
-.left-order{
-    background-color: white;
-    width: 100%;
-    padding: 10px;
-    height: 10vh;
-    .main-text{
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2; /* start showing ellipsis when 3rd line is reached */
-    }
+.left-order {
+	background-color: white;
+	width: 100%;
+	padding:  10px;
+	display: flex;
+	height: 10vh;
+	@media screen and (max-width: 992px) {
+		gap: 20px;
+		height: fit-content;
+	}
+	.right-part {
+		display: flex;
+		align-items: center;
+		gap: 5px;
+		@media screen and (max-width: 992px) {
+			// flex-direction: column;
+			// align-items: start;
+			display: block;
+		}
+		.main-text {
+			overflow: hidden;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2; /* start showing ellipsis when 3rd line is reached */
+			// margin-right: auto;
+		}
+		.price-info {
+			display: flex;
+			flex-direction: column;
+			align-items: start;
+			@media screen and (min-width: 992px) {
+				justify-content: space-around;
+				flex-direction: row;
+			}
+			.quantity {
+				// margin: auto 0;
+			}
+			.order-price{
+
+				font-weight: bold;
+				@media screen and (min-width: 992px) {
+					margin: auto 0;
+				}
+				
+			}
+			.delete {
+				margin: auto 0;
+				@media screen and (max-width: 992px) {
+					display: none;
+				}
+			}
+			.total {
+				margin: auto 0;
+				color: #197893;
+				font-weight: bold;
+				@media screen and (max-width: 992px) {
+					display: none;
+				}
+			}
+		}
+	}
 }
-.header-left-order{
-    background-color: white;
-    width: 100%;
-    padding: 10px;
-    & > *:not(:first-child) {
-        color: #787878;
-    }
+.header-left-order {
+	background-color: white;
+	width: 100%;
+	padding: 10px;
+	& > *:not(:first-child) {
+		color: #787878;
+	}
+	@media screen and (max-width: 992px) {
+		display: none;
+	}
+}
+.bottom-order-container {
+	background-color: white;
+	width: 100%;
+	padding: 10px;
+	position: sticky;
+	display: flex;
+	bottom: 0;
+	.right-bottom-order {
+		margin-left: auto;
+		display: flex;
+		gap: 10px;
+		align-items: center;
+	}
+	.left-bottom-order {
+		display: flex;
+		gap: 10px;
+		align-items: center;
+	}
+	@media screen and (min-width: 992px) {
+		display: none;
+	}
 }

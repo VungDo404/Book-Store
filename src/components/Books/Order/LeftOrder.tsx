@@ -5,12 +5,17 @@ import {
 	handlePutCart,
 	selectedAction,
 } from "@/redux/slices/cart.reducer";
-import { DeleteOutlined, UserOutlined } from "@ant-design/icons";
+import { DeleteOutlined } from "@ant-design/icons";
 import { Avatar, Col, Empty, Row, Tooltip } from "antd";
 import Checkbox, { CheckboxChangeEvent } from "antd/es/checkbox";
 import { Content } from "antd/es/layout/layout";
-
-export default function LeftOrder() {
+import BottomOrder from "./BottomOrder";
+interface Props {
+	setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
+	setOrderId: React.Dispatch<React.SetStateAction<string>>;
+}
+export default function LeftOrder(props: Props) {
+	const { setSuccess, setOrderId } = props;
 	const cart = useAppSelector((state) => state.cart.data);
 	const dispatch = useAppDispatch();
 	const onChange = async (value: number, _id: string, index: number) => {
@@ -49,19 +54,8 @@ export default function LeftOrder() {
 				</Row>
 				{cart.length > 0 ? (
 					cart.map((value, index) => (
-						<Row
-							className="left-order"
-							justify={"space-between"}
-							align={"middle"}
-							key={`${index}`}
-						>
-							<Col
-								span={12}
-								style={{
-									display: "flex",
-									gap: "10px",
-								}}
-							>
+						<Row className="left-order" key={`${index}`}>
+							<Col style={{ display: "flex", margin: "auto 0" }}>
 								<Checkbox
 									onChange={(e) => onChangeCheckBox(e, index)}
 									style={{ margin: "auto 0" }}
@@ -70,62 +64,127 @@ export default function LeftOrder() {
 								<Col>
 									<Avatar
 										shape="square"
-										size={"large"}
-										icon={<UserOutlined />}
+										size={{
+											xs: 50,
+											sm: 60,
+											md: 64,
+											lg: 59,
+											xl: 50,
+											xxl: 55
+										}}
 										src={`${
 											import.meta.env.VITE_API_URL
 										}/images/book/${value.book.thumbnail}`}
 									/>
 								</Col>
-								<Col className="main-text">
-									{value.book.mainText}
-								</Col>
-							</Col>
-							<Col span={3} style={{ fontWeight: "bold" }}>
-								<sup>đ</sup>
-								<span>
-									{new Intl.NumberFormat("en-DE").format(
-										value.book.price
-									)}
-								</span>
-							</Col>
-							<Col span={4}>
-								<InputQuantity
-									quantity={value.quantity}
-									handleIncrease={() =>
-										onChange(value.quantity + 1, value._id, index)
-									}
-									handleDecrease={() =>
-										onChange(value.quantity - 1, value._id, index)
-									}
-									onChange={(quantity: number) =>
-										onChange(quantity, value._id, index)
-									}
-								/>
 							</Col>
 							<Col
-								span={3}
-								style={{
-									color: "#197893",
-									fontWeight: "bold",
-								}}
+								xs={18}
+								sm={19}
+								md={15}
+								lg={19}
+								xl={21}
+								xxl={22}
+								className="right-part"
 							>
-								<sup>đ</sup>
-								<span>
-									{new Intl.NumberFormat("en-DE").format(
-										value.book.price * value.quantity
-									)}
-								</span>
-							</Col>
-							<Col>
-								<Tooltip title="Delete">
-									<DeleteOutlined
-										style={{
-											cursor: "pointer",
-										}}
-										onClick={() => onDelete(value._id)}
-									/>
-								</Tooltip>
+								<Col
+									xs={24}
+									sm={24}
+									md={24}
+									lg={8}
+									xl={8}
+									className="main-text"
+								>
+									{value.book.mainText}
+								</Col>
+								<Col
+									xs={24}
+									sm={24}
+									md={24}
+									lg={19}
+									xl={16}
+									className="price-info"
+								>
+									<Col
+										xs={24}
+										sm={24}
+										md={24}
+										lg={4}
+										xl={4}
+										className="order-price"
+									>
+										<sup>đ</sup>
+										<span>
+											{new Intl.NumberFormat(
+												"en-DE"
+											).format(value.book.price)}
+										</span>
+									</Col>
+									<Col
+										xs={12}
+										sm={6}
+										md={6}
+										lg={8}
+										xl={8}
+										xxl={6}
+										className="quantity"
+									>
+										<InputQuantity
+											quantity={value.quantity}
+											handleIncrease={() =>
+												onChange(
+													value.quantity + 1,
+													value._id,
+													index
+												)
+											}
+											handleDecrease={() =>
+												onChange(
+													value.quantity - 1,
+													value._id,
+													index
+												)
+											}
+											onChange={(quantity: number) =>
+												onChange(
+													quantity,
+													value._id,
+													index
+												)
+											}
+										/>
+									</Col>
+									<Col
+										xs={24}
+										sm={24}
+										md={24}
+										lg={4}
+										xl={4}
+										className="total"
+									>
+										<sup>đ</sup>
+										<span>
+											{new Intl.NumberFormat(
+												"en-DE"
+											).format(
+												value.book.price *
+													value.quantity
+											)}
+										</span>
+									</Col>
+									<Col lg={2} xl={1} className="delete">
+										<Tooltip title="Delete">
+											<DeleteOutlined
+												style={{
+													cursor: "pointer",
+												}}
+												onClick={() =>
+													onDelete(value._id)
+												}
+											/>
+										</Tooltip>
+									</Col>
+								</Col>
 							</Col>
 						</Row>
 					))
@@ -138,6 +197,7 @@ export default function LeftOrder() {
 						<Empty description={"No item found"} />
 					</Row>
 				)}
+				<BottomOrder setOrderId={setOrderId} setSuccess={setSuccess} />
 			</Row>
 		</Content>
 	);
