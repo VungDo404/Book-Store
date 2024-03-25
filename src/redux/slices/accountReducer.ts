@@ -1,8 +1,14 @@
-import { accountState, interface_user } from "@/interface/account";
-import { logout, account } from "@/services/auth";
+import {
+	accountState,
+	interface_login_request,
+	interface_login_response,
+	interface_user,
+} from "@/interface/account";
+import { logout, account, googleLogin, login } from "@/services/auth";
 import { dashBoard } from "@/services/other";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import type { AnyAction, PayloadAction, ThunkDispatch } from "@reduxjs/toolkit";
+import { handleGetCartsOfUser } from "./cart.reducer";
 
 const initialState: accountState = {
 	isAuthenticated: false,
@@ -23,6 +29,23 @@ export const handleLogout = createAsyncThunk(
 		return response.data;
 	}
 );
+const handleLoginSuccess = (
+	dispatch: ThunkDispatch<unknown, unknown, AnyAction>,
+	response: interface_login_response
+) => {
+	localStorage.setItem("access_token", response.data.access_token);
+	dispatch(userAction(response.data.user));
+	dispatch(handleGetCartsOfUser());
+	return response.data;
+};
+export const handleLogin = createAsyncThunk(
+	"handleLogin",
+	async (_: interface_login_request, { dispatch }) => {
+		const response = (await login(_)).data;
+		return handleLoginSuccess(dispatch, response);
+	}
+);
+
 export const handleAccount = createAsyncThunk(
 	"handleAccount",
 	async (_: void) => {

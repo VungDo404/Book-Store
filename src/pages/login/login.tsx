@@ -13,12 +13,8 @@ import {
 import "styles/login.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/redux/hooks/hooks";
-import { userAction } from "@/redux/slices/accountReducer";
-import {
-	interface_login_request,
-	interface_login_response,
-} from "@/interface/account";
-import { handleGetCartsOfUser } from "@/redux/slices/cart.reducer";
+import { handleLogin } from "@/redux/slices/accountReducer";
+import { interface_login_request } from "@/interface/account";
 import { GoogleCircleFilled } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 
@@ -30,12 +26,8 @@ export default function Login() {
 
 	const onFinish = async (values: interface_login_request) => {
 		try {
-			const result: interface_login_response = (await login(values)).data;
-			if (result.statusCode === 201) {
-				localStorage.setItem("access_token", result.data.access_token);
-
-				dispatch(userAction(result.data.user));
-				dispatch(handleGetCartsOfUser());
+			const res = await dispatch(handleLogin(values));
+			if (handleLogin.fulfilled.match(res)) {
 				message.success({
 					content: t("login.successMessage"),
 				});
@@ -51,7 +43,40 @@ export default function Login() {
 	const onFinishFailed = (errorInfo: any) => {
 		console.log("Failed:", errorInfo);
 	};
-
+	const googleLogin = async () => {
+		try {
+			let left = (screen.width - 484) / 2;
+			let top = (screen.height - 804) / 4;
+			const url = import.meta.env.VITE_GOOGLE_OAUTH_URL;
+			const authWindow = await window.open(
+				url,
+				"",
+				"resizable=yes, width=" +
+					484 +
+					", height=" +
+					804 +
+					", top=" +
+					top +
+					", left=" +
+					left
+			);
+			if (authWindow) {
+				authWindow.resizeTo(484, 804);
+				const checkPopupWindow = setInterval(() => {
+                    if (authWindow.closed) {
+                        clearInterval(checkPopupWindow);
+                        navigate('/');
+						location.reload();
+                    }
+                }, 500);
+			}
+		} catch (error: any) {
+			console.log(error);
+			notification.error({
+				message: error.message,
+			});
+		}
+	};
 	return (
 		<div className="login-container">
 			<Form
@@ -120,7 +145,10 @@ export default function Login() {
 					}}
 				>
 					<Tooltip title={t("login.google")}>
-						<GoogleCircleFilled className="google-icon" />
+						<GoogleCircleFilled
+							className="google-icon"
+							onClick={() => googleLogin()}
+						/>
 					</Tooltip>
 				</Col>
 				<Text>
