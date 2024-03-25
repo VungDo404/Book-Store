@@ -1,0 +1,224 @@
+{
+	"header": {
+		"upper": {
+			"right": {
+				"avatarDropdown": {
+					"logout": "Đăng xuất",
+					"account": "Tài khoản của tôi",
+					"login": "Đăng nhập",
+					"register": "Đăng ký"
+				}
+			},
+			"left": "Kết nối"
+		},
+		"lower": {
+			"search": "tìm kiếm từ khóa",
+			"cart": {
+				"header": "Sản phẩm mới thêm",
+				"footer": {
+					"left": "Thêm Hàng Vào Giỏ",
+					"right": "Xem Giỏ Hàng"
+				}
+			}
+		}
+	},
+	"main": {
+		"left": {
+			"header": {
+				"title": "Bộ lọc tìm kiếm",
+				"clear": "Xóa bộ lọc"
+			},
+			"category": "Theo Danh Mục",
+			"priceRange": {
+				"title": "Khoảng Giá",
+				"min": "₫ Từ",
+				"max": "₫ Đến"
+			},
+			"apply": "ÁP DỤNG",
+			"rating": {
+				"title": "Đánh Giá",
+				"more": "trở lên"
+			}
+		},
+		"right": {
+			"header": {
+				"price": {
+					"title": "Giá",
+					"price": "Giá: Thấp đến Cao",
+					"_price": "Giá: Cao đến Thấp"
+				},
+
+				"relevance": "Liên Quan",
+				"topSale": "Bán Chạy",
+				"latest": "Mới Nhất"
+			},
+			"sold": "đã bán"
+		}
+	},
+	"detail": {
+		"right": {
+			"preferred": "Yêu Thích",
+			"rating": "Đánh Giá",
+			"sold": "Đã bán",
+			"report": "Tố Cáo",
+			"quantity": "Số lượng",
+			"add": "Thêm Vào Giỏ Hàng",
+			"buy": "Mua Ngay",
+			"shipping": {
+				"title": "Vận Chuyển",
+				"to": "Vận Chuyển tới",
+				"fee": "Phí Vận Chuyển"
+			},
+			"available": "sản phẩm có sẵn"
+		},
+		"successMessage": "Sản phẩm đã được thêm vào giỏ hàng",
+		"errorMessage": "Bạn đã đạt tới số lượng tối đa của sản phẩm"
+	},
+	"order": {
+		"form": {
+			"username": {
+				"label": "Tên tài khoản",
+				"required": "Xin hãy nhập tên tài khoản!"
+			},
+			"phone": {
+				"label": "Số điện thoại",
+				"required": "Xin hãy nhập số điện thoại!"
+			},
+			"address": {
+				"label": "Địa chỉ giao hàng",
+				"required": "Xin hãy nập địa chỉ giao hàng!"
+			},
+			"payment": {
+				"label": "Phương thức thanh toán",
+				"cash": "Thanh toán khi nhận hàng",
+				"banking": "Chuyển khoản qua ngân hàng"
+			},
+			"total": "Tổng thanh toán",
+			"button": "Mua hàng"
+		},
+		"successMessage": "Mua hàng thành công!",
+		"buyAgain": "Tiếp tục mua",
+		"NotFound": "Không tìm thấy sản phẩm",
+		"list": {
+			"header": {
+				"product": "Sản phẩm",
+				"unit": "Đơn giá",
+				"quantity": "Số lượng",
+				"total": "Số tiền"
+			},
+			"footer": {
+				"all": "Chọn tất cả",
+				"total": "Tổng {{total}} sản phẩm"
+			}
+		}
+	},
+	"footer": {
+		"info": "Tác giả Do Thanh Vung"
+	},
+	"NotFound": {
+		"subTitle": "Xin lỗi, trang bạn truy cập không tồn tại.",
+		"extra": "Về trang chủ"
+	},
+	"NotPermitted": {
+		"subTitle": "Xin lỗi, bạn không có quyền truy cập trang này.",
+		"extra": "Về trang chủ"
+	},
+	"password": {
+		"header": "Thay đổi mật khẩu",
+		"form": {
+			"current": {
+				"label": "Mật khẩu hiện tại", 
+				"required": "Xin hãy nhập mật khẩu hiện tại!"
+			}, 
+			"new":{
+				"label": "Mật khẩu mới", 
+				"required": "Xin hãy nhập mật khẩu mới!"
+			},
+			"button": "Lưu"
+		}, 
+		"successMessage": "Tài khoản của bạn đã được cập nhật!"
+	}, 
+	"account":{
+		"profile": "Tài khoản", 
+		"password": "Thay đổi mật khẩu", 
+		"purchase": "Lịch sử mua hàng"
+	}, 
+	"profile": {
+		"successMessage": "Tài khoản của bạn đã được cập nhật!", 
+		"header":{
+			"h1": "Tài khoản", 
+			"h2": "Quản lý thông tin hồ sơ để bảo mật tài khoản"
+		}, 
+		"form":{
+			"username":{
+				"label":"Tên tài khoản", 
+				"required": "Xin hãy nhập tên tài khoản!"
+			},
+			"phone": {
+				"label": "Số điện thoại",
+				"required": "Xin hãy nhập số điện thoại!"
+			},
+			"button": "Lưu"
+		}, 
+		"upload":{
+			"label": "Chọn ảnh",
+			"successMessage": "{{name}} đã được upload thành công", 
+			"errorMessage": "{{name}} đã upload thất bại"
+		} 
+	},
+	"purchase":{
+		"header": "Lịch sử mua hàng",
+		"subTable":{
+			"bookId":"Sách ID", 
+			"name": "Tên sách", 
+			"quantity": "Số lượng"
+		},
+		"table":{
+			"orderId": "Đơn mua ID", 
+			"createdAt": "Được tạo vào", 
+			"total": "Tổng thanh toán", 
+			"status": "Trạng thái"
+		}
+	},
+	"register":{
+		"header": "ĐĂNG KÝ",
+		"successMessage":"Đăng ký tài khoản thành công!", 
+		"email":{
+			"required":"Xin hãy nhập địa chỉ email!"
+			
+		}, 
+		"fullName":{
+			"label":"Họ tên", 
+			"required": "Xin hãy nhập họ và tên!"
+		},
+		"password":{
+			"label":"Mật khẩu ", 
+			"required": "Xin hãy nhập mật khẩu!"
+		}, 
+		"phone":{
+			"label":"Số điện thoại", 
+			"required": "Xin hãy nhập số điện thoại!"
+		},
+		"button": "Gửi",
+		"or":"HOẶC", 
+		"isAccount":"Nếu bạn đã có tài khoản.", 
+		"login":"Đăng nhập", 
+		"requiredTooltip":"Đây là trường bắt buộc"
+	}, 
+	"login":{
+		"header": "ĐĂNG NHẬP",
+		"successMessage":"Đăng nhập thành công", 
+		"email":{
+			"required":"Xin hãy nhập địa chỉ email!"
+		}, 
+		"password":{
+			"label":"Mật khẩu", 
+			"required": "Xin hãy nhập mật khẩu!"
+		}, 
+		"button": "Gửi",
+		"or":"HOẶC", 
+		"google": "Đăng nhập với tài khoản google", 
+		"notAccount":"Bạn chưa có tài khoản?", 
+		"register":"Tạo ngay"
+	}
+}

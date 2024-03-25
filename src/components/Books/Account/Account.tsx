@@ -3,13 +3,15 @@ import { Layout, Menu, MenuProps } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { Content } from "antd/es/layout/layout";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import "styles/Account.scss";
 type MenuItem = Required<MenuProps>["items"][number];
 
 export default function Account() {
+	const { t } = useTranslation();
 	const navigate = useNavigate();
-	const location = useLocation(); 
+	const location = useLocation();
 	function getItem(
 		label: React.ReactNode,
 		key: React.Key,
@@ -28,9 +30,11 @@ export default function Account() {
 	const getLastPathname = () => {
 		const words = location.pathname.split("/");
 		return words[words.length - 1];
-	}
-	const [selectedKeys, setSelectedKeys] = useState<string[]>([getLastPathname()]);
-	const [openKeys, setOpenKeys] = useState(['profile']);
+	};
+	const [selectedKeys, setSelectedKeys] = useState<string[]>([
+		getLastPathname(),
+	]);
+	const [openKeys, setOpenKeys] = useState(["profile"]);
 	const rootSubmenuKeys = ["profile"]; // the key of menu that has submenu inside it
 	const items: MenuProps["items"] = [
 		getItem(
@@ -39,19 +43,19 @@ export default function Account() {
 			<UserOutlined style={{ color: "black" }} />,
 			[
 				getItem(
-					<Link to={"/account/profile"}>Profile</Link>,
+					<Link to={"/account/profile"}>{t("account.profile")}</Link>,
 					"profile",
 					null
 				),
 				getItem(
-					<Link to={"/account/password"}>Change Password</Link>,
+					<Link to={"/account/password"}>{t("account.password")}</Link>,
 					"password",
 					null
 				),
 			]
 		),
 		getItem(
-			<Link to={"/account/purchase"}>My Purchase</Link>,
+			<Link to={"/account/purchase"}>{t("account.purchase")}</Link>,
 			"purchase",
 			<ShoppingOutlined />
 		),
@@ -69,12 +73,13 @@ export default function Account() {
 			setOpenKeys(keys);
 		} else {
 			setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
-			if(latestOpenKey)
-				navigate(`${latestOpenKey}`);
+			if (latestOpenKey) navigate(`${latestOpenKey}`);
 		}
 	};
 	return (
-		<Layout style={{ padding: "20px 0", width:'85%', marginBottom:'20px'  }}>
+		<Layout
+			style={{ padding: "20px 0", width: "85%", marginBottom: "20px" }}
+		>
 			<Sider width={"12vw"} style={{ height: "fit-content" }}>
 				<Menu
 					onClick={onClick}
@@ -84,7 +89,7 @@ export default function Account() {
 					selectedKeys={selectedKeys}
 					mode="inline"
 					items={items}
-                    style={{ fontSize:'1.1rem'}}
+					style={{ fontSize: "1.1rem" }}
 				/>
 			</Sider>
 			<Content style={{ backgroundColor: "white", padding: "10px" }}>

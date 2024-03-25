@@ -19,6 +19,7 @@ import {
 	notification,
 } from "antd";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type FieldType = {
 	email: string;
@@ -26,6 +27,7 @@ type FieldType = {
 	phone: string;
 };
 export default function Profile() {
+	const { t } = useTranslation();
 	const user = useAppSelector((state) => state.account.user);
 	const dispatch = useAppDispatch();
 	const [api, contextHolder] = notification.useNotification();
@@ -38,15 +40,25 @@ export default function Profile() {
 			_id: user._id,
 		};
 		const res = await dispatch(handleUpdateUserByUser(info));
-		if(handleUpdateUserByUser.fulfilled.match(res)){
-			api.success({message: 'Success', description:'Your account has been updated!'});
-			dispatch(userAction({fullName: info.fullName, phone: info.phone, avatar: info.avatar}))
-			localStorage.removeItem('access_token');
-			
-		}else if(handleUpdateUserByUser.rejected.match(res)) {
-			api.error({message: 'Error', description:`${res.error.message}`})
+		if (handleUpdateUserByUser.fulfilled.match(res)) {
+			api.success({
+				message: "Success",
+				description: t("profile.successMessage"),
+			});
+			dispatch(
+				userAction({
+					fullName: info.fullName,
+					phone: info.phone,
+					avatar: info.avatar,
+				})
+			);
+			localStorage.removeItem("access_token");
+		} else if (handleUpdateUserByUser.rejected.match(res)) {
+			api.error({
+				message: "Error",
+				description: `${res.error.message}`,
+			});
 		}
-		
 	};
 
 	const onFinishFailed = (errorInfo: any) => {
@@ -71,9 +83,13 @@ export default function Profile() {
 				}
 			}
 			if (info.file.status === "done") {
-				message.success(`${info.file.name} file uploaded successfully`);
+				message.success(
+					t("profile.upload.successMessage", { name: info.file.name })
+				);
 			} else if (info.file.status === "error") {
-				message.error(`${info.file.name} file upload failed.`);
+				message.error(
+					t("profile.upload.errorMessage", { name: info.file.name })
+				);
 			}
 		},
 		customRequest: dummyRequest,
@@ -82,10 +98,10 @@ export default function Profile() {
 		<>
 			{contextHolder}
 			<h1 style={{ fontSize: "1.3rem", fontWeight: "normal" }}>
-				My Profile
+				{t("profile.header.h1")}
 			</h1>
 			<h2 style={{ fontSize: "1rem", fontWeight: "normal" }}>
-				Manage and protect your account
+				{t("profile.header.h2")}
 			</h2>
 			<Divider />
 			<Row>
@@ -107,12 +123,14 @@ export default function Profile() {
 						</Form.Item>
 
 						<Form.Item<FieldType>
-							label="Username"
+							label={t("profile.form.username.label")}
 							name="username"
 							rules={[
 								{
 									required: true,
-									message: "Please input your username!",
+									message: t(
+										"profile.form.username.required"
+									),
 								},
 							]}
 						>
@@ -120,12 +138,12 @@ export default function Profile() {
 						</Form.Item>
 
 						<Form.Item<FieldType>
-							label="Phone number"
+							label={t("profile.form.phone.label")}
 							name="phone"
 							rules={[
 								{
 									required: true,
-									message: "Please input your phone number!",
+									message: t("profile.form.phone.required"),
 								},
 							]}
 						>
@@ -138,7 +156,7 @@ export default function Profile() {
 								htmlType="submit"
 								size="large"
 							>
-								Save
+								{t("profile.form.button")}
 							</Button>
 						</Form.Item>
 					</Form>
@@ -165,7 +183,7 @@ export default function Profile() {
 					/>
 					<Upload {...props}>
 						<Button icon={<UploadOutlined />}>
-							Click to Upload
+							{t("profile.upload.label")}
 						</Button>
 					</Upload>
 				</Col>

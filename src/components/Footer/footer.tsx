@@ -1,8 +1,10 @@
 import { Layout } from "antd";
+import { useTranslation } from "react-i18next";
 
 const { Footer } = Layout;
 
 export default function FooterComponent() {
+	const { t } = useTranslation();
 	return (
 		<Footer
 			style={{
@@ -10,7 +12,7 @@ export default function FooterComponent() {
 				backgroundColor: "rgb(249, 250, 255)",
 			}}
 		>
-			Author Do Thanh Vung
+			{t("footer.info")}
 		</Footer>
 	);
 }

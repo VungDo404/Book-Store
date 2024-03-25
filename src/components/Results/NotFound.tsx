@@ -1,12 +1,14 @@
 import { Button, Result } from 'antd';
+import { useTranslation } from 'react-i18next';
 
 export default function NotFound() {
+    const { t } = useTranslation();
     return (
         <Result
             status="404"
             title="404"
-            subTitle="Sorry, the page you visited does not exist."
-            extra={<Button href='/' type="primary">Back Home</Button>}
+            subTitle={t("NotFound.subTitle")}
+            extra={<Button href='/' type="primary">{t("NotFound.extra")}</Button>}
         />
     );
 };

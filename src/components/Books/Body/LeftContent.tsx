@@ -21,6 +21,7 @@ import {
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import Title from "antd/es/typography/Title";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import "styles/LeftContent.scss";
 
 interface propsType {
@@ -28,6 +29,7 @@ interface propsType {
 }
 export default function LeftContent(props: propsType) {
 	const { setSpinning } = props;
+	const { t } = useTranslation();
 	const [form] = Form.useForm();
 	const [checkedList, setCheckedList] = useState<CheckboxValueType[]>([]);
 	const dispatch = useAppDispatch();
@@ -69,16 +71,13 @@ export default function LeftContent(props: propsType) {
 	};
 	return (
 		<Row>
-			<Col
-				className="search-title"
-				span={24}
-			>
+			<Col className="search-title" span={24}>
 				<Col style={{ display: "flex", alignItems: "end" }}>
 					<Title level={5}>
 						<FilterOutlined
 							style={{ color: "blue", fontSize: "1rem" }}
 						/>{" "}
-						SEARCH FILTER
+						{t("main.left.header.title")}
 					</Title>
 				</Col>
 				<Col
@@ -86,7 +85,7 @@ export default function LeftContent(props: propsType) {
 						cursor: "pointer",
 					}}
 				>
-					<Tooltip title="Clear filters">
+					<Tooltip title={t("main.left.header.clear")}>
 						<Title level={5}>
 							<ClearOutlined
 								onClick={clear}
@@ -99,7 +98,7 @@ export default function LeftContent(props: propsType) {
 			<Col offset={1}>
 				<Checkbox.Group onChange={onChange} value={checkedList}>
 					<Space direction="vertical">
-						<span>By category</span>
+						<span>{t("main.left.category")}</span>
 						<Space direction="vertical">
 							{category.length > 0 &&
 								category.map((value) => (
@@ -117,7 +116,7 @@ export default function LeftContent(props: propsType) {
 			<Divider />
 			<Col offset={1}>
 				<Space direction="vertical">
-					<span>Price Range</span>
+					<span>{t("main.left.priceRange.title")}</span>
 					<Form
 						name="basic"
 						onFinish={onFinish}
@@ -139,7 +138,9 @@ export default function LeftContent(props: propsType) {
 												  )
 												: ""
 										}
-										placeholder="₫ Min"
+										placeholder={t(
+											"main.left.priceRange.min"
+										)}
 									/>
 								</Form.Item>
 							</Col>
@@ -158,7 +159,9 @@ export default function LeftContent(props: propsType) {
 												  )
 												: ""
 										}
-										placeholder="₫ Max"
+										placeholder={t(
+											"main.left.priceRange.max"
+										)}
 									/>
 								</Form.Item>
 							</Col>
@@ -169,7 +172,7 @@ export default function LeftContent(props: propsType) {
 										htmlType="submit"
 										block
 									>
-										Apply
+										{t("main.left.apply")}
 									</Button>
 								</Form.Item>
 							</Col>
@@ -179,26 +182,26 @@ export default function LeftContent(props: propsType) {
 			</Col>
 			<Col offset={1}>
 				<Space direction="vertical">
-					<span>Rating</span>
+					<span>{t("main.left.rating.title")}</span>
 					<Space direction="vertical">
 						<Space>
 							<Rate disabled value={5} style={{ fontSize: 14 }} />
 						</Space>
 						<Space>
 							<Rate disabled value={4} style={{ fontSize: 14 }} />
-							<span>& more</span>
+							<span>{t("main.left.rating.more")}</span>
 						</Space>
 						<Space>
 							<Rate disabled value={3} style={{ fontSize: 14 }} />
-							<span>& more</span>
+							<span>{t("main.left.rating.more")}</span>
 						</Space>
 						<Space>
 							<Rate disabled value={2} style={{ fontSize: 14 }} />
-							<span>& more</span>
+							<span>{t("main.left.rating.more")}</span>
 						</Space>
 						<Space>
 							<Rate disabled value={1} style={{ fontSize: 14 }} />
-							<span>& more</span>
+							<span>{t("main.left.rating.more")}</span>
 						</Space>
 					</Space>
 				</Space>

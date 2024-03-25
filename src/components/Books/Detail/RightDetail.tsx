@@ -14,12 +14,14 @@ import {
 	message,
 } from "antd";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 interface propsType {
 	loading: boolean;
 	data: bookType;
 }
 export default function RightDetail(props: propsType) {
 	const { loading, data } = props;
+	const { t } = useTranslation();
 	const [quantity, setQuantity] = useState<number>(1);
 	const [messageApi, contextHolder] = message.useMessage();
 	const cart = useAppSelector((state) => state.cart.data);
@@ -30,12 +32,9 @@ export default function RightDetail(props: propsType) {
 	const dispatch = useAppDispatch();
 	const handleAddCart = () => {
 		if (maxQuantity !== 0) {
-			dispatch(handleCreateCart({book: data._id, quantity}));
-			messageApi.success("Item has been added to your shopping cart");
-		} else
-			messageApi.error(
-				"You have reached the maximum number of this item"
-			);
+			dispatch(handleCreateCart({ book: data._id, quantity }));
+			messageApi.success(t("detail.successMessage"));
+		} else messageApi.error(t("detail.errorMessage"));
 	};
 	const onChange = (value: number) => {
 		if (value && value !== maxQuantity && value > 0) {
@@ -70,7 +69,7 @@ export default function RightDetail(props: propsType) {
 								color="#2db7f5"
 								style={{ fontSize: "0.8rem", padding: "0 4px" }}
 							>
-								preferred
+								{t("detail.right.preferred")}
 							</Tag>
 							<h1 className="title">{data.mainText}</h1>
 						</Col>
@@ -121,7 +120,7 @@ export default function RightDetail(props: propsType) {
 												fontSize: "1rem",
 											}}
 										>
-											Rating
+											{t("detail.right.rating")}
 										</span>
 									</Space>
 									<Divider
@@ -135,7 +134,7 @@ export default function RightDetail(props: propsType) {
 											{data.sold}
 										</span>
 										<span style={{ fontSize: "1rem" }}>
-											Sold
+											{t("detail.right.sold")}
 										</span>
 									</Space>
 								</Col>
@@ -153,7 +152,9 @@ export default function RightDetail(props: propsType) {
 						>
 							<span>
 								<span style={{ fontSize: "1.1rem" }}></span>
-								<span style={{ fontSize: "1rem" }}>Report</span>
+								<span style={{ fontSize: "1rem" }}>
+									{t("detail.right.report")}
+								</span>
 							</span>
 						</Col>
 						<Col
@@ -179,12 +180,14 @@ export default function RightDetail(props: propsType) {
 				>
 					<Row style={{ padding: "0 10px" }}>
 						<Col span={5} className="none">
-							Shipping
+							{t("detail.right.shipping.title")}
 						</Col>
 						<Col span={8}>
 							<Space direction="vertical">
-								<Row className="none">Shipping to</Row>
-								<Row>Shipping fee</Row>
+								<Row className="none">
+									{t("detail.right.shipping.to")}
+								</Row>
+								<Row>{t("detail.right.shipping.fee")}</Row>
 							</Space>
 						</Col>
 						<Col span={8}>
@@ -202,7 +205,7 @@ export default function RightDetail(props: propsType) {
 						className="none"
 						align={"middle"}
 					>
-						<Col span={5}>Quantity</Col>
+						<Col span={5}>{t("detail.right.quantity")}</Col>
 						<Col span={13}>
 							<Row align={"middle"} gutter={8}>
 								<Col span={10}>
@@ -215,7 +218,8 @@ export default function RightDetail(props: propsType) {
 								</Col>
 								<Col span={11}>
 									<span>
-										{data.quantity} pieces available
+										{data.quantity}{" "}
+										{t("detail.right.available")}
 									</span>
 								</Col>
 							</Row>
@@ -239,7 +243,7 @@ export default function RightDetail(props: propsType) {
 									onClick={handleAddCart}
 									block={true}
 								>
-									Add To Cart
+									{t("detail.right.add")}
 								</Button>
 							</Col>
 							<Col lg={8} sm={12} xs={24}>
@@ -248,7 +252,7 @@ export default function RightDetail(props: propsType) {
 									size="large"
 									block={true}
 								>
-									Buy now
+									{t("detail.right.buy")}
 								</Button>
 							</Col>
 						</>

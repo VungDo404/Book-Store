@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import { handleChangePassword } from "@/redux/slices/user.reducer";
 import { Button, Col, Divider, Form, Input, Row, notification } from "antd";
+import { useTranslation } from "react-i18next";
 
 type FieldType = {
 	email: string;
@@ -8,6 +9,7 @@ type FieldType = {
 	newpass: string;
 };
 export default function Password() {
+	const { t } = useTranslation();
 	const [form] = Form.useForm();
 	const dispatch = useAppDispatch();
 	const [api, contextHolder] = notification.useNotification();
@@ -17,7 +19,7 @@ export default function Password() {
 		if (handleChangePassword.fulfilled.match(res)) {
 			api.success({
 				message: "Success",
-				description: "Your account has been updated!",
+				description: t("password.successMessage"),
 			});
 			form.resetFields(); 
 		} else if (handleChangePassword.rejected.match(res)) {
@@ -36,7 +38,7 @@ export default function Password() {
 		<>
 			{contextHolder}
 			<h1 style={{ fontSize: "1.3rem", fontWeight: "normal" }}>
-				Change Password
+				{t("password.header")}
 			</h1>
 			<Divider />
 			<Row justify={"center"} style={{ width: "100%", display: "flex" }}>
@@ -58,13 +60,13 @@ export default function Password() {
 						</Form.Item>
 
 						<Form.Item<FieldType>
-							label="Current password"
+							label={t("password.form.current.label")}
 							name="oldpass"
 							rules={[
 								{
 									required: true,
 									message:
-										"Please input your current password!",
+									t("password.form.current.required"),
 								},
 							]}
 						>
@@ -72,12 +74,12 @@ export default function Password() {
 						</Form.Item>
 
 						<Form.Item<FieldType>
-							label="New password"
+							label={t("password.form.new.label")}
 							name="newpass"
 							rules={[
 								{
 									required: true,
-									message: "Please input your new password!",
+									message: t("password.form.new.required"),
 								},
 							]}
 						>
@@ -90,7 +92,7 @@ export default function Password() {
 								htmlType="submit"
 								size="large"
 							>
-								Save
+								{t("password.form.button")}
 							</Button>
 						</Form.Item>
 					</Form>

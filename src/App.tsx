@@ -7,7 +7,7 @@ import "react-image-gallery/styles/scss/image-gallery.scss";
 import { useAppDispatch } from "./redux/hooks/hooks";
 import { handleAccount } from "./redux/slices/accountReducer";
 import { handleGetCartsOfUser } from "./redux/slices/cart.reducer";
-
+import '@/i18n/config';
 export default function App() {
 	const [isLoading, setIsLoading] = useState(true);
 	const dispatch = useAppDispatch();

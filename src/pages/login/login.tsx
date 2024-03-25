@@ -19,9 +19,11 @@ import {
 	interface_login_response,
 } from "@/interface/account";
 import { handleGetCartsOfUser } from "@/redux/slices/cart.reducer";
-import { GoogleCircleFilled, GoogleOutlined } from "@ant-design/icons";
+import { GoogleCircleFilled } from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
 
 export default function Login() {
+	const { t } = useTranslation();
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const { Title, Text } = Typography;
@@ -35,7 +37,7 @@ export default function Login() {
 				dispatch(userAction(result.data.user));
 				dispatch(handleGetCartsOfUser());
 				message.success({
-					content: "Login successfully",
+					content: t("login.successMessage"),
 				});
 				navigate("/");
 			}
@@ -61,7 +63,7 @@ export default function Login() {
 				autoComplete="off"
 				layout="vertical"
 			>
-				<Title level={3}>LOGIN</Title>
+				<Title level={3}>{t("login.header")}</Title>
 				<Col span={24}>
 					<Form.Item<interface_login_request>
 						label="Email"
@@ -69,7 +71,7 @@ export default function Login() {
 						rules={[
 							{
 								required: true,
-								message: "Please input your username!",
+								message: t("login.email.required"),
 							},
 						]}
 					>
@@ -78,12 +80,12 @@ export default function Login() {
 				</Col>
 				<Col span={24}>
 					<Form.Item<interface_login_request>
-						label="Password"
+						label={t("login.password.label")}
 						name="password"
 						rules={[
 							{
 								required: true,
-								message: "Please input your password!",
+								message: t("login.password.required"),
 							},
 						]}
 					>
@@ -104,12 +106,12 @@ export default function Login() {
 									fontWeight: "lighter",
 								}}
 							>
-								Submit
+								{t("login.button")}
 							</Button>
 						</Form.Item>
 					</Col>
 				</Col>
-				<Divider>OR</Divider>
+				<Divider>{t("login.or")}</Divider>
 				<Col
 					style={{
 						display: "flex",
@@ -117,15 +119,14 @@ export default function Login() {
 						marginBottom: "10px",
 					}}
 				>
-					<Tooltip title="Sign in with Google account">
-                    
-						<GoogleCircleFilled className="google-icon"/>
+					<Tooltip title={t("login.google")}>
+						<GoogleCircleFilled className="google-icon" />
 					</Tooltip>
 				</Col>
 				<Text>
-					Don't have an account yet?
+					{t("login.notAccount")}
 					<Link to="/register" style={{ fontStyle: "italic" }}>
-						Create one
+						{t("login.register")}
 					</Link>
 				</Text>
 			</Form>

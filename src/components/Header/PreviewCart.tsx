@@ -1,9 +1,11 @@
 import { useAppSelector } from "@/redux/hooks/hooks";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Button, Col, Divider, Empty, Row } from "antd";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 export default function PreviewCart(){
+	const { t } = useTranslation();
     const cart = useAppSelector((state) => state.cart.data);
 	const previewCart = cart.slice(0, 5);
 	const navigate = useNavigate();
@@ -47,14 +49,14 @@ export default function PreviewCart(){
 			<Divider />
 			<Col span={24} style={{ display: "flex" }}>
 				{cart.length > 5 && (
-					<span>{cart.length - 5} More Products In Cart</span>
+					<span>{cart.length - 5} {t("header.lower.cart.footer.left")}</span>
 				)}
 				<Button
 					style={{ marginLeft: "auto" }}
 					type="primary"
 					onClick={() => navigate("/book/order")}
 				>
-					View My Shopping Cart
+					{t("header.lower.cart.footer.right")}
 				</Button>
 			</Col>
 		</Row>

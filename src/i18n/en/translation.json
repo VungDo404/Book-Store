@@ -1,0 +1,225 @@
+{
+	"header": {
+		"upper": {
+			"right": {
+				"avatarDropdown": {
+					"logout": "Logout",
+					"account": "My Account",
+					"login": "Login",
+					"register": "Register"
+				}
+			},
+			"left": "Follow us on"
+		},
+		"lower": {
+			"search": "input search text",
+			"cart": {
+				"header": "Recently Added Products",
+				"footer": {
+					"left": "More Products In Cart",
+					"right": "View My Shopping Cart"
+				}
+			}
+		}
+	},
+	"main": {
+		"left": {
+			"header": {
+				"title": "SEARCH FILTER",
+				"clear": "Clear filters"
+			},
+			"category": "By category",
+			"priceRange": {
+				"title": "Price Range",
+				"min": "₫ Min",
+				"max": "₫ Max"
+			},
+			"apply": "Apply",
+			"rating": {
+				"title": "Rating",
+				"more": "& more"
+			}
+		},
+		"right": {
+			"header": {
+				"price": {
+					"title": "Price",
+					"price": "Price: Low to High",
+					"_price": "Price: High to Low"
+				},
+
+				"relevance": "Relevance",
+				"topSale": "Top Sales",
+				"latest": "Latest"
+			},
+			"sold": "sold"
+		}
+	},
+	"detail": {
+		"right": {
+			"preferred": "preferred",
+			"rating": "Rating",
+			"sold": "Sold",
+			"report": "Report",
+			"quantity": "Quantity",
+			"add": "Add To Cart",
+			"buy": "Buy now",
+			"shipping": {
+				"title": "Shipping",
+				"to": "Shipping to",
+				"fee": "Shipping fee"
+			},
+			"available": "pieces available"
+		},
+		"successMessage": "Item has been added to your shopping cart",
+		"errorMessage": "You have reached the maximum number of this item"
+	},
+	"order": {
+		"form": {
+			"username": {
+				"label": "Username",
+				"required": "Please input your username!"
+			},
+			"phone": {
+				"label": "Phone number",
+				"required": "Please input your phone number!"
+			},
+			"address": {
+				"label": "Delivery address",
+				"required": "Please input your address!"
+			},
+			"payment": {
+				"label": "Payment method",
+				"cash": "Cash on Delivery",
+				"banking": "Online Banking"
+			},
+			"total": "Total payment",
+			"button": "Place order"
+		},
+		"successMessage": "Successfully Purchased!",
+		"buyAgain": "Buy Again",
+		"NotFound": "No item found",
+		"list": {
+			"header": {
+				"product": "Product",
+				"unit": "Unit price",
+				"quantity": "Quantity",
+				"total": "Total Price"
+			},
+			"footer": {
+				"all": "Select all",
+				"total": "Total {{total}} items"
+			}
+		}
+	},
+	"footer": {
+		"info": "Author Do Thanh Vung"
+	},
+	"NotFound": {
+		"subTitle": "Sorry, the page you visited does not exist.",
+		"extra": "Back Home"
+	},
+	"NotPermitted": {
+		"subTitle": "Sorry, you are not authorized to access this page.",
+		"extra": "Back Home"
+	},
+	"password": {
+		"header": "Change Password",
+		"form": {
+			"current": {
+				"label": "Current password", 
+				"required": "Please input your current password!"
+			}, 
+			"new":{
+				"label": "New password", 
+				"required": "Please input your new password!"
+			},
+			"button": "save"
+		}, 
+		"successMessage": "Your account has been updated!"
+	}, 
+	"account":{
+		"profile": "Profile", 
+		"password": "Change Password", 
+		"purchase": "My Purchase"
+	}, 
+	"profile": {
+		"successMessage": "Your account has been updated!", 
+		"header":{
+			"h1": "My Profile", 
+			"h2": "Manage and protect your account"
+		}, 
+		"form":{
+			"username":{
+				"label":"Username", 
+				"required": "Please input your username!"
+			},
+			"phone": {
+				"label": "Phone number",
+				"required": "Please input your phone number!"
+			},
+			"button": "Save"
+		}, 
+		"upload":{
+			"label": "Click to Upload",
+			"successMessage": "{{name}} file uploaded successfully", 
+			"errorMessage": "{{name}} file upload failed"
+		} 
+	},
+	"purchase":{
+		"header": "Purchase history",
+		"subTable":{
+			"bookId":"Book ID", 
+			"name": "Book Name", 
+			"quantity": "Quantity"
+		},
+		"table":{
+			"orderId": "Order ID", 
+			"createdAt": "Order placed", 
+			"total": "Total payment", 
+			"status": "Status"
+		}
+	}, 
+	"register":{
+		"header": "REGISTER",
+		"successMessage":"Register user successfully", 
+		"email":{
+			"required":"Please input your email!"
+			
+		}, 
+		"fullName":{
+			
+			"label":"Full name", 
+			"required": "Please input your name!"
+		},
+		"password":{
+			"label":"Password", 
+			"required": "Please input your password!"
+		}, 
+		"phone":{
+			"label":"Phone", 
+			"required": "Please input your phone!"
+		},
+		"button": "Submit",
+		"or":"OR", 
+		"isAccount":"If you already have an account.", 
+		"login":"Sign in", 
+		"requiredTooltip":"This is a required field"
+	}, 
+	"login":{
+		"header": "LOGIN",
+		"successMessage":"Login successfully", 
+		"email":{
+			"required":"Please input your email!"
+		}, 
+		"password":{
+			"label":"Password", 
+			"required": "Please input your password!"
+		}, 
+		"button": "Submit",
+		"or":"OR", 
+		"google": "Sign in with Google account", 
+		"notAccount":"Don't have an account yet?", 
+		"register":"Create one"
+	}
+}

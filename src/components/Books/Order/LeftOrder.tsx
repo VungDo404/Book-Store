@@ -10,12 +10,14 @@ import { Avatar, Col, Empty, Row, Tooltip } from "antd";
 import Checkbox, { CheckboxChangeEvent } from "antd/es/checkbox";
 import { Content } from "antd/es/layout/layout";
 import BottomOrder from "./BottomOrder";
+import { useTranslation } from "react-i18next";
 interface Props {
 	setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
 	setOrderId: React.Dispatch<React.SetStateAction<string>>;
 }
 export default function LeftOrder(props: Props) {
 	const { setSuccess, setOrderId } = props;
+	const { t } = useTranslation();
 	const cart = useAppSelector((state) => state.cart.data);
 	const dispatch = useAppDispatch();
 	const onChange = async (value: number, _id: string, index: number) => {
@@ -31,26 +33,34 @@ export default function LeftOrder(props: Props) {
 	return (
 		<Content>
 			<Row gutter={[0, 16]}>
-				<Row
-					className="header-left-order"
-					justify={"space-between"}
-					align={"middle"}
-				>
-					<Col span={10} offset={2}>
-						Product
+				<Row className="header-left-order" align={"middle"}>
+					<Col lg={8} xl={7} offset={1}>
+					{t("order.list.header.product")}
 					</Col>
-					<Col span={3}>Unit price</Col>
-					<Col
-						span={4}
-						style={{
-							display: "flex",
-							justifyContent: "center",
-						}}
-					>
-						Quantity
+					<Col lg={13} xl={16} style={{display:'flex'}}>
+						<Col
+							lg={{ span: 6, offset: 0 }}
+							xl={{ span: 4, offset: 3 }}
+						>
+							{t("order.list.header.unit")}
+						</Col >
+						<Col
+							lg={{ span: 5, offset: 3 }}
+							xl={{ span: 5, offset: 2 }}
+							style={{
+								display: "flex",
+								justifyContent: "center",
+							}}
+						>
+							{t("order.list.header.quantity")}
+						</Col>
+						<Col
+							lg={{ span: 6, offset: 5 }}
+							xl={{ span: 4, offset: 2 }}
+						>
+							{t("order.list.header.total")}
+						</Col>
 					</Col>
-					<Col span={3}>Total Price</Col>
-					<Col>Action</Col>
 				</Row>
 				{cart.length > 0 ? (
 					cart.map((value, index) => (
@@ -70,7 +80,7 @@ export default function LeftOrder(props: Props) {
 											md: 64,
 											lg: 59,
 											xl: 50,
-											xxl: 55
+											xxl: 53,
 										}}
 										src={`${
 											import.meta.env.VITE_API_URL
@@ -91,7 +101,7 @@ export default function LeftOrder(props: Props) {
 									xs={24}
 									sm={24}
 									md={24}
-									lg={8}
+									lg={7}
 									xl={8}
 									className="main-text"
 								>
@@ -101,7 +111,7 @@ export default function LeftOrder(props: Props) {
 									xs={24}
 									sm={24}
 									md={24}
-									lg={19}
+									lg={20}
 									xl={16}
 									className="price-info"
 								>
@@ -194,7 +204,7 @@ export default function LeftOrder(props: Props) {
 						justify={"center"}
 						style={{ height: "auto" }}
 					>
-						<Empty description={"No item found"} />
+						<Empty description={t("footer.info")} />
 					</Row>
 				)}
 				<BottomOrder setOrderId={setOrderId} setSuccess={setSuccess} />

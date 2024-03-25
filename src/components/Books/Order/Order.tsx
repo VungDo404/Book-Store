@@ -4,8 +4,10 @@ import "styles/Order.scss";
 import LeftOrder from "./LeftOrder";
 import Sider from "antd/es/layout/Sider";
 import FormOrder from "./FormOrder";
+import { useTranslation } from "react-i18next";
 
 export default function Order() {
+	const { t } = useTranslation();
 	const [success, setSuccess] = useState<boolean>(false);
 	const [orderId, setOrderId] = useState<string>("");
 	return (
@@ -14,11 +16,11 @@ export default function Order() {
 				<>
 					<Result
 						status="success"
-						title="Successfully Purchased!"
+						title={t("order.successMessage")}
 						subTitle={`Order number: ${orderId}`}
 						extra={[
 							<Button href="/" key="buy">
-								Buy Again
+								{t("order.buyAgain")}
 							</Button>,
 						]}
 					/>

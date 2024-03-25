@@ -23,12 +23,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "styles/RightContent.scss";
 import LeftContent from "./LeftContent";
+import { useTranslation } from "react-i18next";
 interface propsType {
 	spinning: boolean;
 	setSpinning: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export default function RightContent(props: propsType) {
 	const { spinning, setSpinning } = props;
+	const { t } = useTranslation();
 	const data = useAppSelector((state) => state.bookData.data);
 	const [open, setOpen] = useState<boolean>(false);
 	const tableParams = useAppSelector((state) => state.bookData.tableParams);
@@ -72,11 +74,11 @@ export default function RightContent(props: propsType) {
 	const priceItems: MenuProps["items"] = [
 		{
 			key: "price",
-			label: <span>Price: Low to High</span>,
+			label: <span>{t("main.right.header.price.price")}</span>,
 		},
 		{
 			key: "-price",
-			label: <span>Price: High to Low</span>,
+			label: <span>{t("main.right.header.price._price")}</span>,
 		},
 	];
 	const removeAccent = (str: string) => {
@@ -90,15 +92,15 @@ export default function RightContent(props: propsType) {
 	const items: TabsProps["items"] = [
 		{
 			key: "",
-			label: "Relevance",
+			label: <>{t("main.right.header.relevance")}</>,
 		},
 		{
 			key: "-sold",
-			label: "Top Sales",
+			label: <>{t("main.right.header.topSale")}</>,
 		},
 		{
 			key: "-updatedAt",
-			label: "Latest",
+			label: <>{t("main.right.header.latest")}</>,
 		},
 		{
 			key: "0",
@@ -110,7 +112,7 @@ export default function RightContent(props: propsType) {
 				>
 					<span>
 						<Space>
-							Price
+						{t("main.right.header.price.title")}
 							<DownOutlined />
 						</Space>
 					</span>
@@ -205,7 +207,7 @@ export default function RightContent(props: propsType) {
 											orientationMargin={0}
 										/>
 										<span style={{ fontSize: 12 }}>
-											{value.sold} sold
+											{value.sold} {t("main.right.sold")}
 										</span>
 									</Card>
 								</Col>
@@ -224,7 +226,7 @@ export default function RightContent(props: propsType) {
 						<Col lg={0}>
 							<FloatButton
 								icon={<FilterOutlined />}
-								tooltip="Filter"
+								tooltip={t("main.left.header.title")}
 								onClick={showDrawer}
 							/>
 						</Col>
@@ -232,12 +234,10 @@ export default function RightContent(props: propsType) {
 				</Space>
 			</Content>
 			<Drawer
-				title="Filter"
+				title={t("main.left.header.title")}
 				onClose={onClose}
 				open={open}
 				width={window.innerWidth > 768 ? "40vw" : "80%"}
-
-				// getContainer={false}
 			>
 				<LeftContent setSpinning={setSpinning} />
 			</Drawer>

@@ -23,32 +23,44 @@ import PreviewCart from "./PreviewCart";
 import HeaderAvatar from "../others/HeaderAvatar";
 import { fetchBook } from "@/redux/slices/book.reducer";
 import { Header } from "antd/es/layout/layout";
+import { useTranslation } from "react-i18next";
+import { useState } from "react";
 
 const { Search } = Input;
 
 export default function HeaderComponent() {
+	const { t, i18n } = useTranslation();
 	const cart = useAppSelector((state) => state.cart.data);
 	const isAuthenticated = useAppSelector(
 		(state) => state.account.isAuthenticated
 	);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
+	const [currentLocale, setCurrentLocale] = useState<string>(localStorage.getItem("i18nextLng") ?? 'en')
 	const onSearch: any = (value: string, _e: React.SyntheticEvent) => {
 		dispatch(fetchBook({ search: { mainText: value }, current: 1 }));
 	};
+	const onClick: MenuProps['onClick'] = ({ key }) => {
+		i18n.changeLanguage(key)
+		setCurrentLocale(key); 
+	  };
+	const locale:  {[key: string]: string} = {
+		"vi": "Vietnamese", 
+		"en": "English"
+	}
 	const items: MenuProps["items"] = [
 		{
 			key: "en",
 			label: (
-				<a target="_blank" rel="noopener noreferrer">
+				<a>
 					English
 				</a>
 			),
 		},
 		{
-			key: "ve",
+			key: "vi",
 			label: (
-				<a target="_blank" rel="noopener noreferrer">
+				<a>
 					Vietnamese
 				</a>
 			),
@@ -59,7 +71,8 @@ export default function HeaderComponent() {
 			<Row className="wrapper">
 				<Col span={24} className="upper">
 					<Col className="left-upper-header">
-						<span className="follow">Follow us on</span>&#160;
+						<span className="follow">{t("header.upper.left")}</span>
+						&#160;
 						<span className="facebook-logo">
 							<FacebookFilled />
 						</span>
@@ -72,14 +85,14 @@ export default function HeaderComponent() {
 						}}
 					>
 						<span style={{ fontSize: "13px" }}>
-							<Dropdown menu={{ items }}>
+							<Dropdown menu={{ items, onClick }} placement="bottom" arrow>
 								<a
 									onClick={(e) => e.preventDefault()}
 									style={{ color: "black" }}
 								>
 									<Space>
 										<GlobalOutlined />
-										English
+										{locale[currentLocale]}
 										<DownOutlined />
 									</Space>
 								</a>
@@ -108,7 +121,7 @@ export default function HeaderComponent() {
 					>
 						<Search
 							size={"large"}
-							placeholder="input search text"
+							placeholder={t("header.lower.search")}
 							onSearch={onSearch}
 						/>
 					</Col>
@@ -117,7 +130,7 @@ export default function HeaderComponent() {
 							<Popover
 								placement="bottomRight"
 								content={<PreviewCart />}
-								title="Recently Added Products"
+								title={t("header.lower.cart.header")}
 							>
 								<Badge
 									count={isAuthenticated ? cart.length : 0}

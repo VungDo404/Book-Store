@@ -6,23 +6,28 @@ import type { TableColumnsType } from "antd";
 import { Col, Divider, Row, Table, Tag } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 interface DataType extends Order {
 	key: React.Key;
 }
 export default function PurchaseHistory() {
 	const [order, setOrder] = useState<DataType[]>([]);
 	const dispatch = useAppDispatch();
-
+	const { t } = useTranslation();
 	const expandedRowRender = (record: Order, index: number) => {
 		const columns: TableColumnsType<detailOrder> = [
 			{
-				title: "Book ID",
+				title: t("purchase.subTable.bookId"),
 				dataIndex: "_id",
 				key: `bookID-${index}`,
 			},
-			{ title: "Book Name", dataIndex: "bookName", key: `name-${index}` },
 			{
-				title: "Quantity",
+				title: t("purchase.subTable.name"),
+				dataIndex: "bookName",
+				key: `name-${index}`,
+			},
+			{
+				title: t("purchase.subTable.quantity"),
 				dataIndex: "quantity",
 				key: `quantity-${index}`,
 			},
@@ -39,9 +44,13 @@ export default function PurchaseHistory() {
 	};
 
 	const columns: TableColumnsType<Order> = [
-		{ title: "Order ID", dataIndex: "_id", key: "orderID" },
 		{
-			title: "Order placed",
+			title: t("purchase.table.orderId"),
+			dataIndex: "_id",
+			key: "orderID",
+		},
+		{
+			title: t("purchase.table.createdAt"),
 			dataIndex: "createdAt",
 			key: "createdAt",
 			render: (value: string) => (
@@ -52,9 +61,13 @@ export default function PurchaseHistory() {
 				</>
 			),
 		},
-		{ title: "Total Payment", dataIndex: "totalPrice", key: "total" },
 		{
-			title: "Status",
+			title: t("purchase.table.total"),
+			dataIndex: "totalPrice",
+			key: "total",
+		},
+		{
+			title: t("purchase.table.status"),
 			dataIndex: "status",
 			key: "status",
 			render: () => (
@@ -81,7 +94,7 @@ export default function PurchaseHistory() {
 	return (
 		<Row>
 			<h1 style={{ fontSize: "1.3rem", fontWeight: "normal" }}>
-				Purchase history
+				{t("purchase.header")}
 			</h1>
 			<Divider />
 			<Col span={24}>
