@@ -2,6 +2,7 @@ import {
 	Category,
 	PriceRange,
 	bookType,
+	deleteBookResponse,
 	postBookRequest,
 	putBookRequest,
 } from "@/interface/book";
@@ -17,6 +18,7 @@ import {
 	putBook,
 	uploadImageBook,
 } from "@/services/book";
+import { RootState } from "../store/store";
 
 // Define a type for the slice state
 
@@ -84,7 +86,7 @@ export const fetchBook = createAsyncThunk(
 );
 export const refresh = createAsyncThunk("refresh", async () => {
 	const response = await getBooksWithPaginate(
-		+import.meta.env.VITE_INIT_PAGE,
+		1,
 		+import.meta.env.VITE_INIT_PAGE_SIZE,
 		""
 	);
@@ -108,14 +110,23 @@ export const handleUpdateBook = createAsyncThunk(
 		return response.data;
 	}
 );
-export const handleDeleteBook = createAsyncThunk(
-	"deleteBook",
-	async (id: string, { dispatch }) => {
-		const response = await deleteBook(id);
+export const handleDeleteBook = createAsyncThunk<
+	any,
+	string,
+	{ state: RootState }
+>("deleteBook", async (id: string, { dispatch, getState }) => {
+	const response = await deleteBook(id);
+	const { tableParams } = getState().bookData;
+	const pagination = tableParams.pagination;
+	const { current, pageSize, total, pages } = pagination as any;
+	if (pages === current && total - pageSize * (current - 1) === 1) {
+		const newCurrent = ((current - 1) > 0) ? current - 1 : 1;  
+		await dispatch(fetchBook({current: newCurrent}));
+	}else{
 		await dispatch(fetchBook({}));
-		return response.data;
 	}
-);
+	return response.data;
+});
 export const handleGetCategory = createAsyncThunk(
 	"getCategory",
 	async (_: void) => {

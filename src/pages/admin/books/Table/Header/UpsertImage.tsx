@@ -84,7 +84,6 @@ export default function UpSertImage(props: Props) {
 		}
 		setTimeout(() => {
 			onSuccess?.("ok");
-			console.log(fileListSlider);
 		}, 500);
 	};
 	const handleChangeSlider: UploadProps["onChange"] = async ({

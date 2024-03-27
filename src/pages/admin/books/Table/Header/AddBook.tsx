@@ -50,6 +50,8 @@ export default function AddBook(props: propsType) {
 				})
 			).then(unwrapResult);
 			messageApi.success("Create book successfully!");
+			setFileListThumbnail([]); 
+			setFileListSlider([]);
 		} catch (error: unknown) {
 			messageApi.error({
 				content: <div>{(error as any).message[0]}</div>,
@@ -59,6 +61,8 @@ export default function AddBook(props: propsType) {
 	};
 	const handleCancel = () => {
 		setIsModalOpen(false);
+		setFileListThumbnail([]); 
+		setFileListSlider([]);
 	};
 
 	return (

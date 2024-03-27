@@ -24,14 +24,13 @@ export default function BookTable(props: propsType) {
 	const dispatch = useAppDispatch();
 	const data = useAppSelector((state) => state.bookData.data);
 	const tableParams = useAppSelector((state) => state.bookData.tableParams);
-	
-	const { showDrawer, setCurrentRecord, loading } = props;
 	const paginationConfig = {
 		...tableParams.pagination,
 		showSizeChanger: true,
 		showTotal: (total: number, range: [number, number]) =>
 			`${range[0]}-${range[1]} of ${total} items`,
-	};
+	}
+	const { showDrawer, setCurrentRecord, loading } = props;
 
 	const columns = [
 		{
@@ -91,7 +90,6 @@ export default function BookTable(props: propsType) {
 		filters: Record<string, FilterValue | null>,
 		sorter: SorterResult<bookType>
 	) => {
-		// console.log(sorter)
 		dispatch(
 			fetchBook({
 				current: pagination.current,
@@ -101,7 +99,6 @@ export default function BookTable(props: propsType) {
 			})
 		);
 	};
-
 	return (
 		<Col md={{ offset: 0, span: 23 }}>
 			<Table

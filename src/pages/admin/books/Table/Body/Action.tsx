@@ -37,8 +37,11 @@ export default function Action(props: propsType) {
 		_id: string
 	) => {
 		try {
-			await dispatch(handleDeleteBook(_id)).then(unwrapResult);
-			messageApi.success("Delete user successfully");
+			const res = await dispatch(handleDeleteBook(_id));
+			if(handleDeleteBook.fulfilled.match(res)){
+				messageApi.success("Delete user successfully");
+			}
+			
 		} catch (error: any) {
 			console.log(error);
 			messageApi.error(error?.message);
@@ -108,7 +111,7 @@ export default function Action(props: propsType) {
 			]);
 		}
 		const sliders = record.slider; 
-		if (sliders.length > 0) {
+		if (sliders?.length > 0) {
 			const listSlider = sliders.map((slider) => ({
 				uid: uuidv4(),
 				name: slider,
